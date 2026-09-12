@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -140,7 +140,7 @@ export default function SearchPage() {
         {/* Background Image with Dark Vignette */}
         <div 
           className="absolute inset-0 bg-cover bg-center z-0 opacity-40"
-          style={{ backgroundImage: `url('/images/harbor-dusk.jpg')` }}
+          style={{ backgroundImage: `url('/images/cargo-ship-cinematic.jpg')` }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black z-0" />
         <div className="absolute top-0 left-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none z-0" />

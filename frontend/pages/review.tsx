@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -105,7 +105,7 @@ export default function ReviewQueue() {
       <section className="relative pt-36 pb-16 overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center z-0 opacity-40"
-          style={{ backgroundImage: "url('/images/cargo-ship.jpg')" }}
+          style={{ backgroundImage: "url('/images/cargo-ship-cinematic.jpg')" }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/75 to-black z-0" />
 

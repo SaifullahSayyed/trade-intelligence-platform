@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -39,7 +39,7 @@ export default function CompanyProfile() {
       <section className="relative pt-36 pb-16 overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center z-0 opacity-35"
-          style={{ backgroundImage: "url('/images/port-terminal.jpg')" }}
+          style={{ backgroundImage: "url('/images/port-terminal-cinematic.jpg')" }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/75 to-black z-0" />
         <div className="absolute top-10 right-10 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none z-0" />

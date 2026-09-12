@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 const INK = "#ffffff";
@@ -45,7 +45,7 @@ export default function Hero() {
           muted
           loop
           playsInline
-          poster="/images/cargo-ship.jpg"
+          poster="/images/cargo-ship-cinematic.jpg"
         >
           <source src="/hero-ship.webm" type="video/webm" />
           <source src="/hero.mp4" type="video/mp4" />
@@ -56,9 +56,10 @@ export default function Hero() {
           style={{
             position: "absolute",
             inset: 0,
-            backgroundImage: "url('/images/port-terminal.jpg')",
+            backgroundImage: "url('/images/port-terminal-cinematic.jpg')",
             backgroundSize: "cover",
-            backgroundPosition: "center"
+            backgroundPosition: "center",
+            filter: "brightness(0.75) contrast(1.1)",
           }}
         />
       ) : bgMode === "cargoship" ? (
@@ -67,9 +68,10 @@ export default function Hero() {
           style={{
             position: "absolute",
             inset: 0,
-            backgroundImage: "url('/images/cargo-ship.jpg')",
+            backgroundImage: "url('/images/cargo-ship-cinematic.jpg')",
             backgroundSize: "cover",
-            backgroundPosition: "center"
+            backgroundPosition: "center",
+            filter: "brightness(0.75) contrast(1.1)",
           }}
         />
       ) : (
