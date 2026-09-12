@@ -1,11 +1,5 @@
-﻿-- ============================================================
--- gold.sql
--- ClickHouse Gold Layer: Aggregated Business-Ready Views & Tables
--- ============================================================
+﻿
 
--- -----------------------------------------------------------
--- 1. Company Trade Metrics (Aggregated by Importer)
--- -----------------------------------------------------------
 CREATE TABLE IF NOT EXISTS trade_intelligence.gold_company_trade_metrics (
     entity_id           UUID,
     canonical_name      String,
@@ -20,9 +14,6 @@ CREATE TABLE IF NOT EXISTS trade_intelligence.gold_company_trade_metrics (
 ) ENGINE = ReplacingMergeTree(updated_at)
 ORDER BY (entity_id);
 
--- -----------------------------------------------------------
--- 2. Materialized View: Update Company Trade Metrics from Silver
--- -----------------------------------------------------------
 CREATE MATERIALIZED VIEW IF NOT EXISTS trade_intelligence.mv_gold_importer_metrics
 TO trade_intelligence.gold_company_trade_metrics
 AS SELECT
@@ -40,9 +31,6 @@ FROM trade_intelligence.silver_shipments
 WHERE importer_entity_id IS NOT NULL
 GROUP BY importer_entity_id, importer_normalized;
 
--- -----------------------------------------------------------
--- 3. Trade Corridor & HS Code Summary
--- -----------------------------------------------------------
 CREATE TABLE IF NOT EXISTS trade_intelligence.gold_corridor_hs_metrics (
     origin_country_iso2      FixedString(2),
     destination_country_iso2 FixedString(2),

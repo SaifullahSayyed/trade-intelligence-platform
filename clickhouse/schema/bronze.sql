@@ -1,27 +1,20 @@
-﻿-- ============================================================
--- bronze.sql
--- ClickHouse Bronze Layer: Raw, Immutable, Append-Only
--- ============================================================
+﻿
 
 CREATE DATABASE IF NOT EXISTS trade_intelligence;
 
--- -----------------------------------------------------------
--- 1. Trademo US Bill of Lading Sample (Primary 10-day Dataset)
--- -----------------------------------------------------------
 CREATE TABLE IF NOT EXISTS trade_intelligence.bronze_trademo_bol (
-    -- Provenance & Metadata (Denormalized on every row)
+
     provenance_id         UUID,
     source_file           String,
     source_id             LowCardinality(String) DEFAULT 'trademo_bol_v1',
     acquisition_timestamp DateTime64(3, 'UTC'),
     jurisdiction          LowCardinality(String) DEFAULT 'US',
     license_reference     String,
-    checksum              FixedString(64),       -- SHA-256
+    checksum              FixedString(64),
     source_version        LowCardinality(String),
     parser_version        LowCardinality(String),
     ingestion_timestamp   DateTime64(3, 'UTC') DEFAULT now(),
 
-    -- Raw Source Payload Fields (Direct from file, uncoerced strings)
     raw_bill_of_lading    String,
     raw_shipment_date     String,
     raw_importer_name     String,
@@ -39,14 +32,11 @@ CREATE TABLE IF NOT EXISTS trade_intelligence.bronze_trademo_bol (
     raw_quantity          Nullable(String),
     raw_quantity_unit     Nullable(String),
     raw_container_id      Nullable(String),
-    raw_full_record_json  String                 -- Raw JSON string of original row
+    raw_full_record_json  String
 ) ENGINE = MergeTree()
 PARTITION BY toYYYYMM(ingestion_timestamp)
 ORDER BY (ingestion_timestamp, raw_bill_of_lading);
 
--- -----------------------------------------------------------
--- 2. OEC BotMarket Aggregated Trade Data (Supplementary Lookups)
--- -----------------------------------------------------------
 CREATE TABLE IF NOT EXISTS trade_intelligence.bronze_oec_botmarket (
     provenance_id         UUID,
     source_file           String,

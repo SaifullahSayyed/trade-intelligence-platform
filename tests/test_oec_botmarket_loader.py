@@ -9,7 +9,6 @@ import json
 import pytest
 from unittest.mock import MagicMock, patch
 
-# Ensure no real key leaks into tests
 os.environ.pop("OEC_BOTMARKET_API_KEY", None)
 
 import sys
@@ -39,11 +38,6 @@ VALID_RESPONSE = [
     }
 ]
 
-
-# ============================================================
-# Fixtures
-# ============================================================
-
 @pytest.fixture
 def loader():
     """Return a loader with a fake API key."""
@@ -51,11 +45,6 @@ def loader():
     loader = OECBotMarketLoader(contract_path=CONTRACT_PATH)
     yield loader
     os.environ.pop("OEC_BOTMARKET_API_KEY", None)
-
-
-# ============================================================
-# Budget Guard Tests
-# ============================================================
 
 class TestQueryBudget:
     def test_increments_correctly(self):
@@ -78,21 +67,11 @@ class TestQueryBudget:
             b.check_and_increment()
         assert abs(b.total_cost_usd - 0.05) < 1e-9
 
-
-# ============================================================
-# Key-missing Tests
-# ============================================================
-
 class TestKeyMissing:
     def test_raises_on_missing_key(self):
         os.environ.pop("OEC_BOTMARKET_API_KEY", None)
         with pytest.raises(OECKeyMissingError, match="OEC_BOTMARKET_API_KEY"):
             OECBotMarketLoader(contract_path=CONTRACT_PATH)
-
-
-# ============================================================
-# Fetch + Validation Tests
-# ============================================================
 
 class TestFetchTradeFlow:
     def _mock_response(self, data, status_code=200):
@@ -137,7 +116,7 @@ class TestFetchTradeFlow:
                 )
 
     def test_raises_on_missing_required_field(self, loader):
-        broken_response = [{"trade_flow": "export", "year": 2023}]  # Missing required fields
+        broken_response = [{"trade_flow": "export", "year": 2023}]
         with patch("requests.get", return_value=self._mock_response(broken_response)):
             budget = QueryBudget(max_queries=5)
             with pytest.raises(OECContractViolationError, match="missing required contract fields"):
@@ -161,11 +140,6 @@ class TestFetchTradeFlow:
         assert records[0]["_missingness"]["is_hs4_code_missing"] is True
         assert records[0]["_missingness"]["is_trade_value_usd_missing"] is False
 
-
-# ============================================================
-# Batch Tests
-# ============================================================
-
 class TestFetchBatch:
     def _mock_response(self, data):
         mock_resp = MagicMock()
@@ -179,7 +153,7 @@ class TestFetchBatch:
             {"origin_iso3": "VNM", "destination_iso3": "USA"},
             {"origin_iso3": "CHN", "destination_iso3": "USA"},
         ]
-        budget = QueryBudget(max_queries=1)  # Only 1 remaining
+        budget = QueryBudget(max_queries=1)
         with pytest.raises(OECBudgetExceededError, match="Batch has 2 queries"):
             loader.fetch_batch(queries, budget=budget, rate_limit_sleep=0)
 
@@ -191,5 +165,5 @@ class TestFetchBatch:
         budget = QueryBudget(max_queries=5)
         with patch("requests.get", return_value=self._mock_response(VALID_RESPONSE)):
             records = loader.fetch_batch(queries, budget=budget, rate_limit_sleep=0)
-        assert len(records) == 2  # 1 record per query
+        assert len(records) == 2
         assert budget.consumed == 2

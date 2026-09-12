@@ -4,15 +4,15 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
-import { 
-  Building2, 
-  ShieldCheck, 
-  Clock, 
-  Layers, 
-  ArrowLeft, 
-  Box, 
-  Anchor, 
-  CheckCircle2, 
+import {
+  Building2,
+  ShieldCheck,
+  Clock,
+  Layers,
+  ArrowLeft,
+  Box,
+  Anchor,
+  CheckCircle2,
   AlertCircle,
   FileText,
   Sparkles,
@@ -35,9 +35,8 @@ export default function CompanyProfile() {
 
       <Navbar />
 
-      {/* Hero Header with Container Terminal Background */}
       <section className="relative pt-36 pb-16 overflow-hidden">
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center z-0 opacity-35"
           style={{ backgroundImage: "url('/images/port-terminal-cinematic.jpg')" }}
         />
@@ -45,7 +44,7 @@ export default function CompanyProfile() {
         <div className="absolute top-10 right-10 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none z-0" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6">
-          {/* Back link */}
+
           <Link
             href="/search"
             className="inline-flex items-center gap-2 text-xs font-semibold text-white/60 hover:text-white transition-colors mb-6"
@@ -54,7 +53,6 @@ export default function CompanyProfile() {
             <span>Back to Manifest Search</span>
           </Link>
 
-          {/* Badge */}
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <span className="px-3 py-1 rounded-full text-xs font-bold bg-blue-500/20 text-blue-300 border border-blue-500/40 flex items-center gap-1.5">
               <Building2 className="w-3.5 h-3.5" />
@@ -68,7 +66,6 @@ export default function CompanyProfile() {
             </span>
           </div>
 
-          {/* Headline */}
           <motion.h1
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -79,11 +76,10 @@ export default function CompanyProfile() {
           </motion.h1>
 
           <p className="max-w-3xl text-sm text-white/75 leading-relaxed mb-8">
-            Canonical company profile clustered via Splink Fellegi-Sunter probabilistic matching across raw customs variations. 
+            Canonical company profile clustered via Splink Fellegi-Sunter probabilistic matching across raw customs variations.
             All evidence grounded in verified September 1–10, 2022 CBP vessel manifests.
           </p>
 
-          {/* Quick Metrics Bar */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl">
             <div className="bg-slate-900/80 border border-white/10 rounded-xl p-4 backdrop-blur-md">
               <div className="text-[10px] text-white/50 uppercase font-semibold">Total Verified Volume</div>
@@ -112,9 +108,8 @@ export default function CompanyProfile() {
         </div>
       </section>
 
-      {/* Main Content Area */}
       <section className="max-w-7xl mx-auto px-6 pb-28">
-        {/* Navigation Tabs */}
+
         <div className="flex border-b border-slate-800 gap-8 mb-8">
           <button
             onClick={() => setActiveTab("shipments")}
@@ -149,7 +144,6 @@ export default function CompanyProfile() {
           </button>
         </div>
 
-        {/* Tab 1: Shipment Records */}
         {activeTab === "shipments" && (
           <div className="space-y-4">
             <div className="border border-slate-800 rounded-2xl overflow-hidden bg-slate-900/60 backdrop-blur-md shadow-xl">
@@ -214,7 +208,6 @@ export default function CompanyProfile() {
           </div>
         )}
 
-        {/* Tab 2: Trust Layer & Value Preservation */}
         {activeTab === "evidence" && (
           <div className="space-y-6">
             <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl backdrop-blur-md">
@@ -269,7 +262,6 @@ export default function CompanyProfile() {
           </div>
         )}
 
-        {/* Tab 3: AI Explanation Layer */}
         {activeTab === "ai_explain" && (
           <div className="space-y-6">
             <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl backdrop-blur-md">
@@ -289,26 +281,23 @@ export default function CompanyProfile() {
                 </span>
               </div>
 
-              {/* Guardrails Callout */}
               <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white/70 mb-6 leading-relaxed">
                 <strong className="text-purple-300">Policy Constraint:</strong> The AI model is strictly prohibited from issuing compliance conclusions, sanctions clearance, or fraud claims (e.g. &ldquo;Company is compliant&rdquo; or &ldquo;clean&rdquo;). Output is restricted to verified empirical shipment patterns citing underlying record IDs.
               </div>
 
-              {/* Generated Explanation */}
               <div className="p-5 rounded-xl bg-slate-950/90 border border-purple-500/30 text-sm leading-relaxed text-white space-y-4">
                 <p>
-                  Based on <strong>87 verified U.S. customs manifests</strong> recorded between September 1, 2022 and September 10, 2022, 
-                  <strong> Walmart Stores East, LP</strong> imported an aggregate of <strong>2,410 metric tons</strong> of containerized cargo through 
+                  Based on <strong>87 verified U.S. customs manifests</strong> recorded between September 1, 2022 and September 10, 2022,
+                  <strong> Walmart Stores East, LP</strong> imported an aggregate of <strong>2,410 metric tons</strong> of containerized cargo through
                   the <strong>Port of Los Angeles (USLAX)</strong> and <strong>Port of Long Beach (USLGB)</strong>.
                 </p>
 
                 <p>
-                  The dominant product category was <strong>HS 8528.52</strong> (flat-panel electronic display monitors), supplied primarily by 
-                  <strong> Samsung Electronics Vietnam Co Ltd</strong> and <strong>LG Display (Vietnam) Co</strong>. 
+                  The dominant product category was <strong>HS 8528.52</strong> (flat-panel electronic display monitors), supplied primarily by
+                  <strong> Samsung Electronics Vietnam Co Ltd</strong> and <strong>LG Display (Vietnam) Co</strong>.
                   No anomalies in declared container weight distributions were detected across this corridor sample.
                 </p>
 
-                {/* Cited Shipment Records (Brief §2 Rule 6) */}
                 <div className="pt-4 border-t border-slate-800">
                   <div className="text-xs font-semibold text-white/60 uppercase tracking-wider mb-2">
                     Verified Evidence Citations:

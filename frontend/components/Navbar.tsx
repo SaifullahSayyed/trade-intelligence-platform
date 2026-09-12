@@ -33,7 +33,7 @@ export default function Navbar() {
         borderBottom: "1px solid rgba(255,255,255,0.08)"
       }}
     >
-      {/* Logo */}
+
       <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "10px" }}>
         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="2" y="2" width="28" height="28" rx="9" stroke={INK} strokeWidth="1.5" />
@@ -55,7 +55,6 @@ export default function Navbar() {
         </div>
       </Link>
 
-      {/* Center Links */}
       <div
         style={{
           position: "absolute",
@@ -102,7 +101,6 @@ export default function Navbar() {
         ))}
       </div>
 
-      {/* Right Controls */}
       <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
         <span
           style={{

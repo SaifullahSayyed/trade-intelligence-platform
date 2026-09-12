@@ -37,30 +37,21 @@ from typing import Any, Dict, Generator, Iterator, List, Optional, Union
 import pandas as pd
 import yaml
 
-# dlt import with graceful fallback if not installed in this environment
 try:
     import dlt
     from dlt.sources import DltResource
     _DLT_AVAILABLE = True
 except ImportError:
     _DLT_AVAILABLE = False
-    dlt = None  # type: ignore
+    dlt = None
 
 from ..validators.contract_validator import ContractValidator, DataContractViolation
 
 logger = logging.getLogger("trade_intelligence.trademo_loader")
 
-# ============================================================
-# Constants
-# ============================================================
 CONTRACT_PATH = Path(__file__).parent.parent.parent / "contracts" / "trademo_bol_v1.yaml"
 PARSER_VERSION = "trademo_bol_loader_v1.0.0"
 SOURCE_ID = "trademo_bol_v1"
-
-
-# ============================================================
-# Provenance builder (Brief §3)
-# ============================================================
 
 def _build_provenance(
     source_file: Path,
@@ -82,11 +73,6 @@ def _build_provenance(
         "ingestion_timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
-
-# ============================================================
-# Core file reader + validator
-# ============================================================
-
 def read_and_validate_trademo_file(
     file_path: Union[str, Path],
     contract_path: Union[str, Path] = CONTRACT_PATH,
@@ -107,7 +93,6 @@ def read_and_validate_trademo_file(
     if not file_path.exists():
         raise FileNotFoundError(f"Trademo source file not found: {file_path}")
 
-    # Detect format
     suffix = file_path.suffix.lower()
     if suffix == ".csv":
         df = pd.read_csv(file_path, dtype=str, low_memory=False)
@@ -116,8 +101,7 @@ def read_and_validate_trademo_file(
     elif suffix in (".xlsx", ".xls"):
         df = pd.read_excel(file_path, dtype=str)
     else:
-        # # DAY 9 TODO: Inspect actual file format delivered by Trademo
-        # # (may be .csv.gz, .parquet, or custom delimiter)
+
         raise ValueError(
             f"Unsupported file format: {suffix}. "
             "DAY 9 TODO: Inspect actual Trademo file format and update this reader."
@@ -128,21 +112,12 @@ def read_and_validate_trademo_file(
         file_path.name, len(df), len(df.columns)
     )
 
-    # Normalize column names
-    # # UNVERIFIED: These rename rules assume column names from the contract YAML.
-    # # DAY 9: Compare df.columns against contract fields and update mappings.
     df.columns = [c.strip().lower().replace(" ", "_") for c in df.columns]
 
-    # Validate against contract — HARD STOP on violation (Brief §5)
     validator = ContractValidator(contract_path=contract_path)
     validator.validate_or_raise(df)
 
     return df
-
-
-# ============================================================
-# Bronze row builder (one row per shipment, denormalized provenance)
-# ============================================================
 
 def build_bronze_rows(
     df: pd.DataFrame,
@@ -158,7 +133,7 @@ def build_bronze_rows(
     rows = []
     for _, row in df.iterrows():
         bronze_row = {
-            # Provenance (Brief §3)
+
             "provenance_id": provenance["provenance_id"],
             "source_file": provenance["source_file"],
             "source_id": SOURCE_ID,
@@ -170,7 +145,6 @@ def build_bronze_rows(
             "parser_version": provenance["parser_version"],
             "ingestion_timestamp": provenance["ingestion_timestamp"],
 
-            # Raw payload — strings only, no coercion (UNVERIFIED column names)
             "raw_bill_of_lading":   str(row.get("bill_of_lading", "") or ""),
             "raw_shipment_date":    str(row.get("shipment_date", "") or ""),
             "raw_importer_name":    str(row.get("importer_name", "") or ""),
@@ -191,11 +165,6 @@ def build_bronze_rows(
         }
         rows.append(bronze_row)
     return rows
-
-
-# ============================================================
-# dlt source (if dlt is installed)
-# ============================================================
 
 def get_dlt_source(file_path: Union[str, Path]):
     """
@@ -219,7 +188,7 @@ def get_dlt_source(file_path: Union[str, Path]):
             primary_key="provenance_id",
         )
         def trademo_bol_resource() -> Iterator[Dict]:
-            # UNVERIFIED SCHEMA — DAY 9 GATE
+
             file = Path(file_path)
             acquisition_ts = datetime.now(timezone.utc)
             checksum = _sha256_file(file)
@@ -237,7 +206,6 @@ def get_dlt_source(file_path: Union[str, Path]):
         return trademo_bol_resource()
 
     return trademo_bol_source()
-
 
 def _sha256_file(path: Path) -> str:
     sha256 = hashlib.sha256()

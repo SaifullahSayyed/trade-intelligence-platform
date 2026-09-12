@@ -20,7 +20,6 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-/* Sleek Dark Maritime Scrollbars */
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
@@ -45,4 +44,3 @@ body {
 .radar-sweep {
   animation: radarSweep 6s linear infinite;
 }
-

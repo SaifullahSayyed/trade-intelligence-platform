@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import { 
-  Database, 
-  ShieldCheck, 
-  FileText, 
-  Layers, 
-  Server, 
-  CheckCircle2, 
-  AlertTriangle, 
-  Clock, 
-  Search, 
+import {
+  Database,
+  ShieldCheck,
+  FileText,
+  Layers,
+  Server,
+  CheckCircle2,
+  AlertTriangle,
+  Clock,
+  Search,
   Info,
   ExternalLink,
   Code2,
@@ -66,19 +66,16 @@ export default function Home() {
         <title>Orchid Trade Intelligence — U.S. Import Corridor</title>
       </Head>
 
-      {/* Hero & Fixed Navbar */}
       <Navbar />
       <Hero />
 
-      {/* Dashboard Section */}
       <section id="dashboard" className="relative z-20 border-t border-white/[0.06] pt-12 pb-24 overflow-hidden bg-[#070b14]">
-        {/* Background Architecture */}
+
         {dashBgMode === "radar" ? (
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            {/* Deep Oceanic Base */}
+
             <div className="absolute inset-0 bg-[#070b14]" />
-            
-            {/* SVG Cybernetic Bathymetric / Radar Grid */}
+
             <svg className="absolute inset-0 w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <pattern id="marine-grid" width="60" height="60" patternUnits="userSpaceOnUse">
@@ -96,12 +93,10 @@ export default function Home() {
               <rect width="100%" height="100%" fill="url(#radar-glow)" />
             </svg>
 
-            {/* Concentric Radar Rings */}
             <div className="absolute top-[22%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full border border-sky-500/10 pointer-events-none" />
             <div className="absolute top-[22%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-sky-500/15 pointer-events-none" />
             <div className="absolute top-[22%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full border border-sky-500/20 pointer-events-none" />
-            
-            {/* Telemetry Coordinate Watermarks */}
+
             <div className="absolute top-6 left-8 text-[10px] font-mono text-sky-500/35 tracking-widest uppercase hidden lg:block">
               {`LAT: 33°44'28" N · LON: 118°15'36" W · SECTOR PACIFIC-01 · CBP USLAX`}
             </div>
@@ -109,7 +104,6 @@ export default function Home() {
               AIS MARITIME STREAM: ACTIVE · CARRIER HARMONY
             </div>
 
-            {/* Ambient Lighting Spheres */}
             <div className="absolute -top-32 left-1/4 w-[500px] h-[500px] bg-blue-600/15 rounded-full blur-[120px] pointer-events-none" />
             <div className="absolute top-1/3 right-10 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none" />
           </div>
@@ -153,9 +147,8 @@ export default function Home() {
           <div className="absolute inset-0 bg-[#070a12]" />
         )}
 
-        {/* Master Content Container */}
         <div className="relative z-10 max-w-7xl mx-auto px-6">
-          {/* Mission Control Telemetry Header & Backdrop Selector */}
+
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-6 mb-8 border-b border-white/[0.08]">
             <div className="flex items-center gap-3">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-mono">
@@ -172,7 +165,6 @@ export default function Home() {
               </span>
             </div>
 
-            {/* Background Switcher Segmented Control */}
             <div className="flex items-center gap-1 p-1 rounded-xl bg-black/60 border border-white/10 backdrop-blur-2xl shadow-xl">
               <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500 px-2 font-semibold hidden sm:inline">
                 Backdrop:
@@ -198,7 +190,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Compliance and Data Window Notice Banner */}
           <div className="mb-8">
             <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-amber-500/[0.08] via-amber-500/[0.03] to-transparent border border-amber-500/20 backdrop-blur-xl p-5 shadow-2xl">
               <div className="absolute -top-12 -left-12 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none" />
@@ -230,7 +221,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Tabs Navigation */}
           <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-2xl bg-black/40 border border-white/[0.08] backdrop-blur-xl mb-8">
             {[
               { id: "infrastructure", label: "Live Infrastructure", icon: Server, badge: "3/3 UP" },
@@ -264,16 +254,14 @@ export default function Home() {
             })}
           </div>
 
-          {/* TAB 1: Infrastructure */}
           {activeTab === "infrastructure" && (
             <div className="space-y-8">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* 1. PostgreSQL 16 Card */}
+
                 <div className="relative group overflow-hidden rounded-2xl bg-gradient-to-b from-[#0f172a]/90 via-[#0a0f1d]/90 to-[#070a14]/90 border border-white/[0.08] p-6 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.6)] hover:border-sky-500/40 hover:shadow-[0_20px_50px_rgba(14,165,233,0.15)] transition-all duration-300">
-                  {/* Top Ambient Glow Line */}
+
                   <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-sky-500/60 to-transparent" />
-                  
-                  {/* Header */}
+
                   <div className="flex items-center justify-between mb-5">
                     <div className="flex items-center gap-3">
                       <div className="p-2.5 rounded-xl bg-sky-500/10 border border-sky-500/25 text-sky-400 shadow-[0_0_15px_rgba(14,165,233,0.2)]">
@@ -290,7 +278,6 @@ export default function Home() {
                     </span>
                   </div>
 
-                  {/* Micro KPI Stat Strip */}
                   <div className="grid grid-cols-3 gap-2 p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] mb-5 text-center">
                     <div>
                       <div className="text-base font-bold text-white font-mono">{healthData?.services?.postgres?.tables?.length || 11}</div>
@@ -306,7 +293,6 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Relational Schemas Tag Cloud */}
                   <div className="mb-5">
                     <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 mb-2.5">
                       <span className="uppercase tracking-wider font-semibold text-slate-300">Verified Relational Schemas:</span>
@@ -339,7 +325,6 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Telemetry Footer Strip */}
                   <div className="flex items-center justify-between pt-3.5 border-t border-white/[0.06] text-[11px] font-mono text-slate-500">
                     <span className="flex items-center gap-1.5">
                       <Terminal className="w-3.5 h-3.5 text-slate-400" />
@@ -349,12 +334,10 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* 2. ClickHouse 24.3 Card */}
                 <div className="relative group overflow-hidden rounded-2xl bg-gradient-to-b from-[#0f172a]/90 via-[#0a0f1d]/90 to-[#070a14]/90 border border-white/[0.08] p-6 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.6)] hover:border-amber-500/40 hover:shadow-[0_20px_50px_rgba(245,158,11,0.15)] transition-all duration-300">
-                  {/* Top Ambient Glow Line */}
+
                   <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-amber-500/60 to-transparent" />
 
-                  {/* Header */}
                   <div className="flex items-center justify-between mb-5">
                     <div className="flex items-center gap-3">
                       <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/25 text-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.2)]">
@@ -371,7 +354,6 @@ export default function Home() {
                     </span>
                   </div>
 
-                  {/* Micro KPI Stat Strip */}
                   <div className="grid grid-cols-3 gap-2 p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] mb-5 text-center">
                     <div>
                       <div className="text-base font-bold text-white font-mono">{healthData?.services?.clickhouse?.tables?.length || 6}</div>
@@ -387,7 +369,6 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Tiered Data Surface */}
                   <div className="space-y-2 mb-5">
                     <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 mb-1">
                       <span className="uppercase tracking-wider font-semibold text-slate-300">Data Lakehouse Tiers:</span>
@@ -419,7 +400,6 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Telemetry Footer Strip */}
                   <div className="flex items-center justify-between pt-3.5 border-t border-white/[0.06] text-[11px] font-mono text-slate-500">
                     <span className="flex items-center gap-1.5">
                       <Cpu className="w-3.5 h-3.5 text-slate-400" />
@@ -429,12 +409,10 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* 3. MinIO S3 Card */}
                 <div className="relative group overflow-hidden rounded-2xl bg-gradient-to-b from-[#0f172a]/90 via-[#0a0f1d]/90 to-[#070a14]/90 border border-white/[0.08] p-6 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.6)] hover:border-purple-500/40 hover:shadow-[0_20px_50px_rgba(168,85,247,0.15)] transition-all duration-300">
-                  {/* Top Ambient Glow Line */}
+
                   <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-purple-500/60 to-transparent" />
 
-                  {/* Header */}
                   <div className="flex items-center justify-between mb-5">
                     <div className="flex items-center gap-3">
                       <div className="p-2.5 rounded-xl bg-purple-500/10 border border-purple-500/25 text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.2)]">
@@ -451,7 +429,6 @@ export default function Home() {
                     </span>
                   </div>
 
-                  {/* Micro KPI Stat Strip */}
                   <div className="grid grid-cols-3 gap-2 p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] mb-5 text-center">
                     <div>
                       <div className="text-base font-bold text-white font-mono">2</div>
@@ -467,7 +444,6 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Buckets Visual Surface */}
                   <div className="space-y-2 mb-5">
                     <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 mb-1">
                       <span className="uppercase tracking-wider font-semibold text-slate-300">Initialized S3 Vaults:</span>
@@ -497,7 +473,6 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Telemetry Footer Strip */}
                   <div className="flex items-center justify-between pt-3.5 border-t border-white/[0.06] text-[11px] font-mono text-slate-500">
                     <span className="flex items-center gap-1.5">
                       <HardDrive className="w-3.5 h-3.5 text-slate-400" />
@@ -510,7 +485,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Multi-Store Tenant Isolation Architecture Banner */}
               <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-950/40 via-slate-900/60 to-indigo-950/40 border border-white/[0.08] p-6 backdrop-blur-xl shadow-2xl">
                 <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 pb-5 mb-5 border-b border-white/[0.06]">
                   <div className="flex items-center gap-3">
@@ -569,17 +543,15 @@ export default function Home() {
             </div>
           )}
 
-          {/* TAB 2: Evidence & Trust Layer (Redesigned Borderless Transformation Data Grid) */}
           {activeTab === "evidence" && (
             <div className="space-y-8">
-              {/* ⚠ Sample Data Disclaimer Banner */}
+
               <div className="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/30 w-fit mx-auto">
                 <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse shrink-0" />
                 <span className="text-xs font-mono font-semibold text-amber-300 tracking-wider uppercase">
                   Sample / Illustrative Data — Not Yet Live
                 </span>
               </div>
-              {/* Manifest Provenance Certificate Header */}
 
               <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#0f172a]/95 via-[#0c1222]/95 to-[#070b14]/95 border border-white/[0.08] p-6 backdrop-blur-xl shadow-2xl">
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-white/[0.06]">
@@ -614,7 +586,6 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* 3-Stage Chronological Provenance Pipeline */}
                 <div className="pt-6">
                   <div className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-semibold mb-4">
                     3-Stage Immutable Chronological Lineage (Brief §2 Rule 2):
@@ -650,7 +621,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* High-End Transformation Audit Data Grid */}
               <div className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-[#0e1424]/90 to-[#070b14]/90 border border-white/[0.08] backdrop-blur-xl shadow-2xl">
                 <div className="p-5 border-b border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
@@ -728,7 +698,6 @@ export default function Home() {
                   </table>
                 </div>
 
-                {/* Provenance Record Cryptographic Seal Footer */}
                 <div className="p-4 bg-black/40 border-t border-white/[0.06] flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs text-slate-400 font-mono">
                   <div className="flex items-center gap-2">
                     <ShieldCheck className="w-4 h-4 text-emerald-400" />
@@ -745,7 +714,6 @@ export default function Home() {
             </div>
           )}
 
-          {/* TAB 3: Canonical Schemas (Data Flow Lineage Diagram) */}
           {activeTab === "schemas" && (
             <div className="space-y-8">
               <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#0f172a]/95 via-[#0c1222]/95 to-[#070b14]/95 border border-white/[0.08] p-6 backdrop-blur-xl shadow-2xl">
@@ -763,7 +731,7 @@ export default function Home() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {/* Bronze Stage */}
+
                   <div className="relative p-5 rounded-2xl bg-gradient-to-b from-amber-500/[0.06] to-transparent border border-amber-500/20 shadow-xl">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-2">
@@ -792,7 +760,6 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Silver Stage */}
                   <div className="relative p-5 rounded-2xl bg-gradient-to-b from-blue-500/[0.06] to-transparent border border-blue-500/20 shadow-xl">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-2">
@@ -821,7 +788,6 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Gold Stage */}
                   <div className="relative p-5 rounded-2xl bg-gradient-to-b from-emerald-500/[0.06] to-transparent border border-emerald-500/20 shadow-xl">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-2">
@@ -854,7 +820,6 @@ export default function Home() {
             </div>
           )}
 
-          {/* TAB 4: Data Contracts & Guardrails (YAML Pane View) */}
           {activeTab === "contracts" && (
             <div className="space-y-8">
               <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#0f172a]/95 via-[#0c1222]/95 to-[#070b14]/95 border border-white/[0.08] p-6 backdrop-blur-xl shadow-2xl">
@@ -877,7 +842,7 @@ export default function Home() {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {/* Contract 1 */}
+
                   <div className="rounded-2xl bg-black/50 border border-white/[0.08] overflow-hidden">
                     <div className="p-4 bg-white/[0.02] border-b border-white/[0.06] flex items-center justify-between">
                       <div className="flex items-center gap-2 font-mono text-xs">
@@ -908,7 +873,6 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Contract 2 */}
                   <div className="rounded-2xl bg-black/50 border border-white/[0.08] overflow-hidden">
                     <div className="p-4 bg-white/[0.02] border-b border-white/[0.06] flex items-center justify-between">
                       <div className="flex items-center gap-2 font-mono text-xs">

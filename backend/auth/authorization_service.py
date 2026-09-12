@@ -14,13 +14,11 @@ import uuid
 
 logger = logging.getLogger(__name__)
 
-
 class Role(str, Enum):
     ADMIN = "ADMIN"
     ANALYST = "ANALYST"
     REVIEWER = "REVIEWER"
     READONLY = "READONLY"
-
 
 class ResourceType(str, Enum):
     SHIPMENT = "shipment"
@@ -30,7 +28,6 @@ class ResourceType(str, Enum):
     AI_EXPLANATION = "ai_explanation"
     AUDIT_LOG = "audit_log"
 
-
 class Action(str, Enum):
     READ = "read"
     WRITE = "write"
@@ -38,8 +35,6 @@ class Action(str, Enum):
     REVIEW = "review"
     EXPORT = "export"
 
-
-# Baseline Permissions Matrix
 ROLE_PERMISSIONS: Dict[Role, Dict[ResourceType, Set[Action]]] = {
     Role.ADMIN: {
         ResourceType.SHIPMENT: {Action.READ, Action.WRITE, Action.EXPORT},
@@ -66,11 +61,9 @@ ROLE_PERMISSIONS: Dict[Role, Dict[ResourceType, Set[Action]]] = {
     },
 }
 
-
 class AuthorizationError(PermissionError):
     """Raised when an actor lacks permission or attempts cross-tenant access."""
     pass
-
 
 @dataclass(frozen=True)
 class TenantContext:
@@ -85,7 +78,6 @@ class TenantContext:
     def __post_init__(self):
         if not self.tenant_id:
             raise ValueError("tenant_id must not be empty.")
-
 
 @dataclass(frozen=True)
 class ActorContext:
@@ -111,7 +103,6 @@ class ActorContext:
             role=role,
             email="analyst@tradeintelligence.local",
         )
-
 
 class AuthorizationService:
     """
@@ -141,9 +132,6 @@ class AuthorizationService:
             raise AuthorizationError(msg)
         return True
 
-    # -----------------------------------------------------------
-    # Datastore Query Injection Wrappers
-    # -----------------------------------------------------------
     @staticmethod
     def apply_postgres_tenant_filter(actor: ActorContext, query: str) -> Tuple[str, Dict[str, Any]]:
         """
@@ -162,7 +150,7 @@ class AuthorizationService:
         """
         if not actor.tenant.is_active:
             raise AuthorizationError("Inactive tenant cannot execute ClickHouse queries.")
-        # Single-tenant demo filter clause
+
         tenant_clause = f"1 = 1 /* tenant: {actor.tenant.tenant_slug} */"
         return f"({tenant_clause}) AND ({base_where})" if base_where else tenant_clause
 

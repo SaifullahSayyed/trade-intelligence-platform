@@ -3,9 +3,9 @@ import { motion } from "framer-motion";
 
 const INK = "#ffffff";
 const avatars = [
-  "linear-gradient(135deg, #38bdf8, #0284c7)", // Ocean Blue
-  "linear-gradient(135deg, #34d399, #059669)", // Emerald Verification
-  "linear-gradient(135deg, #f59e0b, #d97706)", // Gold Manifest
+  "linear-gradient(135deg, #38bdf8, #0284c7)",
+  "linear-gradient(135deg, #34d399, #059669)",
+  "linear-gradient(135deg, #f59e0b, #d97706)",
 ];
 
 const steps = [
@@ -36,7 +36,7 @@ export default function Hero() {
 
   return (
     <section id="overview" style={{ position: "relative", width: "100%", height: "100vh", overflow: "hidden" }}>
-      {/* Background Media: Container Ship Video or Real Shipment Photos */}
+
       {bgMode === "video" ? (
         <video
           key="ship-video"
@@ -87,7 +87,6 @@ export default function Hero() {
         />
       )}
 
-      {/* Cinematic Overlays (Triple layer for perfect typography contrast) */}
       <div
         style={{
           position: "absolute",
@@ -114,7 +113,6 @@ export default function Hero() {
         }}
       />
 
-      {/* Live Background Media Selector Pill in Top Right */}
       <div
         style={{
           position: "absolute",
@@ -198,9 +196,8 @@ export default function Hero() {
         </button>
       </div>
 
-      {/* Left Content */}
       <div style={{ position: "absolute", left: "6vw", top: "17vh", zIndex: 10, maxWidth: "660px" }}>
-        {/* Badge */}
+
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -227,7 +224,6 @@ export default function Hero() {
           </span>
         </motion.div>
 
-        {/* Headline */}
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
@@ -247,7 +243,6 @@ export default function Hero() {
           The Verifiable Way
         </motion.h1>
 
-        {/* Subtext */}
         <motion.p
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
@@ -265,7 +260,6 @@ export default function Hero() {
           Grounded trade intelligence on U.S. ocean vessel manifests. Resolve canonical entities with Splink, verify provenance across raw and normalized values, and cite verified records.
         </motion.p>
 
-        {/* CTA Button */}
         <motion.a
           href="#dashboard"
           initial={{ opacity: 0, y: 18 }}
@@ -309,7 +303,6 @@ export default function Hero() {
         </motion.a>
       </div>
 
-      {/* Steps Row (4-step onboarding / pipeline stages) */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}

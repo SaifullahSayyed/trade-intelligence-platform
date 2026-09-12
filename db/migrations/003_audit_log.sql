@@ -1,17 +1,14 @@
-﻿-- ============================================================
--- 003_audit_log.sql
--- Security & Access Audit Logging (PostgreSQL)
--- ============================================================
+﻿
 
 CREATE TABLE IF NOT EXISTS audit_log (
     log_id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     tenant_id       UUID REFERENCES tenants(tenant_id) ON DELETE SET NULL,
-    actor_id        UUID,                       -- user_id or system worker ID
+    actor_id        UUID,
     actor_type      TEXT NOT NULL DEFAULT 'USER' CHECK (actor_type IN ('USER', 'SYSTEM_SERVICE', 'API_KEY')),
-    action          TEXT NOT NULL,              -- e.g. 'SEARCH_QUERY', 'VIEW_ENTITY', 'EXPORT_DATA', 'HUMAN_REVIEW', 'AI_EXPLANATION_REQUEST'
-    resource_type   TEXT,                       -- e.g. 'shipment', 'canonical_entity', 'export_file'
-    resource_id     TEXT,                       -- identifier of target object
-    payload         JSONB DEFAULT '{}'::jsonb,  -- context, query filters, search parameters
+    action          TEXT NOT NULL,
+    resource_type   TEXT,
+    resource_id     TEXT,
+    payload         JSONB DEFAULT '{}'::jsonb,
     status          TEXT NOT NULL DEFAULT 'SUCCESS' CHECK (status IN ('SUCCESS', 'DENIED', 'ERROR')),
     error_message   TEXT,
     ip_address      INET,

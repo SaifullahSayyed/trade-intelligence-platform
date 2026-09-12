@@ -19,11 +19,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
   };
 
-  // Test PostgreSQL
   try {
     const pgRes = await pool.query(`
-      SELECT table_name 
-      FROM information_schema.tables 
+      SELECT table_name
+      FROM information_schema.tables
       WHERE table_schema = 'public'
       ORDER BY table_name;
     `);
@@ -34,7 +33,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     statusReport.services.postgres.error = err.message;
   }
 
-  // Test ClickHouse
   try {
     const chHost = process.env.CLICKHOUSE_HOST || "clickhouse"; const chUrl = "http://" + chHost + ":8123/?query=SHOW+TABLES+FROM+trade_intelligence";
     const response = await fetch(chUrl, {
@@ -56,7 +54,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     statusReport.services.clickhouse.error = err.message;
   }
 
-  // MinIO status
   try {
     const minioPing = await fetch("http://minio:9000/minio/health/live");
     statusReport.services.minio.status = minioPing.ok ? "healthy" : "unhealthy";

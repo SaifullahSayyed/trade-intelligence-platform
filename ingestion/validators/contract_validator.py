@@ -16,11 +16,9 @@ import yaml
 
 logger = logging.getLogger(__name__)
 
-
 class DataContractViolation(Exception):
     """Raised when an incoming source dataset violates its contract definition."""
     pass
-
 
 class ContractValidator:
     """
@@ -58,7 +56,6 @@ class ContractValidator:
         actual_cols = set(df.columns)
         expected_cols = set(self.columns.keys())
 
-        # Check required columns
         for col_name, col_def in self.columns.items():
             if col_name not in actual_cols:
                 errors.append(f"Missing column '{col_name}' required by contract {self.contract_id}")
@@ -67,7 +64,6 @@ class ContractValidator:
                 if null_count > 0:
                     errors.append(f"Non-nullable column '{col_name}' contains {null_count} null rows")
 
-        # Check for unexpected extra columns if strict
         if self.on_schema_change == "FAIL":
             unexpected = actual_cols - expected_cols
             if unexpected:
@@ -76,7 +72,6 @@ class ContractValidator:
                     f"Contract {self.contract_id} requires explicit schema definition."
                 )
 
-        # Type validation check
         for col_name, col_def in self.columns.items():
             if col_name not in df.columns:
                 continue
@@ -85,7 +80,7 @@ class ContractValidator:
             series = df[col_name].dropna()
 
             if expected_type == "numeric":
-                # Check if elements can be coerced to numeric without generating unexpected NaNs
+
                 coerced = pd.to_numeric(series, errors="coerce")
                 invalid_numeric_count = coerced.isnull().sum()
                 if invalid_numeric_count > 0:

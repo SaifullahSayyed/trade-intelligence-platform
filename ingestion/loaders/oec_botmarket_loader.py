@@ -32,10 +32,6 @@ import yaml
 
 logger = logging.getLogger("trade_intelligence.oec_loader")
 
-# ============================================================
-# Exceptions
-# ============================================================
-
 class OECKeyMissingError(RuntimeError):
     """Raised when OEC_BOTMARKET_API_KEY env var is absent at loader startup."""
 
@@ -47,11 +43,6 @@ class OECContractViolationError(RuntimeError):
 
 class OECAPIError(RuntimeError):
     """Raised on non-200 HTTP responses from the OEC API."""
-
-
-# ============================================================
-# Query Budget Guard
-# ============================================================
 
 @dataclass
 class QueryBudget:
@@ -91,11 +82,6 @@ class QueryBudget:
             self._consumed, self.max_queries, self.total_cost_usd,
         )
 
-
-# ============================================================
-# OEC BotMarket Loader
-# ============================================================
-
 class OECBotMarketLoader:
     """
     End-to-end loader for OEC BotMarket API.
@@ -112,7 +98,7 @@ class OECBotMarketLoader:
     }
 
     def __init__(self, contract_path: str = "contracts/oec_botmarket_v1.yaml", api_key: Optional[str] = None):
-        # 1. Resolve API key from argument, environment, or .env file
+
         self.api_key = (api_key or os.environ.get("OEC_BOTMARKET_API_KEY", "")).strip()
         if not self.api_key and Path(".env").exists() and not os.environ.get("PYTEST_CURRENT_TEST"):
             with open(".env", "r", encoding="utf-8") as f:
@@ -128,7 +114,6 @@ class OECBotMarketLoader:
                 "then set it in your .env file. Loader cannot proceed without it."
             )
 
-        # 2. Load and parse data contract
         contract_file = Path(contract_path)
         if not contract_file.exists():
             raise FileNotFoundError(f"OEC contract not found at: {contract_path}")
@@ -143,10 +128,6 @@ class OECBotMarketLoader:
             "OECBotMarketLoader initialized. Contract: %s v%s",
             self.contract_id, self.schema_version
         )
-
-    # ----------------------------------------------------------
-    # Public: Fetch a single trade flow query
-    # ----------------------------------------------------------
 
     def fetch_trade_flow(
         self,
@@ -214,13 +195,12 @@ class OECBotMarketLoader:
         raw_json_str = response.text
         raw_data = response.json()
 
-        # Parse columnar response {"columns": [...], "rows": [[...], ...]}
         records_raw: List[Dict[str, Any]] = []
         if isinstance(raw_data, dict) and "columns" in raw_data and "rows" in raw_data:
             columns = raw_data["columns"]
             for row in raw_data["rows"]:
                 row_dict = dict(zip(columns, row))
-                # Map BACI columns to contract schema
+
                 record = {
                     "trade_flow": "export",
                     "year": row_dict.get("year"),
@@ -273,10 +253,6 @@ class OECBotMarketLoader:
             all_records.extend(records)
         return all_records
 
-    # ----------------------------------------------------------
-    # Internal: Validation + Provenance enrichment
-    # ----------------------------------------------------------
-
     def _validate_and_enrich(
         self,
         records_raw: List[Dict],
@@ -304,7 +280,6 @@ class OECBotMarketLoader:
                 "This is a schema change — pipeline halted (Brief §5)."
             )
 
-        # Build provenance block (Brief §3)
         checksum = hashlib.sha256(raw_json_str.encode("utf-8")).hexdigest()
         provenance = {
             "provenance_id": str(uuid.uuid4()),

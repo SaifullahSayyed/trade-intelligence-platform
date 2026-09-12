@@ -3,15 +3,15 @@ import Head from "next/head";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
-import { 
-  GitMerge, 
-  Check, 
-  X, 
-  Clock, 
-  ShieldAlert, 
-  ArrowRight, 
-  UserCheck, 
-  Scale, 
+import {
+  GitMerge,
+  Check,
+  X,
+  Clock,
+  ShieldAlert,
+  ArrowRight,
+  UserCheck,
+  Scale,
   CheckCircle2,
   AlertTriangle,
   History
@@ -101,9 +101,8 @@ export default function ReviewQueue() {
 
       <Navbar />
 
-      {/* Hero Header with Cargo Ship Background */}
       <section className="relative pt-36 pb-16 overflow-hidden">
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center z-0 opacity-40"
           style={{ backgroundImage: "url('/images/cargo-ship-cinematic.jpg')" }}
         />
@@ -127,7 +126,7 @@ export default function ReviewQueue() {
           </motion.h1>
 
           <p className="max-w-3xl text-sm text-white/75 leading-relaxed mb-8">
-            Review ambiguous company matches in the uncertainty band (0.70 – 0.85). False-merge rate is the more dangerous failure mode. 
+            Review ambiguous company matches in the uncertainty band (0.70 – 0.85). False-merge rate is the more dangerous failure mode.
             Every decision writes an immutable audit record to PostgreSQL <code className="text-purple-300 font-mono">entity_resolution_audit</code>.
           </p>
 
@@ -148,10 +147,9 @@ export default function ReviewQueue() {
         </div>
       </section>
 
-      {/* Main Review Section */}
       <section className="max-w-7xl mx-auto px-6 pb-28">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left 2 Cols: Active Candidate Review */}
+
           <div className="lg:col-span-2 space-y-6">
             <h2 className="text-base font-bold text-white flex items-center gap-2">
               <Scale className="w-4 h-4 text-blue-400" />
@@ -166,7 +164,7 @@ export default function ReviewQueue() {
               </div>
             ) : (
               pairs.map((p) => (
-                <div 
+                <div
                   key={p.id}
                   className="bg-slate-900/80 border border-slate-800 hover:border-purple-500/40 rounded-2xl p-6 backdrop-blur-md shadow-xl transition-all"
                 >
@@ -182,9 +180,8 @@ export default function ReviewQueue() {
                     </div>
                   </div>
 
-                  {/* Side by side comparison */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                    {/* Entity A */}
+
                     <div className="p-4 bg-slate-950 rounded-xl border border-slate-800">
                       <div className="text-[10px] text-blue-400 font-bold uppercase tracking-wider mb-1">Record Variation A</div>
                       <div className="text-sm font-bold text-white mb-2">{p.nameA}</div>
@@ -194,7 +191,6 @@ export default function ReviewQueue() {
                       </div>
                     </div>
 
-                    {/* Entity B */}
                     <div className="p-4 bg-slate-950 rounded-xl border border-slate-800">
                       <div className="text-[10px] text-amber-400 font-bold uppercase tracking-wider mb-1">Record Variation B</div>
                       <div className="text-sm font-bold text-white mb-2">{p.nameB}</div>
@@ -205,7 +201,6 @@ export default function ReviewQueue() {
                     </div>
                   </div>
 
-                  {/* Signal Breakdown */}
                   <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800/80 text-xs font-mono text-white/70 mb-6 flex flex-wrap gap-4">
                     <div>
                       <span className="text-white/40">Jaro-Winkler: </span>
@@ -225,7 +220,6 @@ export default function ReviewQueue() {
                     </div>
                   </div>
 
-                  {/* Actions */}
                   <div className="flex flex-wrap items-center justify-end gap-3 pt-2">
                     <button
                       onClick={() => handleDecision(p.id, "DEFER")}
@@ -253,7 +247,6 @@ export default function ReviewQueue() {
             )}
           </div>
 
-          {/* Right Col: Recent Audit Trail */}
           <div className="space-y-4">
             <h2 className="text-base font-bold text-white flex items-center gap-2">
               <History className="w-4 h-4 text-purple-400" />
@@ -275,8 +268,8 @@ export default function ReviewQueue() {
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white">{d.id}</span>
                       <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                        d.action === "MATCH" 
-                          ? "bg-emerald-500/20 text-emerald-400" 
+                        d.action === "MATCH"
+                          ? "bg-emerald-500/20 text-emerald-400"
                           : d.action === "NO_MATCH"
                           ? "bg-red-500/20 text-red-400"
                           : "bg-amber-500/20 text-amber-400"

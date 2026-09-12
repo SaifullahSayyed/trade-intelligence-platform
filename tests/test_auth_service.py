@@ -14,7 +14,6 @@ from backend.auth.authorization_service import (
     TenantContext,
 )
 
-
 @pytest.fixture
 def active_tenant():
     return TenantContext(
@@ -24,7 +23,6 @@ def active_tenant():
         is_active=True,
     )
 
-
 @pytest.fixture
 def inactive_tenant():
     return TenantContext(
@@ -33,7 +31,6 @@ def inactive_tenant():
         plan_tier="EVALUATION",
         is_active=False,
     )
-
 
 def test_admin_permissions(active_tenant):
     admin_actor = ActorContext(
@@ -45,7 +42,6 @@ def test_admin_permissions(active_tenant):
     assert AuthorizationService.check_permission(admin_actor, ResourceType.EXPORT, Action.EXECUTE) is True
     assert AuthorizationService.check_permission(admin_actor, ResourceType.AUDIT_LOG, Action.READ) is True
 
-
 def test_analyst_permissions_and_restrictions(active_tenant):
     analyst_actor = ActorContext(
         actor_id="analyst-1",
@@ -55,13 +51,12 @@ def test_analyst_permissions_and_restrictions(active_tenant):
     assert AuthorizationService.check_permission(analyst_actor, ResourceType.SHIPMENT, Action.READ) is True
     assert AuthorizationService.check_permission(analyst_actor, ResourceType.EXPORT, Action.EXECUTE) is True
     assert AuthorizationService.check_permission(analyst_actor, ResourceType.AI_EXPLANATION, Action.READ) is True
-    # Analyst cannot write directly or review the review queue
+
     assert AuthorizationService.check_permission(analyst_actor, ResourceType.SHIPMENT, Action.WRITE) is False
     assert AuthorizationService.check_permission(analyst_actor, ResourceType.REVIEW_QUEUE, Action.REVIEW) is False
 
     with pytest.raises(AuthorizationError):
         AuthorizationService.authorize_or_raise(analyst_actor, ResourceType.SHIPMENT, Action.WRITE)
-
 
 def test_readonly_restrictions(active_tenant):
     readonly_actor = ActorContext(
@@ -76,7 +71,6 @@ def test_readonly_restrictions(active_tenant):
     with pytest.raises(AuthorizationError):
         AuthorizationService.authorize_or_raise(readonly_actor, ResourceType.EXPORT, Action.EXECUTE)
 
-
 def test_inactive_tenant_denied_everything(inactive_tenant):
     actor = ActorContext(
         actor_id="user-inactive",
@@ -87,7 +81,6 @@ def test_inactive_tenant_denied_everything(inactive_tenant):
     with pytest.raises(AuthorizationError):
         AuthorizationService.authorize_or_raise(actor, ResourceType.SHIPMENT, Action.READ)
 
-
 def test_clickhouse_tenant_filter_injection(active_tenant, inactive_tenant):
     active_actor = ActorContext(actor_id="user-1", tenant=active_tenant, role=Role.ANALYST)
     ch_clause = AuthorizationService.apply_clickhouse_tenant_filter(active_actor, "shipment_date >= ''2022-09-01''")
@@ -97,7 +90,6 @@ def test_clickhouse_tenant_filter_injection(active_tenant, inactive_tenant):
     inactive_actor = ActorContext(actor_id="user-2", tenant=inactive_tenant, role=Role.ANALYST)
     with pytest.raises(AuthorizationError):
         AuthorizationService.apply_clickhouse_tenant_filter(inactive_actor)
-
 
 def test_opensearch_filter_injection(active_tenant, inactive_tenant):
     active_actor = ActorContext(actor_id="user-1", tenant=active_tenant, role=Role.ANALYST)

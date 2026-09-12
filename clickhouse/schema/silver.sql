@@ -1,25 +1,19 @@
-﻿-- ============================================================
--- silver.sql
--- ClickHouse Silver Layer: Canonical Normalized Schema
--- ============================================================
+﻿
 
 CREATE TABLE IF NOT EXISTS trade_intelligence.silver_shipments (
     shipment_id              UUID,
     source_id                LowCardinality(String),
     source_record_id         String,
 
-    -- Three separate timestamps (Brief §8)
     ingestion_timestamp      DateTime64(3, 'UTC'),
     source_timestamp         Nullable(DateTime64(3, 'UTC')),
     normalization_timestamp  DateTime64(3, 'UTC'),
     shipment_date            Date,
 
-    -- Resolved canonical entity references
     importer_entity_id       Nullable(UUID),
     exporter_entity_id       Nullable(UUID),
     notify_party_entity_id   Nullable(UUID),
 
-    -- Field values: Raw vs Normalized vs Derived (Brief §2 Rule 4)
     importer_raw             String,
     importer_normalized      String,
     importer_derived         Nullable(String),
@@ -29,7 +23,7 @@ CREATE TABLE IF NOT EXISTS trade_intelligence.silver_shipments (
     exporter_derived         Nullable(String),
 
     hs_code_raw              Nullable(String),
-    hs_code_normalized       Nullable(String),       -- Zero-padded 6-digit standard
+    hs_code_normalized       Nullable(String),
     hs_version               LowCardinality(String) DEFAULT 'HS2022',
 
     product_desc_raw         Nullable(String),
@@ -50,10 +44,9 @@ CREATE TABLE IF NOT EXISTS trade_intelligence.silver_shipments (
     vessel_name              Nullable(String),
     bill_of_lading           String,
 
-    source_confidence        LowCardinality(String), -- 'HIGH', 'MEDIUM', 'LOW'
+    source_confidence        LowCardinality(String),
     provenance_id            UUID,
 
-    -- Field missingness flags
     is_importer_missing      UInt8 DEFAULT 0,
     is_exporter_missing      UInt8 DEFAULT 0,
     is_hs_code_missing       UInt8 DEFAULT 0,

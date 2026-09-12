@@ -3,15 +3,15 @@ import Head from "next/head";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
-import { 
-  Search as SearchIcon, 
-  Filter, 
-  ArrowRight, 
-  ShieldCheck, 
-  Clock, 
-  Anchor, 
-  Box, 
-  MapPin, 
+import {
+  Search as SearchIcon,
+  Filter,
+  ArrowRight,
+  ShieldCheck,
+  Clock,
+  Anchor,
+  Box,
+  MapPin,
   CheckCircle2,
   AlertTriangle,
   FileSpreadsheet,
@@ -114,7 +114,7 @@ export default function SearchPage() {
   const [portFilter, setPortFilter] = useState<string>("ALL");
 
   const filteredShipments = SAMPLE_DATA.filter((s) => {
-    const matchesSearch = 
+    const matchesSearch =
       s.consignee.toLowerCase().includes(searchTerm.toLowerCase()) ||
       s.shipper.toLowerCase().includes(searchTerm.toLowerCase()) ||
       s.hs_code.includes(searchTerm) ||
@@ -135,10 +135,9 @@ export default function SearchPage() {
 
       <Navbar />
 
-      {/* Hero Header with Background Image & Gradient */}
       <section className="relative pt-36 pb-20 overflow-hidden">
-        {/* Background Image with Dark Vignette */}
-        <div 
+
+        <div
           className="absolute inset-0 bg-cover bg-center z-0 opacity-40"
           style={{ backgroundImage: `url('/images/cargo-ship-cinematic.jpg')` }}
         />
@@ -146,7 +145,7 @@ export default function SearchPage() {
         <div className="absolute top-0 left-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none z-0" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6">
-          {/* Badge */}
+
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -159,7 +158,6 @@ export default function SearchPage() {
             </span>
           </motion.div>
 
-          {/* Headline */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -180,7 +178,6 @@ export default function SearchPage() {
             Query verified U.S. import shipments by importer company, foreign shipper, HS tariff classification, or port of arrival with preserved raw-to-normalized provenance.
           </motion.p>
 
-          {/* Search Bar Bar */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -206,7 +203,6 @@ export default function SearchPage() {
               )}
             </div>
 
-            {/* Port Filter */}
             <div className="flex items-center gap-2 w-full md:w-auto px-2 border-t md:border-t-0 md:border-l border-white/10 pt-2 md:pt-0">
               <select
                 value={portFilter}
@@ -236,7 +232,6 @@ export default function SearchPage() {
         </div>
       </section>
 
-      {/* Results Section */}
       <section className="max-w-7xl mx-auto px-6 pb-32">
         <div className="flex items-center justify-between mb-6">
           <div className="text-xs text-white/60">
@@ -247,7 +242,6 @@ export default function SearchPage() {
           </div>
         </div>
 
-        {/* Results Grid */}
         <div className="space-y-4">
           {filteredShipments.map((s) => (
             <motion.div
@@ -258,7 +252,7 @@ export default function SearchPage() {
             >
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                 <div className="space-y-2 flex-1">
-                  {/* Top line with BOL & Badges */}
+
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="font-mono text-xs font-bold text-blue-400 bg-blue-500/10 border border-blue-500/30 px-2.5 py-0.5 rounded-md">
                       BOL: {s.bol}
@@ -279,11 +273,10 @@ export default function SearchPage() {
                     </span>
                   </div>
 
-                  {/* Consignee & Shipper */}
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 pt-1">
                     <div>
                       <span className="text-[10px] text-white/50 uppercase block">Consignee (Importer)</span>
-                      <Link 
+                      <Link
                         href={`/company/${s.consignee.toLowerCase().replace(/[^a-z0-9]/g, "-")}`}
                         className="text-base font-bold text-white group-hover:text-blue-300 transition-colors flex items-center gap-1.5"
                       >
@@ -300,7 +293,6 @@ export default function SearchPage() {
                     </div>
                   </div>
 
-                  {/* Product & HS code */}
                   <div className="text-xs text-white/70 flex items-start gap-2 pt-1">
                     <Box className="w-3.5 h-3.5 text-blue-400 flex-shrink-0 mt-0.5" />
                     <span>
@@ -308,7 +300,6 @@ export default function SearchPage() {
                     </span>
                   </div>
 
-                  {/* Ports */}
                   <div className="flex flex-wrap items-center gap-4 text-xs text-white/60 pt-1">
                     <div className="flex items-center gap-1.5">
                       <MapPin className="w-3.5 h-3.5 text-amber-400" />
@@ -321,7 +312,6 @@ export default function SearchPage() {
                   </div>
                 </div>
 
-                {/* Right Action & Trust Badge */}
                 <div className="flex lg:flex-col items-center lg:items-end justify-between lg:justify-center gap-3 border-t lg:border-t-0 border-slate-800 pt-3 lg:pt-0">
                   <div className="text-right">
                     <div className="text-[10px] text-white/50 uppercase">Entity Coverage</div>
