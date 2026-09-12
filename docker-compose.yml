@@ -1,4 +1,4 @@
-﻿version: "3.9"
+﻿# Docker Compose Specification
 
 # =============================================================
 # Trade Intelligence Platform — Local Development Stack
@@ -65,7 +65,7 @@ services:
         soft: 262144
         hard: 262144
     healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8123/ping || exit 1"]
+      test: ["CMD-SHELL", "clickhouse-client --query 'SELECT 1' || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -163,7 +163,7 @@ services:
   # MinIO — Local S3-compatible Object Storage (dev stand-in for R2)
   # -----------------------------------------------------------
   minio:
-    image: minio/minio:latest
+    image: quay.io/minio/minio:latest
     container_name: ti_minio
     restart: unless-stopped
     command: server /data --console-address ":9001"
@@ -185,7 +185,7 @@ services:
       - ti_network
 
   minio-init:
-    image: minio/mc:latest
+    image: quay.io/minio/mc:latest
     container_name: ti_minio_init
     depends_on:
       minio:

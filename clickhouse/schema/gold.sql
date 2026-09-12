@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS trade_intelligence.gold_company_trade_metrics (
     distinct_hs_codes   UInt32,
     first_shipment_date Date,
     last_shipment_date  Date,
-    updated_at          DateTime64(3, ''UTC'') DEFAULT now()
+    updated_at          DateTime64(3, 'UTC') DEFAULT now()
 ) ENGINE = ReplacingMergeTree(updated_at)
 ORDER BY (entity_id);
 
@@ -51,6 +51,6 @@ CREATE TABLE IF NOT EXISTS trade_intelligence.gold_corridor_hs_metrics (
     shipment_count           UInt64,
     total_weight_kg          Float64,
     total_value_usd          Float64,
-    updated_at               DateTime64(3, ''UTC'') DEFAULT now()
+    updated_at               DateTime64(3, 'UTC') DEFAULT now()
 ) ENGINE = SummingMergeTree((shipment_count, total_weight_kg, total_value_usd))
 ORDER BY (origin_country_iso2, destination_country_iso2, hs_code_normalized, shipment_month);

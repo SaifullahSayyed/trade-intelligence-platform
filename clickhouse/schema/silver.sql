@@ -9,9 +9,9 @@ CREATE TABLE IF NOT EXISTS trade_intelligence.silver_shipments (
     source_record_id         String,
 
     -- Three separate timestamps (Brief §8)
-    ingestion_timestamp      DateTime64(3, ''UTC''),
-    source_timestamp         Nullable(DateTime64(3, ''UTC'')),
-    normalization_timestamp  DateTime64(3, ''UTC''),
+    ingestion_timestamp      DateTime64(3, 'UTC'),
+    source_timestamp         Nullable(DateTime64(3, 'UTC')),
+    normalization_timestamp  DateTime64(3, 'UTC'),
     shipment_date            Date,
 
     -- Resolved canonical entity references
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS trade_intelligence.silver_shipments (
 
     hs_code_raw              Nullable(String),
     hs_code_normalized       Nullable(String),       -- Zero-padded 6-digit standard
-    hs_version               LowCardinality(String) DEFAULT ''HS2022'',
+    hs_version               LowCardinality(String) DEFAULT 'HS2022',
 
     product_desc_raw         Nullable(String),
     product_desc_clean       Nullable(String),
@@ -38,19 +38,19 @@ CREATE TABLE IF NOT EXISTS trade_intelligence.silver_shipments (
     origin_country_raw       Nullable(String),
     origin_country_iso2      Nullable(FixedString(2)),
 
-    destination_country_iso2 LowCardinality(FixedString(2)) DEFAULT ''US'',
+    destination_country_iso2 LowCardinality(FixedString(2)) DEFAULT 'US',
     origin_port_unlocode     Nullable(String),
     destination_port_unlocode Nullable(String),
 
     quantity                 Nullable(Float64),
-    quantity_unit            Nullable(LowCardinality(String)),
+    quantity_unit            LowCardinality(Nullable(String)),
     weight_kg                Nullable(Float64),
     declared_value_usd       Nullable(Float64),
 
     vessel_name              Nullable(String),
     bill_of_lading           String,
 
-    source_confidence        LowCardinality(String), -- ''HIGH'', ''MEDIUM'', ''LOW''
+    source_confidence        LowCardinality(String), -- 'HIGH', 'MEDIUM', 'LOW'
     provenance_id            UUID,
 
     -- Field missingness flags

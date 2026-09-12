@@ -12,14 +12,14 @@ CREATE TABLE IF NOT EXISTS trade_intelligence.bronze_trademo_bol (
     -- Provenance & Metadata (Denormalized on every row)
     provenance_id         UUID,
     source_file           String,
-    source_id             LowCardinality(String) DEFAULT ''trademo_bol_v1'',
-    acquisition_timestamp DateTime64(3, ''UTC''),
-    jurisdiction          LowCardinality(String) DEFAULT ''US'',
+    source_id             LowCardinality(String) DEFAULT 'trademo_bol_v1',
+    acquisition_timestamp DateTime64(3, 'UTC'),
+    jurisdiction          LowCardinality(String) DEFAULT 'US',
     license_reference     String,
     checksum              FixedString(64),       -- SHA-256
     source_version        LowCardinality(String),
     parser_version        LowCardinality(String),
-    ingestion_timestamp   DateTime64(3, ''UTC'') DEFAULT now(),
+    ingestion_timestamp   DateTime64(3, 'UTC') DEFAULT now(),
 
     -- Raw Source Payload Fields (Direct from file, uncoerced strings)
     raw_bill_of_lading    String,
@@ -50,14 +50,14 @@ ORDER BY (ingestion_timestamp, raw_bill_of_lading);
 CREATE TABLE IF NOT EXISTS trade_intelligence.bronze_oec_botmarket (
     provenance_id         UUID,
     source_file           String,
-    source_id             LowCardinality(String) DEFAULT ''oec_botmarket_v1'',
-    acquisition_timestamp DateTime64(3, ''UTC''),
-    jurisdiction          LowCardinality(String) DEFAULT ''INTL'',
+    source_id             LowCardinality(String) DEFAULT 'oec_botmarket_v1',
+    acquisition_timestamp DateTime64(3, 'UTC'),
+    jurisdiction          LowCardinality(String) DEFAULT 'INTL',
     license_reference     String,
     checksum              FixedString(64),
     source_version        LowCardinality(String),
     parser_version        LowCardinality(String),
-    ingestion_timestamp   DateTime64(3, ''UTC'') DEFAULT now(),
+    ingestion_timestamp   DateTime64(3, 'UTC') DEFAULT now(),
 
     query_endpoint        String,
     query_params_json     String,
