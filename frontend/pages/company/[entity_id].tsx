@@ -25,7 +25,13 @@ export default function CompanyProfile() {
   const router = useRouter();
   const { entity_id } = router.query;
 
-  const [activeTab, setActiveTab] = useState<"shipments" | "evidence" | "ai_explain">("shipments");
+  const [activeTab, setActiveTab] = useState<"shipments" | "evidence" | "ai_explain">("ai_explain");
+
+  React.useEffect(() => {
+    if (router.query.tab) {
+      setActiveTab(router.query.tab as any);
+    }
+  }, [router.query.tab]);
 
   return (
     <div className="min-h-screen bg-black text-white font-sans selection:bg-blue-500 selection:text-white">
@@ -299,16 +305,18 @@ export default function CompanyProfile() {
               </div>
 
               <div className="p-5 rounded-xl bg-slate-950/90 border border-purple-500/30 text-sm leading-relaxed text-white space-y-4">
+                <div className="text-xs font-mono uppercase tracking-wider text-purple-300 font-bold mb-2">
+                  Executive Summary (Grounded Canonical Manifest)
+                </div>
                 <p>
-                  Based on <strong>87 verified U.S. customs manifests</strong> recorded between September 1, 2022 and September 10, 2022,
-                  <strong> Walmart Stores East, LP</strong> imported an aggregate of <strong>2,410 metric tons</strong> of containerized cargo through
-                  the <strong>Port of Los Angeles (USLAX)</strong> and <strong>Port of Long Beach (USLGB)</strong>.
+                  Bill of Lading <strong>MEDU1928472910</strong> records an ocean shipment arrived on <strong>September 4, 2022</strong>.
+                  Consignee <strong>WALMART INC.</strong> received containerized cargo described as <strong>&ldquo;Flat panel computer monitors and display processing units&rdquo;</strong> under <strong>HS Tariff 852852</strong> from shipper <strong>SAMSUNG ELECTRONICS VIETNAM CO LTD</strong>.
+                  The transit corridor was routed from <strong>Ho Chi Minh City Port (VNSGN)</strong> to <strong>Port of Los Angeles (USLAX)</strong>.
                 </p>
 
                 <p>
-                  The dominant product category was <strong>HS 8528.52</strong> (flat-panel electronic display monitors), supplied primarily by
-                  <strong> Samsung Electronics Vietnam Co Ltd</strong> and <strong>LG Display (Vietnam) Co</strong>.
-                  No anomalies in declared container weight distributions were detected across this corridor sample.
+                  Entity resolution resolved the consignee with <strong>HIGH confidence (0.9850)</strong> based on normalized legal name matching.
+                  Declared customs value was omitted under statutory confidentiality rules (19 C.F.R. § 103.31).
                 </p>
 
                 <div className="pt-4 border-t border-slate-800">
