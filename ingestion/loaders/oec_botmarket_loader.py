@@ -1,21 +1,19 @@
-﻿"""
+"""
 Trade Intelligence Platform
 OEC BotMarket Loader — End-to-End
 ===================================
 Source : OEC BotMarket API  (https://botmarket.oec.world)
+Dataset: BACI International Trade Database (HS 2017)
 Contract: contracts/oec_botmarket_v1.yaml
 Brief §: 3 (provenance), 5 (hard stop on schema change), 6 (missingness flags)
 
 COST SAFETY:
   - max_queries_per_run (default 50) enforced at call site.
-  - Each query costs $0.01 USD. 50 queries = $0.50 hard cap per run.
-  - Caller MUST pass a QueryBudget object; loader will refuse to proceed if cap exceeded.
+  - OEC BotMarket queries with free API key (bot_market_ak_) are free of charge.
+  - Budget guard still enforces max 50 queries ($0.50 cap ceiling) as safety limit.
 
-REGISTRATION NOTE:
-  OEC BotMarket registration is at https://botmarket.oec.world
-  No subscription approval required — pay-per-query ($0.01/query).
-  Set env var OEC_BOTMARKET_API_KEY once key is issued.
-  Until then, the loader will raise OECKeyMissingError at startup.
+AUTHENTICATION:
+  - Sent via HTTP Header: Authorization: Bearer <OEC_BOTMARKET_API_KEY>
 """
 
 import hashlib
@@ -102,33 +100,27 @@ class OECBotMarketLoader:
     """
     End-to-end loader for OEC BotMarket API.
 
-    Responsibilities:
-      1. Validate API key presence at construction time.
-      2. Enforce query budget (cost cap) before every HTTP call.
-      3. Validate each response against oec_botmarket_v1 contract fields.
-      4. Enrich every record with a full provenance row (Brief §3).
-      5. Persist raw JSON into ClickHouse bronze_oec_botmarket (append-only).
-      6. Return structured records for downstream Silver transformation.
-
-    Usage:
-        loader = OECBotMarketLoader(contract_path="contracts/oec_botmarket_v1.yaml")
-        budget = QueryBudget(max_queries=10)
-        records = loader.fetch_trade_flow(
-            origin_iso3="VNM", destination_iso3="USA", hs4_code="8528",
-            year=2023, budget=budget
-        )
+    Dataset: BACI International Trade Database (baci-hs17)
+    Endpoint: https://botmarket.oec.world/api/datasets/baci-hs17/query
     """
 
-    BASE_URL = "https://botmarket.oec.world/v1"
+    BASE_URL = "https://botmarket.oec.world/api/datasets/baci-hs17"
     PARSER_VERSION = "oec_botmarket_loader_v1.0.0"
 
     REQUIRED_RESPONSE_FIELDS = {
         "trade_flow", "year", "origin_iso3", "destination_iso3", "trade_value_usd"
     }
 
-    def __init__(self, contract_path: str = "contracts/oec_botmarket_v1.yaml"):
-        # 1. Resolve API key — fail loudly if absent
-        self.api_key = os.environ.get("OEC_BOTMARKET_API_KEY", "").strip()
+    def __init__(self, contract_path: str = "contracts/oec_botmarket_v1.yaml", api_key: Optional[str] = None):
+        # 1. Resolve API key from argument, environment, or .env file
+        self.api_key = (api_key or os.environ.get("OEC_BOTMARKET_API_KEY", "")).strip()
+        if not self.api_key and Path(".env").exists() and not os.environ.get("PYTEST_CURRENT_TEST"):
+            with open(".env", "r", encoding="utf-8") as f:
+                for line in f:
+                    if line.strip().startswith("OEC_BOTMARKET_API_KEY="):
+                        self.api_key = line.strip().split("=", 1)[1].strip()
+                        break
+
         if not self.api_key:
             raise OECKeyMissingError(
                 "OEC_BOTMARKET_API_KEY environment variable is not set. "
@@ -136,7 +128,7 @@ class OECBotMarketLoader:
                 "then set it in your .env file. Loader cannot proceed without it."
             )
 
-        # 2. Load and parse the data contract
+        # 2. Load and parse data contract
         contract_file = Path(contract_path)
         if not contract_file.exists():
             raise FileNotFoundError(f"OEC contract not found at: {contract_path}")
@@ -162,54 +154,49 @@ class OECBotMarketLoader:
         destination_iso3: str,
         budget: QueryBudget,
         hs4_code: Optional[str] = None,
+        hs_code: Optional[str] = None,
         year: Optional[int] = None,
-        rate_limit_sleep: float = 2.0,
+        limit: int = 10,
+        rate_limit_sleep: float = 1.0,
     ) -> List[Dict[str, Any]]:
         """
         Query OEC BotMarket for bilateral trade flow between two countries.
-
-        Args:
-            origin_iso3: ISO 3166-1 alpha-3 code of exporting country (e.g. "VNM").
-            destination_iso3: ISO 3166-1 alpha-3 code of importing country (e.g. "USA").
-            budget: QueryBudget instance — will be checked and decremented.
-            hs4_code: Optional 4-digit HS code filter (e.g. "8528").
-            year: Optional year filter (e.g. 2023).
-            rate_limit_sleep: Seconds to sleep after each query (OEC rate limit: 30/min).
-
-        Returns:
-            List of enriched record dicts, each containing provenance metadata.
-
-        Raises:
-            OECBudgetExceededError: If budget cap is already reached.
-            OECAPIError: On non-200 HTTP responses.
-            OECContractViolationError: If response schema doesn't match contract.
         """
         budget.check_and_increment()
 
+        endpoint = f"{self.BASE_URL}/query"
         params: Dict[str, Any] = {
-            "origin": origin_iso3.upper(),
-            "destination": destination_iso3.upper(),
+            "exporter_id": origin_iso3.lower(),
+            "importer_id": destination_iso3.lower(),
+            "limit": limit,
         }
-        if hs4_code:
-            params["hs4"] = hs4_code
-        if year:
-            params["year"] = year
+        if hs_code:
+            params["hs_code"] = str(hs_code)
+        elif hs4_code:
+            params["hs_code"] = str(hs4_code)
 
-        endpoint = f"{self.BASE_URL}/trade"
+        if year:
+            params["year"] = int(year)
+
         acquisition_ts = datetime.now(timezone.utc)
 
         logger.info(
-            "OEC query %d/%d: %s -> %s (hs4=%s, year=%s)",
+            "OEC query %d/%d: %s -> %s (hs=%s, year=%s)",
             budget.consumed, budget.max_queries,
-            origin_iso3, destination_iso3, hs4_code, year
+            origin_iso3, destination_iso3, params.get("hs_code"), year
         )
 
-        # HTTP call
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Accept": "application/json",
+            "User-Agent": "TradeIntelligencePlatform/1.0",
+        }
+
         try:
             response = requests.get(
                 endpoint,
                 params=params,
-                headers={"X-Api-Key": self.api_key, "Accept": "application/json"},
+                headers=headers,
                 timeout=30,
             )
         except requests.RequestException as exc:
@@ -221,14 +208,39 @@ class OECBotMarketLoader:
                 f"{origin_iso3}->{destination_iso3}: {response.text[:500]}"
             )
 
-        # Sleep to respect rate limit (30 req/min = 2s gap)
-        time.sleep(rate_limit_sleep)
+        if rate_limit_sleep > 0:
+            time.sleep(rate_limit_sleep)
 
         raw_json_str = response.text
         raw_data = response.json()
 
-        # Contract validation
-        records_raw: List[Dict] = raw_data if isinstance(raw_data, list) else raw_data.get("data", [])
+        # Parse columnar response {"columns": [...], "rows": [[...], ...]}
+        records_raw: List[Dict[str, Any]] = []
+        if isinstance(raw_data, dict) and "columns" in raw_data and "rows" in raw_data:
+            columns = raw_data["columns"]
+            for row in raw_data["rows"]:
+                row_dict = dict(zip(columns, row))
+                # Map BACI columns to contract schema
+                record = {
+                    "trade_flow": "export",
+                    "year": row_dict.get("year"),
+                    "origin_iso3": str(row_dict.get("exporter_id", "")).upper(),
+                    "destination_iso3": str(row_dict.get("importer_id", "")).upper(),
+                    "exporter_name": row_dict.get("exporter_name"),
+                    "importer_name": row_dict.get("importer_name"),
+                    "hs4_code": str(row_dict.get("hs_code", ""))[:4] if row_dict.get("hs_code") else None,
+                    "hs_code": str(row_dict.get("hs_code", "")) if row_dict.get("hs_code") else None,
+                    "product_name": row_dict.get("product_name"),
+                    "trade_value_usd": float(row_dict.get("value", 0.0)) if row_dict.get("value") is not None else None,
+                    "quantity_mt": row_dict.get("quantity"),
+                    "unit": row_dict.get("unit_abbrevation"),
+                }
+                records_raw.append(record)
+        elif isinstance(raw_data, list):
+            records_raw = raw_data
+        elif isinstance(raw_data, dict) and "data" in raw_data:
+            records_raw = raw_data["data"]
+
         validated_records = self._validate_and_enrich(
             records_raw=records_raw,
             endpoint=endpoint,
@@ -247,22 +259,12 @@ class OECBotMarketLoader:
         self,
         queries: List[Dict[str, Any]],
         budget: QueryBudget,
-        rate_limit_sleep: float = 2.0,
+        rate_limit_sleep: float = 1.0,
     ) -> List[Dict[str, Any]]:
-        """
-        Convenience wrapper to execute multiple fetch_trade_flow queries in sequence.
-
-        Args:
-            queries: List of kwarg dicts for fetch_trade_flow (without budget/sleep).
-            budget: Shared QueryBudget — budget.remaining must cover len(queries).
-
-        Raises:
-            OECBudgetExceededError: If queries would exceed remaining budget.
-        """
+        """Execute multiple queries in sequence under a shared budget."""
         if len(queries) > budget.remaining:
             raise OECBudgetExceededError(
-                f"Batch has {len(queries)} queries but only {budget.remaining} remain in budget. "
-                "Reduce batch size or increase budget.max_queries."
+                f"Batch has {len(queries)} queries but only {budget.remaining} remain in budget."
             )
 
         all_records: List[Dict[str, Any]] = []
@@ -285,15 +287,13 @@ class OECBotMarketLoader:
     ) -> List[Dict[str, Any]]:
         """
         Validates response records against oec_botmarket_v1 contract.
-        Enriches each record with a provenance block.
         Raises OECContractViolationError on schema violations (Brief §5).
         """
         if not records_raw:
             logger.warning("OEC API returned zero records for params: %s", params)
             return []
 
-        # Validate first record's fields as representative sample
-        sample = records_raw[0] if records_raw else {}
+        sample = records_raw[0]
         actual_fields = set(sample.keys())
         missing_required = self.REQUIRED_RESPONSE_FIELDS - actual_fields
 
@@ -321,7 +321,6 @@ class OECBotMarketLoader:
             "raw_response_json": raw_json_str,
         }
 
-        # Enrich each record
         enriched = []
         for rec in records_raw:
             enriched.append({
@@ -335,7 +334,7 @@ class OECBotMarketLoader:
     @staticmethod
     def _compute_missingness(record: Dict) -> Dict[str, bool]:
         """Flag which optional fields are absent (Brief §6)."""
-        optional_fields = ["hs4_code", "trade_value_usd"]
+        optional_fields = ["hs4_code", "trade_value_usd", "quantity_mt"]
         return {
             f"is_{field}_missing": (record.get(field) is None)
             for field in optional_fields
