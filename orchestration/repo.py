@@ -1,4 +1,4 @@
-﻿""\"Trade Intelligence Platform - Dagster Orchestration Definitions\"""
+""\"Trade Intelligence Platform - Dagster Orchestration Definitions\"""
 from dagster import (
     Definitions,
     asset,
@@ -29,7 +29,7 @@ def raw_manifest_landing():
 
 
 @asset(
-    group_name='bronze',
+    group_name='macro',
     description=(
         'OEC BotMarket aggregated macro trade flow data — bilateral trade by HS4 chapter. '
         'Pay-per-query source. QueryBudget enforces hard cap of 50 queries / USD 0.50 per run. '
