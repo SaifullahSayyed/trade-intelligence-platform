@@ -1,13 +1,14 @@
 ﻿import React from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 
 const INK = "#ffffff";
 const navLinks = [
-  { label: "Overview", href: "#overview" },
-  { label: "Live Manifests", href: "#evidence" },
-  { label: "Entity Resolution", href: "#schemas" },
-  { label: "Trust & Evidence", href: "#evidence" },
-  { label: "Data Contracts", href: "#contracts" }
+  { label: "Overview", href: "/" },
+  { label: "Manifest Search", href: "/search" },
+  { label: "Entity Review", href: "/review" },
+  { label: "Company Profile", href: "/company/walmart-stores-east-lp" },
+  { label: "Data Contracts", href: "/#contracts" }
 ];
 
 export default function Navbar() {
@@ -25,14 +26,15 @@ export default function Navbar() {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "22px 40px",
-        background: "linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 100%)",
-        backdropFilter: "blur(6px)",
-        WebkitBackdropFilter: "blur(6px)"
+        padding: "20px 36px",
+        background: "linear-gradient(to bottom, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 100%)",
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)",
+        borderBottom: "1px solid rgba(255,255,255,0.08)"
       }}
     >
       {/* Logo */}
-      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+      <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "10px" }}>
         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="2" y="2" width="28" height="28" rx="9" stroke={INK} strokeWidth="1.5" />
           <g fill="none" stroke={INK} strokeWidth="1.3">
@@ -44,16 +46,16 @@ export default function Navbar() {
           <circle cx="16" cy="16" r="1.7" fill={INK} />
         </svg>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <span style={{ fontSize: "21px", fontWeight: 600, color: INK, letterSpacing: "-0.01em", lineHeight: 1.1 }}>
+          <span style={{ fontSize: "20px", fontWeight: 600, color: INK, letterSpacing: "-0.01em", lineHeight: 1.1 }}>
             Orchid
           </span>
-          <span style={{ fontSize: "9px", letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.7)", fontWeight: 600 }}>
+          <span style={{ fontSize: "8.5px", letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(255,255,255,0.7)", fontWeight: 600 }}>
             Trade Intelligence
           </span>
         </div>
-      </div>
+      </Link>
 
-      {/* Center links with dots */}
+      {/* Center Links */}
       <div
         style={{
           position: "absolute",
@@ -77,10 +79,10 @@ export default function Navbar() {
                 }}
               />
             )}
-            <a
+            <Link
               href={link.href}
               style={{
-                fontSize: "14px",
+                fontSize: "13.5px",
                 fontWeight: 500,
                 color: "rgba(255,255,255,0.78)",
                 textDecoration: "none",
@@ -95,21 +97,21 @@ export default function Navbar() {
               }}
             >
               {link.label}
-            </a>
+            </Link>
           </div>
         ))}
       </div>
 
       {/* Right Controls */}
-      <div style={{ display: "flex", alignItems: "center", gap: "22px" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
         <span
           style={{
             display: "flex",
             alignItems: "center",
             gap: "5px",
-            fontSize: "14px",
+            fontSize: "13px",
             fontWeight: 500,
-            color: "rgba(255,255,255,0.82)",
+            color: "rgba(255,255,255,0.85)",
             cursor: "pointer"
           }}
         >
@@ -118,17 +120,17 @@ export default function Navbar() {
             <path d="M6 9l6 6 6-6" />
           </svg>
         </span>
-        <a href="#evidence" style={{ display: "flex", alignItems: "center", color: "inherit" }} title="Search manifests">
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.82)" strokeWidth="1.8" strokeLinecap="round">
+        <Link href="/search" style={{ display: "flex", alignItems: "center", color: "inherit" }} title="Search manifests">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" strokeWidth="1.8" strokeLinecap="round">
             <circle cx="11" cy="11" r="7" />
             <path d="M20 20l-3.2-3.2" />
           </svg>
-        </a>
-        <a href="#dashboard" style={{ display: "flex", alignItems: "center", color: "inherit" }} title="Platform services">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.82)" strokeWidth="1.8" strokeLinecap="round">
+        </Link>
+        <Link href="/#dashboard" style={{ display: "flex", alignItems: "center", color: "inherit" }} title="Platform control room">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" strokeWidth="1.8" strokeLinecap="round">
             <path d="M4 7h16M4 12h16M4 17h16" />
           </svg>
-        </a>
+        </Link>
       </div>
     </motion.div>
   );
