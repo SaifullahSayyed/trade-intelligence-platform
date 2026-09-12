@@ -572,7 +572,15 @@ export default function Home() {
           {/* TAB 2: Evidence & Trust Layer (Redesigned Borderless Transformation Data Grid) */}
           {activeTab === "evidence" && (
             <div className="space-y-8">
+              {/* ⚠ Sample Data Disclaimer Banner */}
+              <div className="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/30 w-fit mx-auto">
+                <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse shrink-0" />
+                <span className="text-xs font-mono font-semibold text-amber-300 tracking-wider uppercase">
+                  Sample / Illustrative Data — Not Yet Live
+                </span>
+              </div>
               {/* Manifest Provenance Certificate Header */}
+
               <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#0f172a]/95 via-[#0c1222]/95 to-[#070b14]/95 border border-white/[0.08] p-6 backdrop-blur-xl shadow-2xl">
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-white/[0.06]">
                   <div>

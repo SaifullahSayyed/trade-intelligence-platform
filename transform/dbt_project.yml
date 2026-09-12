@@ -1,0 +1,40 @@
+﻿# ============================================================
+# Trade Intelligence Platform — dbt Project
+# ============================================================
+# UNVERIFIED SCHEMA — PENDING DAY 9 FILE INSPECTION
+# Silver models scaffolded against trademo_bol_v1.yaml contract.
+# Column mappings have NOT been verified against the real Trademo file.
+# DO NOT run these models in production until Day 9 gate is cleared.
+# ============================================================
+
+name: "trade_intelligence"
+version: "1.0.0"
+config-version: 2
+
+profile: "trade_intelligence"
+
+model-paths: ["models"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  trade_intelligence:
+    staging:
+      +materialized: view
+      +schema: staging
+    silver:
+      +materialized: incremental
+      +schema: silver
+      +unique_key: shipment_id
+      +on_schema_change: fail   # Brief §5 — hard stop on schema drift
+
+vars:
+  source_id_trademo: "trademo_bol_v1"
+  source_id_oec: "oec_botmarket_v1"
+  # DAY 9: Confirm these column names match the real file before enabling silver models
+  day9_schema_verified: false

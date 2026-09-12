@@ -1,0 +1,77 @@
+﻿# ============================================================
+# Trade Intelligence Platform — dbt Sources
+# ============================================================
+# UNVERIFIED SCHEMA — PENDING DAY 9 FILE INSPECTION
+# Column names and types assumed from trademo_bol_v1.yaml contract.
+# Verify every field against the real Trademo file before clearing the Day 9 gate.
+# ============================================================
+
+version: 2
+
+sources:
+  - name: bronze
+    description: >
+      Append-only Bronze layer in ClickHouse containing raw ingested records
+      with full denormalized provenance (Brief Rule 3).
+    schema: trade_intelligence
+
+    tables:
+      # -------------------------------------------------------
+      # Trademo US Bill of Lading (Primary source)
+      # !!!! UNVERIFIED SCHEMA — PENDING DAY 9 FILE INSPECTION !!!!
+      # Column definitions match trademo_bol_v1.yaml — NOT the real file.
+      # -------------------------------------------------------
+      - name: bronze_trademo_bol
+        description: >
+          [UNVERIFIED SCHEMA — PENDING DAY 9 FILE INSPECTION]
+          Raw Trademo US Bill of Lading records. Historical window Sep 1-10, 2022.
+          Framing constraint: Not live data. (Contract: trademo_bol_v1.yaml)
+        loaded_at_field: ingestion_timestamp
+        freshness:
+          error_after: {count: 730, period: day}   # Historical window — no live freshness SLA
+        columns:
+          - name: provenance_id
+            description: UUID linking this row to the provenance_records table (Brief Rule 3)
+            tests: [not_null, unique]
+          - name: source_id
+            description: Always 'trademo_bol_v1'
+            tests: [not_null]
+          - name: ingestion_timestamp
+            tests: [not_null]
+          - name: raw_bill_of_lading
+            tests: [not_null]
+          # DAY 9: Verify all raw_* column names match the actual file headers
+          - name: raw_shipment_date
+          - name: raw_importer_name
+          - name: raw_shipper_name
+          - name: raw_notify_party
+          - name: raw_hs_code
+          - name: raw_product_desc
+          - name: raw_origin_country
+          - name: raw_destination_port
+          - name: raw_origin_port
+          - name: raw_vessel_name
+          - name: raw_declared_value
+          - name: raw_weight
+          - name: raw_weight_unit
+          - name: raw_quantity
+          - name: raw_quantity_unit
+          - name: raw_full_record_json
+
+      # -------------------------------------------------------
+      # OEC BotMarket Aggregated Trade Data (Supplementary)
+      # Schema verified against API response in oec_botmarket_v1.yaml
+      # -------------------------------------------------------
+      - name: bronze_oec_botmarket
+        description: >
+          Aggregated macro trade flow data from OEC BotMarket API.
+          Pay-per-query ($0.01/query). Not shipment-level records.
+        columns:
+          - name: provenance_id
+            tests: [not_null, unique]
+          - name: source_id
+            description: Always 'oec_botmarket_v1'
+          - name: query_endpoint
+          - name: query_params_json
+          - name: raw_response_json
+            tests: [not_null]
