@@ -1,0 +1,96 @@
+﻿# ============================================================
+# Trade Intelligence Platform — Data Contract
+# Source: Trademo US Bill of Lading Evaluation Sample
+# ============================================================
+
+contract_id: trademo_bol_v1
+source_name: "Trademo US Bill of Lading Sample (AWS Data Exchange)"
+channel: "AWS Data Exchange"
+jurisdiction: "US"
+license_reference: "Trademo evaluation dataset — free for evaluation purposes"
+schema_version: "1.0.0"
+
+# Failure behavior: Fail loudly and halt pipeline on schema deviation (Brief §5)
+on_schema_change: FAIL
+on_missing_required_column: FAIL
+on_type_mismatch: FAIL
+
+# SLA & Data Window
+is_historical_window: true
+window_start: "2022-09-01"
+window_end: "2022-09-10"
+freshness_sla_hours: null   # Fixed historical evaluation window, no live freshness SLA
+
+# Strict framing constraint (Brief §3)
+framing_constraint: >
+  The AWS sample is a fixed historical window, not live data.
+  Do not present it, or build UI copy that implies it, as current/real-time.
+  The correct framing is: "Built and proven on real CBP shipment records;
+  live ingestion is the next step once funded."
+
+# Expected columns and types
+columns:
+  - name: bill_of_lading
+    type: string
+    nullable: false
+    description: "Bill of lading or manifest identifier"
+  - name: shipment_date
+    type: date
+    nullable: false
+    description: "Arrival or departure date"
+  - name: importer_name
+    type: string
+    nullable: false
+    description: "Consignee / Importer company name"
+  - name: shipper_name
+    type: string
+    nullable: true
+    description: "Shipper / Exporter company name"
+  - name: notify_party
+    type: string
+    nullable: true
+    description: "Notify party name"
+  - name: hs_code
+    type: string
+    nullable: true
+    description: "Harmonized System tariff code"
+  - name: product_desc
+    type: string
+    nullable: true
+    description: "Cargo goods description"
+  - name: origin_country
+    type: string
+    nullable: true
+    description: "Country of origin"
+  - name: destination_port
+    type: string
+    nullable: true
+    description: "US port of unlading / arrival"
+  - name: origin_port
+    type: string
+    nullable: true
+    description: "Foreign port of lading"
+  - name: vessel_name
+    type: string
+    nullable: true
+    description: "Carrier vessel name"
+  - name: declared_value
+    type: numeric
+    nullable: true
+    description: "Declared customs value in USD"
+  - name: weight
+    type: numeric
+    nullable: true
+    description: "Shipment weight"
+  - name: weight_unit
+    type: string
+    nullable: true
+    description: "Unit for weight (e.g. KG, LB)"
+  - name: quantity
+    type: numeric
+    nullable: true
+    description: "Package count"
+  - name: quantity_unit
+    type: string
+    nullable: true
+    description: "Package unit"

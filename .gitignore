@@ -1,0 +1,68 @@
+﻿# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.crt
+id_rsa
+secrets/
+
+# Data files (Never commit raw datasets or parquet/csv dumps)
+*.csv
+*.tsv
+*.parquet
+*.dump
+*.tar.gz
+*.zip
+*.jsonl
+data/
+raw_data/
+downloads/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Database / Storage local volumes
+postgres_data/
+clickhouse_data/
+clickhouse_logs/
+opensearch_data/
+minio_data/
+dagster_storage/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS specific
+.DS_Store
+Thumbs.db
+desktop.ini

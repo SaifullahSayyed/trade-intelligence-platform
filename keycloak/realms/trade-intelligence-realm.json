@@ -1,0 +1,63 @@
+﻿{
+  "id": "trade-intelligence",
+  "realm": "trade-intelligence",
+  "displayName": "Trade Intelligence Platform",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "roles": {
+    "realm": [
+      {
+        "name": "ADMIN",
+        "description": "Administrator with full system access"
+      },
+      {
+        "name": "ANALYST",
+        "description": "Trade Intelligence analyst"
+      },
+      {
+        "name": "REVIEWER",
+        "description": "Entity resolution human review queue operator"
+      },
+      {
+        "name": "READONLY",
+        "description": "Read-only access"
+      }
+    ]
+  },
+  "groups": [],
+  "clients": [
+    {
+      "clientId": "trade-intelligence-frontend",
+      "name": "Next.js Web Frontend",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "rootUrl": "http://localhost:3000",
+      "redirectUris": [
+        "http://localhost:3000/*"
+      ],
+      "webOrigins": [
+        "http://localhost:3000"
+      ]
+    },
+    {
+      "clientId": "grafana",
+      "name": "Grafana Monitoring SSO",
+      "enabled": true,
+      "publicClient": false,
+      "secret": "grafana-secret",
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "rootUrl": "http://localhost:3000",
+      "redirectUris": [
+        "http://localhost:3000/login/generic_oauth"
+      ]
+    }
+  ]
+}

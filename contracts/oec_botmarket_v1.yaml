@@ -1,0 +1,44 @@
+﻿# ============================================================
+# Trade Intelligence Platform — Data Contract
+# Source: OEC BotMarket API (Supplementary Macro Lookups)
+# ============================================================
+
+contract_id: oec_botmarket_v1
+source_name: "OEC BotMarket API"
+channel: "https://botmarket.oec.world"
+jurisdiction: "INTL"
+license_reference: "OEC BotMarket Pay-Per-Query ($0.01/query, no contract)"
+schema_version: "1.0.0"
+
+# Nature of data
+data_type: "AGGREGATED_MACRO_TRADE"  # NOTE: Aggregated statistics, NOT shipment-level records
+is_historical_window: false
+freshness_sla_hours: 168             # Weekly macro updates
+
+# Safety limits & cost controls
+max_queries_per_run: 50              # Hard cap to prevent runaway query loops ($0.50 budget cap)
+rate_limit_per_minute: 30
+
+on_schema_change: FAIL
+on_missing_required_column: FAIL
+on_type_mismatch: FAIL
+
+expected_response_fields:
+  - name: trade_flow
+    type: string
+    nullable: false
+  - name: year
+    type: integer
+    nullable: false
+  - name: origin_iso3
+    type: string
+    nullable: false
+  - name: destination_iso3
+    type: string
+    nullable: false
+  - name: hs4_code
+    type: string
+    nullable: true
+  - name: trade_value_usd
+    type: numeric
+    nullable: false
