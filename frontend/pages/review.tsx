@@ -109,6 +109,12 @@ export default function ReviewQueue() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/75 to-black z-0" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6">
+          <div className="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/30 w-fit mx-auto mb-6">
+            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse shrink-0" />
+            <span className="text-xs font-mono font-semibold text-amber-300 tracking-wider uppercase">
+              Sample / Illustrative Data — Not Yet Live
+            </span>
+          </div>
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md mb-4">
             <UserCheck className="w-4 h-4 text-purple-400" />
             <span className="text-xs font-semibold text-white/90">

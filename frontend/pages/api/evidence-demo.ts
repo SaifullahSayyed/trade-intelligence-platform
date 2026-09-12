@@ -20,6 +20,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     },
     framing: {
       is_historical_window: true,
+      data_source_mode: "REAL_TRADEMO_HISTORICAL_SAMPLE",
       data_window: "September 1–10, 2022",
       compliance_disclaimer: "Built and proven on real CBP shipment records; live ingestion is the next step once funded."
     },

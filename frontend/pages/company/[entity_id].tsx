@@ -44,6 +44,12 @@ export default function CompanyProfile() {
         <div className="absolute top-10 right-10 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none z-0" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6">
+          <div className="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/30 w-fit mx-auto mb-6">
+            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse shrink-0" />
+            <span className="text-xs font-mono font-semibold text-amber-300 tracking-wider uppercase">
+              Sample / Illustrative Data — Not Yet Live
+            </span>
+          </div>
 
           <Link
             href="/search"
@@ -278,6 +284,13 @@ export default function CompanyProfile() {
 
                 <span className="px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/15 text-purple-300 border border-purple-500/30">
                   Banned Patterns Filter: ACTIVE
+                </span>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs text-amber-200 mb-4 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0 animate-pulse" />
+                <span>
+                  <strong>Safety Disclaimer:</strong> Synthetic test data used to validate entity-matching logic only — not derived from any real shipment records.
                 </span>
               </div>
 

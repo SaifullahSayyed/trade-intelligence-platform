@@ -145,6 +145,12 @@ export default function SearchPage() {
         <div className="absolute top-0 left-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none z-0" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6">
+          <div className="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/30 w-fit mx-auto mb-6">
+            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse shrink-0" />
+            <span className="text-xs font-mono font-semibold text-amber-300 tracking-wider uppercase">
+              Sample / Illustrative Data — Not Yet Live
+            </span>
+          </div>
 
           <motion.div
             initial={{ opacity: 0, y: 12 }}
