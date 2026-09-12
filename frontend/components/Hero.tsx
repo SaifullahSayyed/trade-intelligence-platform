@@ -1,4 +1,4 @@
-﻿import React from "react";
+﻿import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 const INK = "#ffffff";
@@ -32,31 +32,72 @@ const steps = [
 ];
 
 export default function Hero() {
+  const [bgMode, setBgMode] = useState<"video" | "port" | "cargoship" | "harbor">("video");
+
   return (
     <section id="overview" style={{ position: "relative", width: "100%", height: "100vh", overflow: "hidden" }}>
-      {/* Background Video */}
-      <video
-        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-        src="/hero.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-      />
+      {/* Background Media: Container Ship Video or Real Shipment Photos */}
+      {bgMode === "video" ? (
+        <video
+          key="ship-video"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="/images/cargo-ship.jpg"
+        >
+          <source src="/hero-ship.webm" type="video/webm" />
+          <source src="/hero.mp4" type="video/mp4" />
+        </video>
+      ) : bgMode === "port" ? (
+        <div
+          key="port-photo"
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: "url('/images/port-terminal.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center"
+          }}
+        />
+      ) : bgMode === "cargoship" ? (
+        <div
+          key="cargo-photo"
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: "url('/images/cargo-ship.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center"
+          }}
+        />
+      ) : (
+        <div
+          key="harbor-photo"
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: "url('/images/harbor-dusk.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center"
+          }}
+        />
+      )}
 
-      {/* Overlays — matching design specification */}
+      {/* Cinematic Overlays (Triple layer for perfect typography contrast) */}
       <div
         style={{
           position: "absolute",
           inset: 0,
-          background: "linear-gradient(90deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.20) 100%)"
+          background: "linear-gradient(90deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.48) 55%, rgba(0,0,0,0.30) 100%)"
         }}
       />
       <div
         style={{
           position: "absolute",
           inset: 0,
-          background: "linear-gradient(to bottom, rgba(0,0,0,0.30) 0%, transparent 30%, transparent 65%, rgba(0,0,0,0.60) 100%)"
+          background: "linear-gradient(to bottom, rgba(0,0,0,0.40) 0%, transparent 30%, transparent 65%, rgba(0,0,0,0.75) 100%)"
         }}
       />
       <div
@@ -66,10 +107,94 @@ export default function Hero() {
           left: "5%",
           width: "700px",
           height: "700px",
-          background: "radial-gradient(ellipse at 30% 30%, rgba(14,116,144,0.12) 0%, transparent 65%)",
+          background: "radial-gradient(ellipse at 30% 30%, rgba(14,116,144,0.18) 0%, transparent 65%)",
           pointerEvents: "none"
         }}
       />
+
+      {/* Live Background Media Selector Pill in Top Right */}
+      <div
+        style={{
+          position: "absolute",
+          right: "40px",
+          top: "100px",
+          zIndex: 20,
+          display: "flex",
+          gap: "6px",
+          padding: "4px 6px",
+          borderRadius: "999px",
+          background: "rgba(0,0,0,0.6)",
+          border: "1px solid rgba(255,255,255,0.18)",
+          backdropFilter: "blur(10px)",
+          WebkitBackdropFilter: "blur(10px)"
+        }}
+        className="hidden sm:flex"
+      >
+        <button
+          onClick={() => setBgMode("video")}
+          style={{
+            padding: "4px 10px",
+            fontSize: "11px",
+            borderRadius: "999px",
+            border: "none",
+            cursor: "pointer",
+            background: bgMode === "video" ? "rgba(255,255,255,0.25)" : "transparent",
+            color: bgMode === "video" ? "#fff" : "rgba(255,255,255,0.65)",
+            fontWeight: 600,
+            transition: "all 0.2s ease"
+          }}
+        >
+          🚢 Live Vessel Video
+        </button>
+        <button
+          onClick={() => setBgMode("port")}
+          style={{
+            padding: "4px 10px",
+            fontSize: "11px",
+            borderRadius: "999px",
+            border: "none",
+            cursor: "pointer",
+            background: bgMode === "port" ? "rgba(255,255,255,0.25)" : "transparent",
+            color: bgMode === "port" ? "#fff" : "rgba(255,255,255,0.65)",
+            fontWeight: 600,
+            transition: "all 0.2s ease"
+          }}
+        >
+          🏗️ Port Terminal
+        </button>
+        <button
+          onClick={() => setBgMode("cargoship")}
+          style={{
+            padding: "4px 10px",
+            fontSize: "11px",
+            borderRadius: "999px",
+            border: "none",
+            cursor: "pointer",
+            background: bgMode === "cargoship" ? "rgba(255,255,255,0.25)" : "transparent",
+            color: bgMode === "cargoship" ? "#fff" : "rgba(255,255,255,0.65)",
+            fontWeight: 600,
+            transition: "all 0.2s ease"
+          }}
+        >
+          🌊 Cargo Mega-Ship
+        </button>
+        <button
+          onClick={() => setBgMode("harbor")}
+          style={{
+            padding: "4px 10px",
+            fontSize: "11px",
+            borderRadius: "999px",
+            border: "none",
+            cursor: "pointer",
+            background: bgMode === "harbor" ? "rgba(255,255,255,0.25)" : "transparent",
+            color: bgMode === "harbor" ? "#fff" : "rgba(255,255,255,0.65)",
+            fontWeight: 600,
+            transition: "all 0.2s ease"
+          }}
+        >
+          🌅 Harbor Dusk
+        </button>
+      </div>
 
       {/* Left Content */}
       <div style={{ position: "absolute", left: "6vw", top: "17vh", zIndex: 10, maxWidth: "660px" }}>
@@ -95,7 +220,7 @@ export default function Hero() {
               />
             ))}
           </div>
-          <span style={{ fontSize: "13px", color: "rgba(255,255,255,0.9)", fontWeight: 500, textShadow: "0 1px 12px rgba(0,0,0,0.5)" }}>
+          <span style={{ fontSize: "13px", color: "rgba(255,255,255,0.9)", fontWeight: 500, textShadow: "0 1px 12px rgba(0,0,0,0.6)" }}>
             +10,000 Verified Shipments • U.S. Ocean Manifest Corridor
           </span>
         </motion.div>
@@ -113,7 +238,7 @@ export default function Hero() {
             lineHeight: 1.02,
             letterSpacing: "-0.01em",
             color: INK,
-            textShadow: "0 2px 30px rgba(0,0,0,0.5)"
+            textShadow: "0 2px 30px rgba(0,0,0,0.6)"
           }}
         >
           Audit <em style={{ fontStyle: "italic", fontWeight: 500 }}>Global Trade</em><br />
@@ -130,9 +255,9 @@ export default function Hero() {
             maxWidth: "480px",
             fontSize: "13px",
             lineHeight: 1.6,
-            color: "rgba(255,255,255,0.80)",
+            color: "rgba(255,255,255,0.85)",
             fontWeight: 500,
-            textShadow: "0 1px 14px rgba(0,0,0,0.5)"
+            textShadow: "0 1px 14px rgba(0,0,0,0.6)"
           }}
         >
           Grounded trade intelligence on U.S. ocean vessel manifests. Resolve canonical entities with Splink, verify provenance across raw and normalized values, and cite verified records.
@@ -202,10 +327,10 @@ export default function Hero() {
               style={{
                 height: "76px",
                 borderRadius: "12px",
-                background: "rgba(255,255,255,0.09)",
+                background: "rgba(255,255,255,0.10)",
                 border: "1px solid rgba(255,255,255,0.22)",
-                backdropFilter: "blur(10px)",
-                WebkitBackdropFilter: "blur(10px)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
                 padding: "12px",
                 display: "flex",
                 flexDirection: "column",
