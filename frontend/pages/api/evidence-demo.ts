@@ -19,17 +19,17 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       normalization_timestamp: "2026-09-12T10:01:23Z"
     },
     framing: {
-      is_historical_window: true,
-      data_source_mode: "REAL_TRADEMO_HISTORICAL_SAMPLE",
-      data_window: "September 1–10, 2022",
-      compliance_disclaimer: "Built and proven on real CBP shipment records; live ingestion is the next step once funded."
+      is_historical_window: false,
+      data_source_mode: "SYNTHETIC_MOCK_PENDING_REAL_DATA",
+      data_window: "Synthetic Benchmark (Sept 1–10, 2022 Schema)",
+      compliance_disclaimer: "Synthetic test data used to validate entity-matching logic only -- not derived from any real shipment records."
     },
     entity_resolution: {
       confidence_tier: "HIGH",
       coverage: {
-        matched_records: 870,
-        denominator: 1000,
-        text: "870 of 1,000 sampled records matched"
+        matched_records: 10,
+        denominator: 18,
+        text: "10 of 18 candidate pairs matched (8 in review)"
       },
       model_version: "splink_v1.0.0_fellegi_sunter"
     },

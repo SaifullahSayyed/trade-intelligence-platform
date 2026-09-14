@@ -112,9 +112,9 @@ export default function CompanyProfile() {
             </div>
 
             <div className="bg-slate-900/80 border border-white/10 rounded-xl p-4 backdrop-blur-md">
-              <div className="text-[10px] text-white/50 uppercase font-semibold">Entity Coverage</div>
-              <div className="text-xl font-bold font-mono text-emerald-400 mt-1">870 / 1000</div>
-              <div className="text-[10px] text-white/60 mt-0.5">Stated Denominator</div>
+              <div className="text-[10px] text-white/50 uppercase font-semibold">Candidate Coverage</div>
+              <div className="text-xl font-bold font-mono text-emerald-400 mt-1">10 / 18</div>
+              <div className="text-[10px] text-white/60 mt-0.5">Matched Pairs (8 in Review)</div>
             </div>
           </div>
         </div>

@@ -48,7 +48,7 @@ const SAMPLE_DATA: ShipmentItem[] = [
     date: "2022-09-04",
     confidence: "HIGH",
     weight: "24,850 KG",
-    coverage: "870 of 1,000 matched"
+    coverage: "10 of 18 pairs matched"
   },
   {
     id: "f8a1c42b-5e33-4a11-8c90-1a7b82d49c01",
