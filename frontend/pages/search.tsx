@@ -160,7 +160,7 @@ export default function SearchPage() {
           >
             <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
             <span className="text-xs font-semibold text-white/90">
-              U.S. CBP Ocean Manifest Intelligence • Evaluation Sample (Sept 1–10, 2022)
+              Synthetic Evaluation Sample • Manifest Search Prototype (Sept 1–10, 2022 Schema)
             </span>
           </motion.div>
 
@@ -181,7 +181,7 @@ export default function SearchPage() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="max-w-2xl text-sm md:text-base text-white/75 leading-relaxed mb-8"
           >
-            Query verified U.S. import shipments by importer company, foreign shipper, HS tariff classification, or port of arrival with preserved raw-to-normalized provenance.
+            Query illustrative synthetic shipments modeled on U.S. ocean manifest schemas with preserved raw-to-normalized provenance.
           </motion.p>
 
           <motion.div
@@ -241,10 +241,10 @@ export default function SearchPage() {
       <section className="max-w-7xl mx-auto px-6 pb-32">
         <div className="flex items-center justify-between mb-6">
           <div className="text-xs text-white/60">
-            Showing <span className="font-semibold text-white">{filteredShipments.length}</span> verified shipment records
+            Showing <span className="font-semibold text-white">{filteredShipments.length}</span> synthetic sample records (pending real data ingestion)
           </div>
           <div className="text-[11px] font-mono text-amber-300/80 bg-amber-500/10 border border-amber-500/20 px-3 py-1 rounded-md">
-            Fixed historical evaluation window: Sept 1–10, 2022
+            Synthetic benchmark window: Sept 1–10, 2022 schema
           </div>
         </div>
 

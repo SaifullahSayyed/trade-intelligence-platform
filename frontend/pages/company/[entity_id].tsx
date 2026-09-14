@@ -88,13 +88,13 @@ export default function CompanyProfile() {
           </motion.h1>
 
           <p className="max-w-3xl text-sm text-white/75 leading-relaxed mb-8">
-            Canonical company profile clustered via Splink Fellegi-Sunter probabilistic matching across raw customs variations.
-            All evidence grounded in verified September 1–10, 2022 CBP vessel manifests.
+            Canonical company profile clustered via Splink Fellegi-Sunter probabilistic matching across synthetic customs variations.
+            Illustrated against hand-constructed manifest records pending real data ingestion.
           </p>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl">
             <div className="bg-slate-900/80 border border-white/10 rounded-xl p-4 backdrop-blur-md">
-              <div className="text-[10px] text-white/50 uppercase font-semibold">Total Verified Volume</div>
+              <div className="text-[10px] text-white/50 uppercase font-semibold">Total Sample Volume</div>
               <div className="text-xl font-bold font-mono text-white mt-1">2,410 Tons</div>
               <div className="text-[10px] text-emerald-400 mt-0.5">87 Shipments</div>
             </div>

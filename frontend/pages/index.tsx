@@ -101,7 +101,7 @@ export default function Home() {
               {`LAT: 33°44'28" N · LON: 118°15'36" W · SECTOR PACIFIC-01 · CBP USLAX`}
             </div>
             <div className="absolute top-6 right-8 text-[10px] font-mono text-sky-500/35 tracking-widest uppercase hidden lg:block">
-              AIS MARITIME STREAM: ACTIVE · CARRIER HARMONY
+              CORRIDOR: VNM → USLAX · HS 852852 SPECIFICATION
             </div>
 
             <div className="absolute -top-32 left-1/4 w-[500px] h-[500px] bg-blue-600/15 rounded-full blur-[120px] pointer-events-none" />
@@ -151,17 +151,17 @@ export default function Home() {
 
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-6 mb-8 border-b border-white/[0.08]">
             <div className="flex items-center gap-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-mono">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/25 text-blue-400 text-xs font-mono">
                 <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-400"></span>
                 </span>
-                <span className="font-semibold tracking-wide">CLUSTER TELEMETRY ACTIVE</span>
+                <span className="font-semibold tracking-wide">LOCAL DEV STACK ONLINE</span>
                 <span className="text-slate-600 font-normal">|</span>
-                <span className="text-slate-400">3 DATASTORES SYNCED</span>
+                <span className="text-slate-400">POSTGRES · CLICKHOUSE · MINIO</span>
               </div>
-              <span className="text-xs font-mono text-slate-500 hidden sm:inline">
-                10,000+ REAL CBP MANIFESTS REPLAYED
+              <span className="text-xs font-mono text-amber-400/90 font-semibold bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-full hidden sm:inline">
+                SYNTHETIC SAMPLE RECORDS — PENDING REAL TRADEMO INGESTION
               </span>
             </div>
 
@@ -191,30 +191,30 @@ export default function Home() {
           </div>
 
           <div className="mb-8">
-            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-amber-500/[0.08] via-amber-500/[0.03] to-transparent border border-amber-500/20 backdrop-blur-xl p-5 shadow-2xl">
-              <div className="absolute -top-12 -left-12 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none" />
+            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-amber-500/[0.12] via-amber-500/[0.05] to-transparent border border-amber-500/30 backdrop-blur-xl p-5 shadow-2xl">
+              <div className="absolute -top-12 -left-12 w-32 h-32 bg-amber-500/15 rounded-full blur-2xl pointer-events-none" />
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                 <div className="flex items-start md:items-center gap-4">
-                  <div className="p-2.5 bg-amber-500/15 border border-amber-500/30 rounded-xl text-amber-400 shrink-0 shadow-[0_0_12px_rgba(245,158,11,0.2)]">
+                  <div className="p-2.5 bg-amber-500/20 border border-amber-500/40 rounded-xl text-amber-400 shrink-0 shadow-[0_0_12px_rgba(245,158,11,0.25)]">
                     <AlertTriangle className="w-5 h-5" />
                   </div>
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
                       <h4 className="text-sm font-semibold text-amber-200 tracking-wide">
-                        Official CBP Ocean Manifest Evaluation Dataset
+                        Synthetic Prototype & Pipeline Scaffolding
                       </h4>
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 font-semibold">
-                        SEPTEMBER 1–10, 2022
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/25 text-amber-300 border border-amber-500/40 font-semibold">
+                        SAMPLE BENCHMARK (SEPT 1–10, 2022 SCHEMA)
                       </span>
                     </div>
-                    <p className="text-xs text-slate-300/85 mt-1 leading-relaxed max-w-3xl">
-                      Engineered and validated on 10,000+ real U.S. Customs & Border Protection ocean bills of lading. Live automated ingestion triggers upon carrier API authentication.
+                    <p className="text-xs text-slate-300/90 mt-1 leading-relaxed max-w-3xl">
+                      Built and validated against synthetic sample records to verify entity-matching logic and trust pipelines mechanically. Real Trademo CBP manifest ingestion is pending Day 9 AWS subscription approval.
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  <span className="text-[11px] font-mono px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-300 shadow-inner">
-                    19 C.F.R. § 103.31 Public Record
+                  <span className="text-[11px] font-mono px-3 py-1.5 rounded-lg bg-amber-500/15 border border-amber-500/30 text-amber-300 shadow-inner">
+                    19 C.F.R. § 103.31 Compliant Schema
                   </span>
                 </div>
               </div>
@@ -224,7 +224,7 @@ export default function Home() {
           <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-2xl bg-black/40 border border-white/[0.08] backdrop-blur-xl mb-8">
             {[
               { id: "infrastructure", label: "Live Infrastructure", icon: Server, badge: "3/3 UP" },
-              { id: "evidence", label: "Evidence & Trust Layer", icon: ShieldCheck, badge: "VERIFIED" },
+              { id: "evidence", label: "Evidence & Trust Layer", icon: ShieldCheck, badge: "SAMPLE PROTOTYPE" },
               { id: "schemas", label: "Canonical Schemas", icon: Layers, badge: "BRONZE / SILVER / GOLD" },
               { id: "contracts", label: "Data Contracts", icon: FileText, badge: "GUARDRAILS" },
             ].map((tab) => {
@@ -558,7 +558,7 @@ export default function Home() {
                   <div>
                     <div className="flex items-center gap-2 text-xs font-mono text-sky-400 mb-1">
                       <Fingerprint className="w-4 h-4" />
-                      OFFICIAL OCEAN MANIFEST RECORD PROVENANCE
+                      SAMPLE OCEAN MANIFEST RECORD PROVENANCE (EVALUATION SCHEMA)
                     </div>
                     <div className="flex flex-wrap items-center gap-3">
                       <h2 className="text-2xl font-bold text-white tracking-wide font-mono">
@@ -632,7 +632,7 @@ export default function Home() {
                     </p>
                   </div>
                   <span className="text-[10px] font-mono px-3 py-1 rounded-full bg-sky-500/10 text-sky-300 border border-sky-500/25 shrink-0 self-start sm:self-auto">
-                    AUDIT-READY VERIFIED
+                    SAMPLE PROVENANCE MODEL
                   </span>
                 </div>
 

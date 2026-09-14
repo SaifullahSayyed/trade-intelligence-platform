@@ -220,7 +220,7 @@ export default function Hero() {
             ))}
           </div>
           <span style={{ fontSize: "13px", color: "rgba(255,255,255,0.9)", fontWeight: 500, textShadow: "0 1px 12px rgba(0,0,0,0.6)" }}>
-            +10,000 Verified Shipments • U.S. Ocean Manifest Corridor
+            Synthetic Sample Records • U.S. Ocean Manifest Corridor Prototype
           </span>
         </motion.div>
 

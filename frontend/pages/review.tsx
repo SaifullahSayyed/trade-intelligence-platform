@@ -118,7 +118,7 @@ export default function ReviewQueue() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md mb-4">
             <UserCheck className="w-4 h-4 text-purple-400" />
             <span className="text-xs font-semibold text-white/90">
-              Splink Probabilistic Matcher • Human-in-the-Loop Review Queue (Brief §6)
+              Splink Probabilistic Matcher • Synthetic Review Queue (Brief §6)
             </span>
           </div>
 
