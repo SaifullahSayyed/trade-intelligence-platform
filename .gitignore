@@ -1,4 +1,4 @@
-﻿# Environment variables and secrets
+# Environment variables and secrets
 .env
 .env.*
 !.env.example
@@ -53,6 +53,9 @@ clickhouse_logs/
 opensearch_data/
 minio_data/
 dagster_storage/
+orchestration/storage/
+orchestration/logs/
+orchestration/.nux/
 
 # Node / Next.js
 node_modules/
