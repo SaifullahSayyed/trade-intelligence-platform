@@ -44,7 +44,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/vision/search", label: "Global Search (⌘K)", icon: Search, chipType: "built_simplified" },
   { href: "/vision/workbench", label: "Resolution Workbench", icon: GitMerge, chipType: "built_simplified" },
   { href: "/vision/ai", label: "AI Analyst Panel", icon: Bot, chipType: "backend_planned" },
-  { href: "/vision/quality", label: "Data Quality Center", icon: ShieldAlert, chipType: "backend_planned" },
+  { href: "/vision/quality", label: "Data Quality Monitor", icon: ShieldAlert, chipType: "built_simplified" },
   { href: "/vision/network", label: "Supply-Chain Network 3D", icon: Share2, chipType: "planned" },
   { href: "/vision/lanes", label: "Trade-Lane Explorer", icon: Globe2, chipType: "planned" },
   { href: "/vision/alerts", label: "Alerts & Watchlists", icon: Bell, chipType: "planned" },
