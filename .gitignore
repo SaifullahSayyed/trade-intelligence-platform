@@ -60,6 +60,7 @@ orchestration/.nux/
 # Node / Next.js
 node_modules/
 .next/
+.next-vision/
 out/
 npm-debug.log*
 yarn-debug.log*

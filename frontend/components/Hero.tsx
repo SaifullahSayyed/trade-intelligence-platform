@@ -257,7 +257,7 @@ export default function Hero() {
             textShadow: "0 1px 14px rgba(0,0,0,0.6)"
           }}
         >
-          Grounded trade intelligence on U.S. ocean vessel manifests. Resolve canonical entities with Splink, verify provenance across raw and normalized values, and cite verified records.
+          Grounded trade intelligence on U.S. ocean vessel manifests. Resolve canonical entities with our probabilistic matcher (Fellegi-Sunter-style), verify provenance across raw and normalized values, and cite verified records.
         </motion.p>
 
         <motion.a

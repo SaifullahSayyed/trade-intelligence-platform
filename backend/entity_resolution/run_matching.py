@@ -1,4 +1,4 @@
-﻿import json
+import json
 import os
 import uuid
 from typing import Any, Dict, List, Optional, Tuple
@@ -150,10 +150,13 @@ def run_matching_pipeline(records: List[Dict[str, Any]], persist_db: bool = True
                     )
 
                     if res["match_decision"] == "NEEDS_REVIEW":
+                        # Column renamed from splink_score → matcher_score via migration 004.
+                        # The INSERT uses the new column name; migration 004 ensures the
+                        # column exists before this code runs.
                         cur.execute(
                             """
                             INSERT INTO review_queue (
-                                review_id, entity_a_id, entity_b_id, splink_score,
+                                review_id, entity_a_id, entity_b_id, matcher_score,
                                 status, notes
                             ) VALUES (%s, %s, %s, %s, %s, %s)
                             """,

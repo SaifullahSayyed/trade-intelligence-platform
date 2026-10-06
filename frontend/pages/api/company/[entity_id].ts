@@ -16,8 +16,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         "Walmart",
         "WALMART STORES EAST LP"
       ],
-      splink_score: 0.9850,
-      model_version: "splink_v1.0.0_fellegi_sunter"
+      matcher_score: 0.9850,
+      model_version: "orchid_fs_matcher_v1"
     },
     framing: {
       is_historical_window: false,

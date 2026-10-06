@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         entity_b_id: "b0000000-0000-0000-0000-000000000004",
         raw_name_a: "SAMSUNG ELECTRONICS",
         raw_name_b: "SAMSUNG C&T CORP",
-        splink_score: 0.7450,
+        matcher_score: 0.7450,
         status: "PENDING",
         notes: "Ambiguous corporate entity pair: 'SAMSUNG ELECTRONICS' vs 'SAMSUNG C&T CORP'. Score 0.7450 in review band [0.65, 0.85]. Driving signals: partial_token_overlap_['SAMSUNG'], jaro_winkler_similarity_0.89."
       },
@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         entity_b_id: "b0000000-0000-0000-0000-000000000004",
         raw_name_a: "Samsung Electronics Co., Ltd.",
         raw_name_b: "SAMSUNG C&T CORP",
-        splink_score: 0.7450,
+        matcher_score: 0.7450,
         status: "PENDING",
         notes: "Ambiguous corporate entity pair: 'Samsung Electronics Co., Ltd.' vs 'SAMSUNG C&T CORP'. Score 0.7450 in review band [0.65, 0.85]. Driving signals: partial_token_overlap_['SAMSUNG'], jaro_winkler_similarity_0.89."
       }

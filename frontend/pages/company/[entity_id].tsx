@@ -88,7 +88,7 @@ export default function CompanyProfile() {
           </motion.h1>
 
           <p className="max-w-3xl text-sm text-white/75 leading-relaxed mb-8">
-            Canonical company profile clustered via Splink Fellegi-Sunter probabilistic matching across synthetic customs variations.
+            Canonical company profile clustered via probabilistic matching (Fellegi-Sunter-style) across synthetic customs variations.
             Illustrated against hand-constructed manifest records pending real data ingestion.
           </p>
 

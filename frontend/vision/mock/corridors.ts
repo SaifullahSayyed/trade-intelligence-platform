@@ -1,0 +1,96 @@
+import { MockPort, MockCorridor } from "./types";
+
+export const MOCK_PORTS: MockPort[] = [
+  // Asia Ports
+  { code: "VNSGN", name: "Saigon Port (Ho Chi Minh City)", country: "Vietnam", lat: 10.7769, lng: 106.7009, congestionLevel: "NORMAL", q3VolumeTeu: 14200, isMock: true },
+  { code: "VNHPH", name: "Hai Phong Port", country: "Vietnam", lat: 20.8449, lng: 106.6881, congestionLevel: "LOW", q3VolumeTeu: 9800, isMock: true },
+  { code: "HKHKG", name: "Port of Hong Kong", country: "Hong Kong", lat: 22.3193, lng: 114.1694, congestionLevel: "HIGH", q3VolumeTeu: 38400, isMock: true },
+  { code: "SGSIN", name: "Port of Singapore", country: "Singapore", lat: 1.3521, lng: 103.8198, congestionLevel: "NORMAL", q3VolumeTeu: 52100, isMock: true },
+  { code: "THBKK", name: "Bangkok Modern Terminal", country: "Thailand", lat: 13.7563, lng: 100.5018, congestionLevel: "LOW", q3VolumeTeu: 8700, isMock: true },
+  { code: "KRPUS", name: "Busan Port", country: "South Korea", lat: 35.1796, lng: 129.0756, congestionLevel: "NORMAL", q3VolumeTeu: 28900, isMock: true },
+  { code: "JPYOK", name: "Port of Yokohama", country: "Japan", lat: 35.4437, lng: 139.638, congestionLevel: "LOW", q3VolumeTeu: 16500, isMock: true },
+  { code: "TWKHH", name: "Port of Kaohsiung", country: "Taiwan", lat: 22.6273, lng: 120.3014, congestionLevel: "NORMAL", q3VolumeTeu: 21300, isMock: true },
+  { code: "MYPKG", name: "Port Klang", country: "Malaysia", lat: 3.0039, lng: 101.3934, congestionLevel: "HIGH", q3VolumeTeu: 19400, isMock: true },
+
+  // US Ports
+  { code: "USLAX", name: "Port of Los Angeles", country: "United States", lat: 33.7432, lng: -118.2673, congestionLevel: "HIGH", q3VolumeTeu: 64200, isMock: true },
+  { code: "USLGB", name: "Port of Long Beach", country: "United States", lat: 33.7701, lng: -118.1937, congestionLevel: "NORMAL", q3VolumeTeu: 58300, isMock: true },
+  { code: "USSEA", name: "Port of Seattle", country: "United States", lat: 47.6062, lng: -122.3321, congestionLevel: "LOW", q3VolumeTeu: 18200, isMock: true },
+  { code: "USOAK", name: "Port of Oakland", country: "United States", lat: 37.8044, lng: -122.2712, congestionLevel: "NORMAL", q3VolumeTeu: 15400, isMock: true },
+  { code: "USNYC", name: "Port of New York & New Jersey", country: "United States", lat: 40.7128, lng: -74.006, congestionLevel: "HIGH", q3VolumeTeu: 48900, isMock: true },
+  { code: "USSAV", name: "Port of Savannah", country: "United States", lat: 32.0809, lng: -81.0912, congestionLevel: "NORMAL", q3VolumeTeu: 31200, isMock: true },
+
+  // European Ports
+  { code: "NLRTM", name: "Port of Rotterdam", country: "Netherlands", lat: 51.9244, lng: 4.4777, congestionLevel: "NORMAL", q3VolumeTeu: 42000, isMock: true },
+  { code: "DEHAM", name: "Port of Hamburg", country: "Germany", lat: 53.5511, lng: 9.9937, congestionLevel: "LOW", q3VolumeTeu: 26500, isMock: true },
+  { code: "BEANR", name: "Port of Antwerp", country: "Belgium", lat: 51.2194, lng: 4.4025, congestionLevel: "NORMAL", q3VolumeTeu: 34100, isMock: true },
+];
+
+export const MOCK_CORRIDORS: MockCorridor[] = [
+  {
+    id: "COR-001",
+    name: "Trans-Pacific South (Vietnam → US West Coast)",
+    originRegion: "Southeast Asia",
+    destinationRegion: "US West Coast",
+    activeLanes: 12,
+    q3TotalShipments: 184,
+    avgTransitDays: 19.4,
+    primaryPorts: ["VNSGN", "USLAX", "USLGB"],
+    isMock: true,
+  },
+  {
+    id: "COR-002",
+    name: "Trans-Pacific North (Korea/Japan → US Pacific Northwest)",
+    originRegion: "East Asia",
+    destinationRegion: "US West Coast",
+    activeLanes: 8,
+    q3TotalShipments: 122,
+    avgTransitDays: 14.8,
+    primaryPorts: ["KRPUS", "JPYOK", "USSEA"],
+    isMock: true,
+  },
+  {
+    id: "COR-003",
+    name: "East Asia Mainline (Hong Kong / Taiwan → US West Coast)",
+    originRegion: "East Asia",
+    destinationRegion: "US West Coast",
+    activeLanes: 16,
+    q3TotalShipments: 245,
+    avgTransitDays: 16.2,
+    primaryPorts: ["HKHKG", "TWKHH", "USLAX", "USOAK"],
+    isMock: true,
+  },
+  {
+    id: "COR-004",
+    name: "Straits Express (Singapore / Malaysia → US East Coast)",
+    originRegion: "Southeast Asia",
+    destinationRegion: "US East Coast",
+    activeLanes: 9,
+    q3TotalShipments: 94,
+    avgTransitDays: 27.6,
+    primaryPorts: ["SGSIN", "MYPKG", "USNYC", "USSAV"],
+    isMock: true,
+  },
+  {
+    id: "COR-005",
+    name: "Transatlantic North (North Europe → US East Coast)",
+    originRegion: "Northern Europe",
+    destinationRegion: "US East Coast",
+    activeLanes: 14,
+    q3TotalShipments: 162,
+    avgTransitDays: 11.8,
+    primaryPorts: ["NLRTM", "DEHAM", "BEANR", "USNYC"],
+    isMock: true,
+  },
+  {
+    id: "COR-006",
+    name: "Intra-Asia Feeder (Vietnam / Thailand ↔ Singapore Hub)",
+    originRegion: "Southeast Asia",
+    destinationRegion: "Southeast Asia Hub",
+    activeLanes: 10,
+    q3TotalShipments: 138,
+    avgTransitDays: 4.2,
+    primaryPorts: ["VNHPH", "THBKK", "SGSIN"],
+    isMock: true,
+  },
+];

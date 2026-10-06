@@ -118,7 +118,7 @@ export default function ReviewQueue() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md mb-4">
             <UserCheck className="w-4 h-4 text-purple-400" />
             <span className="text-xs font-semibold text-white/90">
-              Splink Probabilistic Matcher • Synthetic Review Queue (Brief §6)
+              Probabilistic Matcher (Fellegi-Sunter-style) • Synthetic Review Queue (Brief §6)
             </span>
           </div>
 
@@ -179,7 +179,7 @@ export default function ReviewQueue() {
                       {p.id}
                     </span>
                     <div className="flex items-center gap-2 text-xs font-mono">
-                      <span className="text-white/50">Splink Match Score:</span>
+                      <span className="text-white/50">Probabilistic Match Score:</span>
                       <span className="font-bold text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">
                         {p.score}
                       </span>

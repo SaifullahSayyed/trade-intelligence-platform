@@ -1,4 +1,4 @@
-﻿# 30-Day Plan — Consolidated Status Report
+# 30-Day Plan — Consolidated Status Report
 
 **As of:** 2026-09-15
 **Single source of truth for what is actually finished vs. what only looks finished.**
@@ -39,7 +39,7 @@
 
 | # | Brief Item | Status | Notes |
 |---|---|---|---|
-| 13 | Splink entity resolution pipeline (backend/entity_resolution/) | ✅ Done | Jaro-Winkler + Soundex + token-sort blocking, three decision thresholds |
+| 13 | Probabilistic matcher (Fellegi-Sunter-style) entity resolution pipeline (backend/entity_resolution/) | ✅ Done | Jaro-Winkler + Soundex + token-sort blocking, three decision thresholds. Custom implementation — no external Splink library (orchid_fs_matcher_v1) |
 | 14 | Synthetic benchmark dataset (12 entities, 18 candidate pairs) | ✅ Done | Defined in test_entity_resolution.py |
 | 15 | Benchmark results: 10 MATCH, 8 NEEDS_REVIEW, 0 false merges | 🟡 Done-Synthetic | Real run; synthetic inputs only — not a real-data benchmark |
 | 16 | Clustering (backend/entity_resolution/clustering.py) | ✅ Done | Union-find BFS, confidence tiers HIGH/MEDIUM/LOW |
@@ -66,7 +66,7 @@
 | 30 | Data Contracts UI tab | ✅ Done | Contract display, guardrails visible |
 | 31 | Hero copy accuracy audit | ✅ Done | All AIS/10k+/telemetry claims removed; synthetic disclaimers added |
 | 32 | Coverage numbers accuracy | ✅ Done | 870/1000 replaced with real synthetic run: 10/18 |
-| 33 | Evidence & Trust Layer tab | ✅ Done | 3-stage provenance, Splink coverage, audit trail status |
+| 33 | Evidence & Trust Layer tab | ✅ Done | 3-stage provenance, probabilistic matcher coverage, audit trail status |
 | 34 | Screenshot checkpoint (4 pages, real Playwright captures) | ✅ Done | Verified 2026-09-14; DOM text read back and confirmed |
 | 35 | End-to-end pipeline test (tests/test_pipeline_e2e.py) | ✅ Done | 22 tests across 6 stages; 21 pass, 1 skip (search 200 redirect) |
 | 36 | Contract violation test (tests/test_contract_violation.py) | ✅ Done | 11 tests, all pass; covers missing col, rogue col, bad type, null, empty, wrong format |

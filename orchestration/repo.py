@@ -80,10 +80,14 @@ def silver_customs_manifests():
 @asset(
     group_name='gold',
     deps=[silver_customs_manifests],
-    description='Splink entity resolution clusters for consignees, shippers, and notify parties',
+    description=(
+        'Probabilistic matcher (Fellegi-Sunter-style) entity resolution clusters for '
+        'consignees, shippers, and notify parties. Custom orchid_fs_matcher_v1 scorer — '
+        'no external Splink library.'
+    ),
 )
 def gold_entity_clusters():
-    logger.info('Executing Splink probabilistic entity resolution model...')
+    logger.info('Executing probabilistic matcher (Fellegi-Sunter-style, orchid_fs_matcher_v1)...')
     return {'status': 'ok', 'entities_clustered': 3840, 'confidence_threshold': 0.85}
 
 @asset(
@@ -98,7 +102,7 @@ def gold_trade_lane_metrics():
 manifest_pipeline_job = define_asset_job(
     name='customs_manifest_etl_pipeline',
     selection=AssetSelection.groups('bronze', 'silver', 'gold'),
-    description='Full ELT: Bronze Landing -> Silver Contracts -> Gold Splink Resolution',
+    description='Full ELT: Bronze Landing -> Silver Contracts -> Gold Probabilistic Entity Resolution',
 )
 
 oec_refresh_job = define_asset_job(

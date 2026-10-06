@@ -31,7 +31,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         denominator: 18,
         text: "10 of 18 candidate pairs matched (8 in review)"
       },
-      model_version: "splink_v1.0.0_fellegi_sunter"
+      model_version: "orchid_fs_matcher_v1"
     },
     fields: [
       {

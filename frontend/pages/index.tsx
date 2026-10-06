@@ -576,7 +576,7 @@ export default function Home() {
 
                   <div className="flex flex-wrap items-center gap-3">
                     <div className="p-3 rounded-xl bg-black/40 border border-white/[0.06] text-right">
-                      <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Splink Match Coverage</div>
+                      <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Probabilistic Matcher Coverage</div>
                       <div className="text-base font-bold text-emerald-400 font-mono">{evidenceData?.entity_resolution?.coverage?.text}</div>
                     </div>
                     <div className="p-3 rounded-xl bg-black/40 border border-white/[0.06] text-right">
@@ -799,12 +799,12 @@ export default function Home() {
                       </span>
                     </div>
                     <p className="text-xs text-slate-300 mb-4 leading-relaxed">
-                      Business-ready trade aggregates and Splink-resolved canonical entities for sub-10ms analytics.
+                      Business-ready trade aggregates and probabilistic-matcher-resolved canonical entities for sub-10ms analytics.
                     </p>
                     <div className="space-y-2 mb-4">
                       <div className="p-2.5 rounded-xl bg-black/40 border border-white/[0.06] text-xs font-mono">
                         <span className="text-emerald-400 font-semibold">canonical_entities</span>
-                        <div className="text-[10px] text-slate-400 mt-0.5">Splink resolved golden importer/shipper records</div>
+                        <div className="text-[10px] text-slate-400 mt-0.5">Probabilistic matcher (Fellegi-Sunter-style) resolved golden records</div>
                       </div>
                       <div className="p-2.5 rounded-xl bg-black/40 border border-white/[0.06] text-xs font-mono">
                         <span className="text-emerald-400 font-semibold">mv_gold_importer_metrics</span>

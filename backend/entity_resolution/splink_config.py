@@ -1,11 +1,25 @@
-﻿from typing import Dict, Any, List
+"""
+Orchid Trade Intelligence — Entity Matching Configuration
+Custom Fellegi-Sunter-style probabilistic matcher (no external Splink library).
 
-MODEL_VERSION = "splink_v1.0.0_fellegi_sunter"
+Implementation: Jaro-Winkler token similarity + Soundex phonetic blocking,
+with three-threshold decision bands:
+  ≥ 0.85  → MATCH   (auto-confirm, no human review)
+  ≥ 0.65  → NEEDS_REVIEW  (human verification queue)
+  < 0.65  → NO_MATCH
+
+Model identifier: orchid_fs_matcher_v1
+"""
+from typing import Dict, Any, List
+
+MODEL_VERSION = "orchid_fs_matcher_v1"
 
 THRESHOLD_MATCH = 0.85
 THRESHOLD_REVIEW = 0.65
 
-SPLINK_SETTINGS: Dict[str, Any] = {
+# Retained the dict name MATCHER_SETTINGS; the old name SPLINK_SETTINGS is an
+# alias kept for any import sites not yet updated.
+MATCHER_SETTINGS: Dict[str, Any] = {
     "link_type": "dedupe_only",
     "model_version": MODEL_VERSION,
     "blocking_rules_to_generate_predictions": [
@@ -33,6 +47,10 @@ SPLINK_SETTINGS: Dict[str, Any] = {
         },
     ],
 }
+
+# Backward-compatibility alias — remove after all call sites are updated
+SPLINK_SETTINGS = MATCHER_SETTINGS
+
 
 def jaro_winkler_similarity(s1: str, s2: str) -> float:
     if not s1 or not s2:
