@@ -24,11 +24,10 @@ const PORTS = [
 ];
 
 function generateDate(index: number, total: number): string {
-  // Evenly distribute between 2024-07-01 and 2024-09-30 (92 days of Q3 2024)
   const dayOffset = Math.floor((index / total) * 91);
-  const baseDate = new Date(2024, 6, 1); // July 1, 2024
-  baseDate.setDate(baseDate.getDate() + dayOffset);
-  return baseDate.toISOString().split("T")[0];
+  const baseUtcMs = Date.UTC(2024, 6, 1); // UTC July 1, 2024
+  const targetUtcMs = baseUtcMs + dayOffset * 86400000;
+  return new Date(targetUtcMs).toISOString().split("T")[0];
 }
 
 function makeSha256(index: number): string {
