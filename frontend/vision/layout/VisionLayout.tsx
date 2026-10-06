@@ -46,7 +46,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/vision/ai", label: "AI Analyst Workspace", icon: Bot, chipType: "built_simplified" },
   { href: "/vision/quality", label: "Data Quality Monitor", icon: ShieldAlert, chipType: "built_simplified" },
   { href: "/vision/network", label: "Supply-Chain Network 3D", icon: Share2, chipType: "planned" },
-  { href: "/vision/lanes", label: "Trade-Lane Explorer", icon: Globe2, chipType: "planned" },
+  { href: "/vision/lanes", label: "Trade-Lane Explorer", icon: Globe2, chipType: "built_simplified" },
   { href: "/vision/alerts", label: "Alerts & Watchlists", icon: Bell, chipType: "built_simplified" },
   { href: "/vision/reports", label: "Reports & Exports", icon: FileSpreadsheet, chipType: "planned" },
   { href: "/vision/governance", label: "Governance & Audit", icon: Lock, chipType: "built_simplified" },
