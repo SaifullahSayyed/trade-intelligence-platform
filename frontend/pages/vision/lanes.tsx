@@ -17,6 +17,7 @@ import { useVisionStore } from "../../vision/store/visionStore";
 import { MOCK_CORRIDORS, MOCK_PORTS } from "../../vision/mock/corridors";
 import { MOCK_SHIPMENTS } from "../../vision/mock/shipments";
 import { MOCK_COMPANIES } from "../../vision/mock/companies";
+import { RIGHTS_LEGAL_LINE } from "../../vision/mock/selectors";
 import type { ProvenanceDrawerPayload, MockFieldValue } from "../../vision/mock/types";
 import {
   AreaChart,
@@ -61,10 +62,10 @@ const CORRIDOR_DETAIL = {
   avgTransitDays: 18.4,
   avgConfidenceScore: 0.887,
   topCarriers: [
-    { name: "Evergreen Marine", shipments: 94, teu: 2680 },
-    { name: "COSCO Shipping", shipments: 76, teu: 1940 },
-    { name: "Yang Ming", shipments: 61, teu: 1580 },
-    { name: "Hapag-Lloyd", shipments: 48, teu: 1220 },
+    { name: "Pacific Crest Lines", shipments: 94, teu: 2680 },
+    { name: "Borealis Shipping Co.", shipments: 76, teu: 1940 },
+    { name: "Vertex Maritime Transport", shipments: 61, teu: 1580 },
+    { name: "Zenith Ocean Freight", shipments: 48, teu: 1220 },
     { name: "Others", shipments: 33, teu: 1000 },
   ],
   topHsCodes: [
@@ -75,15 +76,6 @@ const CORRIDOR_DETAIL = {
     { code: "Other", desc: "All Others", pct: 20, teu: 1684 },
   ],
   monthlyVolume: [
-    { month: "Oct 23", teu: 580, shipments: 21, confidence: 0.871 },
-    { month: "Nov 23", teu: 620, shipments: 23, confidence: 0.883 },
-    { month: "Dec 23", teu: 710, shipments: 27, confidence: 0.890 },
-    { month: "Jan 24", teu: 540, shipments: 20, confidence: 0.875 },
-    { month: "Feb 24", teu: 490, shipments: 18, confidence: 0.869 },
-    { month: "Mar 24", teu: 650, shipments: 24, confidence: 0.884 },
-    { month: "Apr 24", teu: 720, shipments: 26, confidence: 0.891 },
-    { month: "May 24", teu: 780, shipments: 28, confidence: 0.895 },
-    { month: "Jun 24", teu: 830, shipments: 31, confidence: 0.899 },
     { month: "Jul 24", teu: 910, shipments: 34, confidence: 0.901 },
     { month: "Aug 24", teu: 960, shipments: 36, confidence: 0.906 },
     { month: "Sep 24", teu: 1030, shipments: 38, confidence: 0.912 },
@@ -275,7 +267,7 @@ export default function TradeLanePage() {
           <GlassPanel className="lg:col-span-2 p-4">
             <h2 className="text-xs font-mono text-slate-500 uppercase tracking-widest flex items-center gap-2 mb-4">
               <TrendingUp className="w-3.5 h-3.5 text-teal-400" />
-              Monthly TEU Volume — Trans-Pacific South <MockLabel />
+              Q3 2024 TEU Volume — Trans-Pacific South <MockLabel />
             </h2>
             <ResponsiveContainer width="100%" height={220}>
               <AreaChart data={corridor.monthlyVolume}>
@@ -303,7 +295,7 @@ export default function TradeLanePage() {
               </AreaChart>
             </ResponsiveContainer>
             <p className="text-[9px] font-mono text-slate-600 mt-2 text-center">
-              [MOCK] Oct 2023 – Sep 2024 · 12-month rolling window
+              [MOCK] Q3 2024 (Jul 1 – Sep 30, 2024) · Illustrative corridor volume
             </p>
           </GlassPanel>
 

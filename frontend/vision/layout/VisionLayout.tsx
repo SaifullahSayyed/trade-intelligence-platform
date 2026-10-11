@@ -36,6 +36,7 @@ interface NavItem {
   icon: React.ElementType;
   chipType: "built" | "built_simplified" | "backend_planned" | "planned";
   badgeText?: string;
+  disabled?: boolean;
 }
 
 const NAV_ITEMS: NavItem[] = [
@@ -48,10 +49,10 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/vision/network", label: "Supply-Chain Network 3D", icon: Share2, chipType: "built_simplified" },
   { href: "/vision/lanes", label: "Trade-Lane Explorer", icon: Globe2, chipType: "built_simplified" },
   { href: "/vision/alerts", label: "Alerts & Watchlists", icon: Bell, chipType: "built_simplified" },
-  { href: "/vision/reports", label: "Reports & Exports", icon: FileSpreadsheet, chipType: "planned" },
-  { href: "/vision/governance", label: "Governance & Audit", icon: Lock, chipType: "built_simplified" },
-  { href: "/vision/pricing", label: "Usage & Pricing", icon: CreditCard, chipType: "planned" },
-  { href: "/vision/roadmap", label: "10-Floor Roadmap", icon: Milestone, chipType: "planned" },
+  { href: "/vision/reports", label: "Reports & Exports", icon: FileSpreadsheet, chipType: "planned", disabled: true },
+  { href: "/vision/governance", label: "Governance & Audit", icon: Lock, chipType: "planned", disabled: true },
+  { href: "/vision/pricing", label: "Usage & Pricing", icon: CreditCard, chipType: "planned", disabled: true },
+  { href: "/vision/roadmap", label: "10-Floor Roadmap", icon: Milestone, chipType: "planned", disabled: true },
   { href: "/vision/_kit", label: "Design System Kit", icon: Sliders, chipType: "built" },
 ];
 
@@ -161,11 +162,47 @@ export const VisionLayout: React.FC<{
             {NAV_ITEMS.map((item) => {
               const Icon = item.icon;
               const isActive = router.pathname === item.href;
+              const dotColor =
+                item.chipType === "built"
+                  ? "bg-teal-400 shadow-[0_0_6px_rgba(20,184,166,0.6)]"
+                  : item.chipType === "built_simplified"
+                  ? "bg-amber-400 shadow-[0_0_6px_rgba(245,158,11,0.6)]"
+                  : item.chipType === "backend_planned"
+                  ? "bg-indigo-400 shadow-[0_0_6px_rgba(99,102,241,0.6)]"
+                  : "bg-slate-600";
+
+              const tooltip =
+                item.disabled
+                  ? "Planned — not yet implemented"
+                  : item.chipType === "built"
+                  ? "Built Today"
+                  : item.chipType === "built_simplified"
+                  ? "Interactive Preview (Q3 2024 Dataset)"
+                  : "Planned";
+
+              if (item.disabled) {
+                return (
+                  <div
+                    key={item.href}
+                    title={tooltip}
+                    className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-slate-600 cursor-not-allowed opacity-50 select-none border border-transparent"
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <Icon className="w-4 h-4 shrink-0 text-slate-600" />
+                      <span className="truncate">{item.label}</span>
+                    </div>
+                    <span className="flex items-center gap-1.5 shrink-0 ml-2">
+                      <span className="w-2 h-2 rounded-full bg-slate-700" />
+                    </span>
+                  </div>
+                );
+              }
 
               return (
                 <Link
                   key={item.href}
                   href={item.href}
+                  title={tooltip}
                   onClick={() => setSidebarOpen(false)}
                   className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all group ${
                     isActive
@@ -173,7 +210,7 @@ export const VisionLayout: React.FC<{
                       : "text-slate-400 hover:text-white hover:bg-white/[0.03] border border-transparent"
                   }`}
                 >
-                  <div className="flex items-center gap-2.5 truncate">
+                  <div className="flex items-center gap-2.5 min-w-0">
                     <Icon
                       className={`w-4 h-4 shrink-0 ${
                         isActive ? "text-amber-400" : "text-slate-500 group-hover:text-slate-300"
@@ -182,24 +219,32 @@ export const VisionLayout: React.FC<{
                     <span className="truncate">{item.label}</span>
                   </div>
 
-                  <StatusChip type={item.chipType} />
+                  <span className="flex items-center gap-1.5 shrink-0 ml-2">
+                    <span className={`w-2 h-2 rounded-full ${dotColor}`} />
+                  </span>
                 </Link>
               );
             })}
           </div>
 
-          {/* Footer note in sidebar */}
-          <div className="p-3 border-t border-white/[0.06] text-[10px] font-mono text-slate-500 space-y-1">
-            <div className="flex items-center justify-between text-slate-400">
-              <span>Repo Tests:</span>
-              <span className="text-teal-400 font-semibold">63 of 63 PASS</span>
+          {/* Clean status legend in sidebar footer (no dev info) */}
+          <div className="p-3 border-t border-[#1E2A45]/60 text-[10px] font-mono text-slate-400 space-y-1.5">
+            <div className="uppercase tracking-wider text-slate-500 font-semibold text-[9px]">
+              Status Legend
             </div>
-            <div className="flex items-center justify-between text-slate-400">
-              <span>Live App:</span>
-              <span className="text-teal-400 font-semibold">localhost:3000</span>
-            </div>
-            <div className="text-[9px] text-slate-600 pt-1">
-              Probabilistic Matcher (Fellegi-Sunter)
+            <div className="flex items-center gap-3">
+              <span className="flex items-center gap-1.5" title="Production ready">
+                <span className="w-2 h-2 rounded-full bg-teal-400 shadow-[0_0_6px_rgba(20,184,166,0.5)]" />
+                <span>Built</span>
+              </span>
+              <span className="flex items-center gap-1.5" title="Interactive Q3 2024 preview">
+                <span className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(245,158,11,0.5)]" />
+                <span>Preview</span>
+              </span>
+              <span className="flex items-center gap-1.5" title="Planned roadmap capability">
+                <span className="w-2 h-2 rounded-full bg-slate-600" />
+                <span>Planned</span>
+              </span>
             </div>
           </div>
         </aside>

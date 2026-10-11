@@ -40,8 +40,8 @@ export const MOCK_COMPANIES: MockCompany[] = [
     ],
     riskIndicators: [
       { label: "Corridor Concentration", level: "MONITOR", detail: "68% of volume routed through single port (USLAX)" },
-      { label: "Entity Disambiguation", level: "LOW", detail: "14 aliases clustered with 0.942 probabilistic match confidence" },
-      { label: "Customs Valuation Masking", level: "MONITOR", detail: "Declared value masked on 24 of 124 bills of lading under 19 C.F.R. § 103.31" },
+      { label: "Entity Disambiguation", level: "OBSERVE", detail: "14 aliases clustered with 0.942 probabilistic match confidence" },
+      { label: "Customs Valuation Masking", level: "MONITOR", detail: "Declared value masked on 24 of 124 bills of lading under statutory exemption" },
     ],
     isMock: true,
   },
@@ -72,7 +72,7 @@ export const MOCK_COMPANIES: MockCompany[] = [
     topShippers: ["TAIWAN SILICON FAB CO (TW)", "KYOTO PRECISION (JP)"],
     riskIndicators: [
       { label: "Single Sourced Sub-tier", level: "ELEVATED", detail: "Sub-assembly depends on sole foundry in Hsinchu" },
-      { label: "License Status", level: "LOW", detail: "Standard commercial manifest clearance verified" },
+      { label: "License Status", level: "OBSERVE", detail: "Standard commercial manifest clearance documented" },
     ],
     isMock: true,
   },
@@ -101,7 +101,7 @@ export const MOCK_COMPANIES: MockCompany[] = [
     totalWeightKg: 2410000,
     topShippers: ["BUSAN HARDWARE TECH (KR)", "YOKOHAMA PRECISION (JP)"],
     riskIndicators: [
-      { label: "Port Congestion Exposure", level: "LOW", detail: "USSEA terminal dwell time within normal limits (<2.8 days)" },
+      { label: "Port Congestion Exposure", level: "OBSERVE", detail: "USSEA terminal dwell time within normal limits (<2.8 days)" },
     ],
     isMock: true,
   },
@@ -124,7 +124,7 @@ export const MOCK_COMPANIES: MockCompany[] = [
     totalWeightKg: 340000,
     topShippers: ["NAGOYA AEROSPACE LTD (JP)", "SAIGON ADVANCED ALLOY (VN)"],
     riskIndicators: [
-      { label: "Export License Verification", level: "LOW", detail: "EAR99 filing classifications confirmed" },
+      { label: "Export License Screening", level: "OBSERVE", detail: "EAR99 filing classifications confirmed" },
     ],
     isMock: true,
   },
@@ -169,7 +169,7 @@ export const MOCK_COMPANIES: MockCompany[] = [
     totalTeu: 198,
     totalWeightKg: 1120000,
     topShippers: ["HAIPHONG WEAVING CO (VN)", "BANGKOK TEXTILE MILLS (TH)"],
-    riskIndicators: [{ label: "Raw Material Traceability", level: "LOW", detail: "Country-of-origin cotton certifications indexed" }],
+    riskIndicators: [{ label: "Raw Material Traceability", level: "OBSERVE", detail: "Country-of-origin cotton certifications indexed" }],
     isMock: true,
   },
   {
@@ -190,7 +190,7 @@ export const MOCK_COMPANIES: MockCompany[] = [
     totalTeu: 94,
     totalWeightKg: 460000,
     topShippers: ["HSINCHU SEMI FOUNDRY (TW)", "BUSAN SILICON LABS (KR)"],
-    riskIndicators: [{ label: "Critical Component Dwell", level: "LOW", detail: "Air cargo priority intermodal connection enabled" }],
+    riskIndicators: [{ label: "Critical Component Dwell", level: "OBSERVE", detail: "Air cargo priority intermodal connection enabled" }],
     isMock: true,
   },
   {
@@ -211,7 +211,7 @@ export const MOCK_COMPANIES: MockCompany[] = [
     totalTeu: 118,
     totalWeightKg: 2890000,
     topShippers: ["RHINELAND SCHWERMASCHINEN (DE)", "ANTWERP INDUSTRIAL (BE)"],
-    riskIndicators: [{ label: "Overweight Permit Tracking", level: "LOW", detail: "Heavy-lift port crane manifests validated" }],
+    riskIndicators: [{ label: "Overweight Permit Tracking", level: "OBSERVE", detail: "Heavy-lift port crane manifests documented" }],
     isMock: true,
   },
   {
@@ -232,7 +232,7 @@ export const MOCK_COMPANIES: MockCompany[] = [
     totalTeu: 82,
     totalWeightKg: 390000,
     topShippers: ["HAMBURG SENSORWERKE (DE)", "ROTTERDAM INSTRUMENTS (NL)"],
-    riskIndicators: [{ label: "Regulatory Compliance", level: "LOW", detail: "IMO standards adherence verified" }],
+    riskIndicators: [{ label: "Maritime Standards Status", level: "OBSERVE", detail: "IMO standards documentation documented" }],
     isMock: true,
   },
   {
@@ -296,7 +296,7 @@ export const MOCK_COMPANIES: MockCompany[] = [
       totalTeu: total * 2,
       totalWeightKg: total * 12500,
       topShippers: ["MOCK SHIPPER ASIA CORP", "GLOBAL PARTNER LOGISTICS"],
-      riskIndicators: [{ label: "Standard Screening", level: "LOW" as const, detail: "Standard customs manifest filing complete" }],
+      riskIndicators: [{ label: "Standard Screening", level: "OBSERVE" as const, detail: "Standard customs manifest filing complete" }],
       isMock: true as const,
     };
   }),

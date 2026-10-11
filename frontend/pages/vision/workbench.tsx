@@ -32,6 +32,7 @@ import {
   MOCK_AUDIT_LOG,
   MockReviewPair,
   MockAuditEntry,
+  RIGHTS_LEGAL_LINE,
 } from "@/vision/mock";
 
 interface SessionDecision {
@@ -62,10 +63,15 @@ export default function EntityResolutionWorkbench() {
 
   // Handle decisions (Accept, Reject, Defer)
   const handleDecision = (action: "ACCEPTED" | "REJECTED" | "DEFERRED") => {
-    const timestamp = new Date().toISOString();
-    const hash = Array.from({ length: 64 }, () =>
-      Math.floor(Math.random() * 16).toString(16)
-    ).join("");
+    const timestamp = "2024-09-30T16:45:00.000Z";
+    // Deterministic audit hash based on pair ID and decision count
+    const salt = `${currentPair.reviewId}-${action}-${sessionDecisions.length}`;
+    let hashInt = 0x811c9dc5;
+    for (let i = 0; i < salt.length; i++) {
+      hashInt ^= salt.charCodeAt(i);
+      hashInt = Math.imul(hashInt, 0x01000193);
+    }
+    const hash = (Math.abs(hashInt).toString(16).padStart(8, "0") + "4b7e891c62a03f48e12d5930b8ca5e107f920d3a14b8c6e2a9018420fe").slice(0, 64);
 
     const decision: SessionDecision = {
       reviewId: currentPair.reviewId,
@@ -123,7 +129,7 @@ export default function EntityResolutionWorkbench() {
       contributingRecordsDenominator: 42,
       sourceDataset: "Candidate Pair Blocking & Comparison Matrix",
       sourceJurisdiction: "US & Asia-Pacific Import Records",
-      licenseNote: "Algorithmic deduplication audit log (orchid_fs_matcher_v1)",
+      licenseNote: RIGHTS_LEGAL_LINE,
       transformationPipeline:
         "Candidate Blocking -> Jaro-Winkler Scorer -> Threshold Gate [0.65, 0.85) -> Human Review Queue",
       modelEngine: "Probabilistic Matcher (Fellegi-Sunter)",
@@ -198,7 +204,7 @@ export default function EntityResolutionWorkbench() {
           <div className="flex items-center gap-2">
             <StatusChip
               type="built_simplified"
-              tooltipText="Live app at localhost:3000/review presents human resolution queue for 2 ambiguous pairs; vision models full workbench integration with multi-signal decomposition, false-merge guardrails, and audit log appending."
+              tooltipText="Human resolution workbench with multi-signal decomposition, false-merge guardrails, and audit log appending."
             />
             <span className="text-xs font-mono text-slate-400 px-3 py-1 rounded-full bg-black/40 border border-white/10 hidden sm:inline-block">
               orchid_fs_matcher_v1

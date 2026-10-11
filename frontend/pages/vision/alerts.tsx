@@ -16,7 +16,18 @@ import { DenominatorMetric } from "../../vision/ui/DenominatorMetric";
 import { useVisionStore } from "../../vision/store/visionStore";
 import { MOCK_COMPANIES } from "../../vision/mock/companies";
 import { MOCK_SHIPMENTS } from "../../vision/mock/shipments";
+import { RIGHTS_LEGAL_LINE } from "../../vision/mock/selectors";
 import type { ProvenanceDrawerPayload, MockFieldValue } from "../../vision/mock/types";
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip as RechartsTooltip,
+  CartesianGrid,
+  Legend,
+} from "recharts";
 import {
   Bell,
   BellRing,
@@ -329,7 +340,7 @@ export default function AlertsPage() {
       contributingRecordsDenominator: alert.totalRecords,
       sourceDataset: "cbp_am_manifests",
       sourceJurisdiction: "US Customs and Border Protection",
-      licenseNote: "CBP AMS public manifest data — 15-day delay per 19 CFR 103.31",
+      licenseNote: RIGHTS_LEGAL_LINE,
       transformationPipeline: "Bronze ingest → Silver normalise → Gold aggregation → Alert rule engine",
       modelEngine: "Orchid Alert Engine v1.0 (Threshold-based)",
       modelVersion: "orchid_alerts_v1.0",
@@ -397,7 +408,7 @@ export default function AlertsPage() {
                 contributingRecordsDenominator: ALERTS.length,
                 sourceDataset: "orchid_alert_registry",
                 sourceJurisdiction: "US Customs and Border Protection",
-                licenseNote: "Derived from CBP AMS manifest data — 15-day delay per 19 CFR 103.31",
+                licenseNote: RIGHTS_LEGAL_LINE,
                 transformationPipeline: "Gold aggregation → Alert rule engine → Alert registry",
                 modelEngine: "Orchid Alert Engine v1.0",
                 modelVersion: "orchid_alerts_v1.0",
@@ -475,7 +486,7 @@ export default function AlertsPage() {
                 contributingRecordsDenominator: MOCK_SHIPMENTS.length,
                 sourceDataset: "cbp_am_manifests",
                 sourceJurisdiction: "US Customs and Border Protection",
-                licenseNote: "CBP AMS public manifest data — 15-day delay per 19 CFR 103.31",
+                licenseNote: RIGHTS_LEGAL_LINE,
                 transformationPipeline: "Bronze ingest → Silver normalise → Alert monitoring",
                 modelEngine: "Orchid Alert Engine v1.0",
                 modelVersion: "orchid_alerts_v1.0",
@@ -653,47 +664,51 @@ export default function AlertsPage() {
         {/* ── Alert activity timeline bar ── */}
         <GlassPanel className="p-4">
           <h2 className="text-xs font-mono text-slate-500 uppercase tracking-widest flex items-center gap-2 mb-4">
-            <Zap className="w-3.5 h-3.5 text-amber-400" /> Alert Activity — Last 8 Days <MockLabel />
+            <Zap className="w-3.5 h-3.5 text-amber-400" /> Alert Activity — Sep 23–30, 2024 <MockLabel />
           </h2>
-          <div className="flex items-end gap-2 h-24">
-            {ALERT_TREND.map((day) => {
-              const total = day.critical + day.high + day.medium + day.low;
-              return (
-                <div key={day.day} className="flex-1 flex flex-col items-center gap-1">
-                  <div className="w-full flex flex-col-reverse gap-0.5 justify-end" style={{ height: "72px" }}>
-                    {day.critical > 0 && (
-                      <div className="w-full bg-red-500 rounded-sm" style={{ height: `${day.critical * 20}px` }} title="Critical" />
-                    )}
-                    {day.high > 0 && (
-                      <div className="w-full bg-orange-500 rounded-sm" style={{ height: `${day.high * 20}px` }} title="High" />
-                    )}
-                    {day.medium > 0 && (
-                      <div className="w-full bg-amber-500 rounded-sm" style={{ height: `${day.medium * 20}px` }} title="Medium" />
-                    )}
-                    {day.low > 0 && (
-                      <div className="w-full bg-slate-500 rounded-sm" style={{ height: `${day.low * 20}px` }} title="Low" />
-                    )}
-                    {total === 0 && (
-                      <div className="w-full bg-[#1E2A45] rounded-sm" style={{ height: "4px" }} />
-                    )}
-                  </div>
-                  <span className="text-[9px] font-mono text-slate-600">{day.day.split(" ")[1]}</span>
-                </div>
-              );
-            })}
-          </div>
-          <div className="flex items-center gap-4 mt-2 flex-wrap">
-            {[
-              { color: "bg-red-500", label: "Critical" },
-              { color: "bg-orange-500", label: "High" },
-              { color: "bg-amber-500", label: "Medium" },
-              { color: "bg-slate-500", label: "Low" },
-            ].map(({ color, label }) => (
-              <div key={label} className="flex items-center gap-1.5">
-                <div className={`w-2 h-2 rounded-sm ${color}`} />
-                <span className="text-[10px] text-slate-500">{label}</span>
-              </div>
-            ))}
+          <div className="h-[220px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={ALERT_TREND}
+                margin={{ top: 5, right: 10, left: -10, bottom: 20 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+                <XAxis
+                  dataKey="day"
+                  stroke="#64748b"
+                  fontSize={10}
+                  fontFamily="monospace"
+                  tickLine={false}
+                  label={{ value: "Date (Sep 2024)", position: "insideBottom", offset: -12, fill: "#64748b", fontSize: 10, fontFamily: "monospace" }}
+                />
+                <YAxis
+                  stroke="#64748b"
+                  fontSize={10}
+                  fontFamily="monospace"
+                  tickLine={false}
+                  allowDecimals={false}
+                  label={{ value: "Alerts", angle: -90, position: "insideLeft", offset: 12, fill: "#64748b", fontSize: 10, fontFamily: "monospace" }}
+                />
+                <RechartsTooltip
+                  contentStyle={{
+                    backgroundColor: "#0B1020",
+                    borderColor: "#1E2A45",
+                    borderRadius: "8px",
+                    fontSize: "11px",
+                    fontFamily: "monospace",
+                    color: "#fff",
+                  }}
+                  cursor={{ fill: "rgba(255,255,255,0.04)" }}
+                />
+                <Legend
+                  wrapperStyle={{ fontSize: "10px", fontFamily: "monospace", color: "#94a3b8", paddingTop: "8px" }}
+                />
+                <Bar dataKey="critical" name="Critical" stackId="a" fill="#ef4444" radius={[0, 0, 0, 0]} />
+                <Bar dataKey="high" name="High" stackId="a" fill="#f97316" radius={[0, 0, 0, 0]} />
+                <Bar dataKey="medium" name="Medium" stackId="a" fill="#f59e0b" radius={[0, 0, 0, 0]} />
+                <Bar dataKey="low" name="Low" stackId="a" fill="#64748b" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </GlassPanel>
 

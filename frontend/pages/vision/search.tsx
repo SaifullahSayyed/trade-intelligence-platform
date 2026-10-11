@@ -38,6 +38,7 @@ import {
   MockShipment,
   MockCompany,
   ConfidenceTier,
+  RIGHTS_LEGAL_LINE,
 } from "@/vision/mock";
 
 type ViewMode = "shipments" | "companies";
@@ -168,7 +169,7 @@ export default function VisionSearch() {
       contributingRecordsDenominator: 1,
       sourceDataset: shipment.provenance.sourceDataset,
       sourceJurisdiction: shipment.provenance.sourceJurisdiction,
-      licenseNote: shipment.provenance.licenseReference,
+      licenseNote: RIGHTS_LEGAL_LINE,
       transformationPipeline:
         "Raw Manifest -> Data Contract Validation -> Silver Normalization -> OpenSearch Index",
       modelEngine: shipment.provenance.modelEngine,
@@ -223,7 +224,7 @@ export default function VisionSearch() {
           <div className="flex items-center gap-2">
             <StatusChip
               type="built_simplified"
-              tooltipText="Live app at localhost:3000/search performs in-memory keyword filtering across synthetic manifests. OpenSearch backend service is running on port 9200 but not wired to the frontend. Vision preview models the full multi-facet OpenSearch query experience with confidence-tiered filtering."
+              tooltipText="Core app performs in-memory keyword filtering across synthetic manifests. OpenSearch backend service is configured in repo. Vision preview models the multi-facet query experience."
             />
             <span className="text-xs font-mono text-slate-400 px-3 py-1 rounded-full bg-black/40 border border-white/10 hidden sm:inline-block">
               Jul 1 – Sep 30, 2024
@@ -243,22 +244,23 @@ export default function VisionSearch() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search by company, alias, BOL (e.g. NWRE-), HS code (e.g. 852852), or port (e.g. VNSGN)..."
-              className="w-full pl-12 pr-28 py-3.5 rounded-2xl bg-gradient-to-r from-[#0F1629] to-[#0B1020] border border-[#1E2A45] hover:border-amber-400/40 focus:border-amber-400 focus:ring-1 focus:ring-amber-400 text-sm text-white placeholder-slate-500 font-sans transition-all shadow-lg outline-none"
+              className="w-full pl-12 pr-20 py-3.5 rounded-2xl bg-gradient-to-r from-[#0F1629] to-[#0B1020] border border-[#1E2A45] hover:border-amber-400/40 focus:border-amber-400 focus:ring-1 focus:ring-amber-400 text-sm text-white placeholder-slate-500 font-sans transition-all shadow-lg outline-none"
             />
-            <div className="absolute right-4 flex items-center gap-1.5 pointer-events-none">
-              <kbd className="hidden sm:inline-flex items-center gap-0.5 px-2 py-0.5 rounded bg-white/[0.08] border border-white/10 text-[10px] font-mono text-slate-300">
-                <Command className="w-3 h-3" />
-                <span>K</span>
-              </kbd>
-              {query && (
+            <div className="absolute right-4 flex items-center gap-1.5">
+              {query ? (
                 <button
                   type="button"
                   onClick={() => setQuery("")}
-                  className="p-1 rounded-md text-slate-400 hover:text-white pointer-events-auto"
+                  className="p-1 rounded-md text-slate-400 hover:text-white transition-colors"
                   aria-label="Clear Search Input"
                 >
                   <X className="w-4 h-4" />
                 </button>
+              ) : (
+                <kbd className="hidden sm:inline-flex items-center gap-0.5 px-2 py-0.5 rounded bg-white/[0.08] border border-white/10 text-[10px] font-mono text-slate-300 pointer-events-none">
+                  <Command className="w-3 h-3" />
+                  <span>K</span>
+                </kbd>
               )}
             </div>
           </div>
@@ -269,7 +271,7 @@ export default function VisionSearch() {
               <Sparkles className="w-3 h-3 text-amber-400" />
               <span>Suggested:</span>
             </span>
-            {["Northwind Retail", "Helix Components", "852852", "VNSGN", "USLAX", "Samsung"].map(
+            {["Northwind Retail", "Helix Components", "852852", "VNSGN", "USLAX", "Solaris Electronics"].map(
               (term) => (
                 <button
                   key={term}
@@ -296,31 +298,31 @@ export default function VisionSearch() {
             <select
               value={selectedTier}
               onChange={(e) => setSelectedTier(e.target.value)}
-              className="px-2.5 py-1 rounded-lg bg-[#0F1629] border border-white/10 text-xs font-mono text-slate-200 focus:outline-none focus:border-amber-400"
+              className="px-2.5 py-1.5 rounded-lg bg-[#0F1629] border border-white/10 text-xs font-mono text-slate-200 focus:outline-none focus:border-amber-400"
               aria-label="Filter by Confidence Tier"
             >
-              <option value="ALL">All Confidence Tiers</option>
-              <option value="HIGH">High Confidence (&gt;= 85%)</option>
-              <option value="MEDIUM">Medium / Review Band [65-85%)</option>
-              <option value="LOW">Low Confidence (&lt; 65%)</option>
+              <option value="ALL" className="bg-[#0B1020] text-slate-200">All Confidence Tiers</option>
+              <option value="HIGH" className="bg-[#0B1020] text-slate-200">High Confidence (&gt;= 85%)</option>
+              <option value="MEDIUM" className="bg-[#0B1020] text-slate-200">Medium / Review Band [65-85%)</option>
+              <option value="LOW" className="bg-[#0B1020] text-slate-200">Observe Tier (&lt; 65%)</option>
             </select>
 
             {/* Port Selector */}
             <select
               value={selectedPort}
               onChange={(e) => setSelectedPort(e.target.value)}
-              className="px-2.5 py-1 rounded-lg bg-[#0F1629] border border-white/10 text-xs font-mono text-slate-200 focus:outline-none focus:border-amber-400"
+              className="px-2.5 py-1.5 rounded-lg bg-[#0F1629] border border-white/10 text-xs font-mono text-slate-200 focus:outline-none focus:border-amber-400"
               aria-label="Filter by Port"
             >
-              <option value="ALL">All Global Terminals</option>
-              <option value="VNSGN">Saigon Port (VNSGN)</option>
-              <option value="VNHPH">Hai Phong (VNHPH)</option>
-              <option value="HKHKG">Hong Kong (HKHKG)</option>
-              <option value="KRPUS">Busan Port (KRPUS)</option>
-              <option value="USLAX">Los Angeles (USLAX)</option>
-              <option value="USLGB">Long Beach (USLGB)</option>
-              <option value="USSEA">Seattle (USSEA)</option>
-              <option value="USNYC">New York / NJ (USNYC)</option>
+              <option value="ALL" className="bg-[#0B1020] text-slate-200">All Global Terminals</option>
+              <option value="VNSGN" className="bg-[#0B1020] text-slate-200">Saigon Port (VNSGN)</option>
+              <option value="VNHPH" className="bg-[#0B1020] text-slate-200">Hai Phong (VNHPH)</option>
+              <option value="HKHKG" className="bg-[#0B1020] text-slate-200">Hong Kong (HKHKG)</option>
+              <option value="KRPUS" className="bg-[#0B1020] text-slate-200">Busan Port (KRPUS)</option>
+              <option value="USLAX" className="bg-[#0B1020] text-slate-200">Los Angeles (USLAX)</option>
+              <option value="USLGB" className="bg-[#0B1020] text-slate-200">Long Beach (USLGB)</option>
+              <option value="USSEA" className="bg-[#0B1020] text-slate-200">Seattle (USSEA)</option>
+              <option value="USNYC" className="bg-[#0B1020] text-slate-200">New York / NJ (USNYC)</option>
             </select>
 
             {/* Reset Filters Button */}

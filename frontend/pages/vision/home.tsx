@@ -37,6 +37,9 @@ import {
   MOCK_REVIEW_QUEUE,
   ProvenanceDrawerPayload,
   MockShipment,
+  getGlobalMetrics,
+  DETERMINISTIC_REPLAY_TICKER,
+  RIGHTS_LEGAL_LINE,
 } from "@/vision/mock";
 import {
   ResponsiveContainer,
@@ -132,7 +135,7 @@ export default function VisionHome() {
       contributingRecordsDenominator: 40,
       sourceDataset: "US Ocean Bill of Lading Manifest Illustrative Sample",
       sourceJurisdiction: "US (19 C.F.R. § 103.31 Public Record)",
-      licenseNote: "Public domain government manifest record",
+      licenseNote: RIGHTS_LEGAL_LINE,
       transformationPipeline:
         "Bronze raw manifests -> Silver party cleaning -> Gold probabilistic matching (orchid_fs_matcher_v1)",
       modelEngine: "Probabilistic Matcher (Fellegi-Sunter)",
@@ -165,14 +168,14 @@ export default function VisionHome() {
   const handleOpenManifestEvidence = () => {
     openDrawer({
       claimLabel: "Customs Ocean Manifest Data Integrity",
-      claimValue: "542 of 600 Bills of Lading Verified (90.3%)",
+      claimValue: "542 of 600 Bills of Lading Screened (90.3%)",
       calculationFormula:
         "COUNT(bol_id WHERE contract_status = 'VALIDATED') / COUNT(total_bols_ingested) against contracts/trademo_bol_v1.yaml",
       contributingRecordsCount: 542,
       contributingRecordsDenominator: 600,
       sourceDataset: "US Ocean Bill of Lading Manifest Illustrative Sample",
       sourceJurisdiction: "US (19 C.F.R. § 103.31 Public Record)",
-      licenseNote: "Public domain customs ocean manifest declaration",
+      licenseNote: RIGHTS_LEGAL_LINE,
       transformationPipeline: "Bronze raw manifest -> Data Contract Validation -> SHA-256 Stamp",
       modelEngine: "Data Contract Validator (YAML v1.0)",
       modelVersion: "contracts/trademo_bol_v1.yaml",
@@ -211,7 +214,7 @@ export default function VisionHome() {
       contributingRecordsDenominator: 6,
       sourceDataset: "Global Terminal Call & Transit Observation Matrix",
       sourceJurisdiction: "Multi-Jurisdiction (Asia-Pacific & US)",
-      licenseNote: "Illustrative operational corridor telemetry",
+      licenseNote: RIGHTS_LEGAL_LINE,
       transformationPipeline: "Vessel AIS Manifest Alignment -> Port Congestion Scoring",
       modelEngine: "Corridor Flow Aggregator",
       modelVersion: "gold_trade_lane_metrics_v1",
@@ -250,7 +253,7 @@ export default function VisionHome() {
       contributingRecordsDenominator: 42,
       sourceDataset: "Candidate Pair Blocking & Scoring Matrix",
       sourceJurisdiction: "US & Asia-Pacific Manifest Entity Index",
-      licenseNote: "Algorithmic audit record under orchid_fs_matcher_v1",
+      licenseNote: RIGHTS_LEGAL_LINE,
       transformationPipeline: "Blocking (First-Char + Soundex) -> Jaro-Winkler Scoring -> Review Queue",
       modelEngine: "Probabilistic Matcher (Fellegi-Sunter)",
       modelVersion: "orchid_fs_matcher_v1",
@@ -282,14 +285,14 @@ export default function VisionHome() {
   const handleOpenValueEvidence = () => {
     openDrawer({
       claimLabel: "Declared Manifest Cargo Value",
-      claimValue: "$14.8M of $16.2M Declared Value Verified (91.4%)",
+      claimValue: "$14.8M of $16.2M Declared Value Screened (91.4%)",
       calculationFormula:
         "SUM(declared_value_usd) across valid customs entries with unmasked commercial valuations",
       contributingRecordsCount: 542,
       contributingRecordsDenominator: 600,
       sourceDataset: "US Ocean Bill of Lading Manifest Illustrative Sample",
       sourceJurisdiction: "US (19 C.F.R. § 103.31 Public Record)",
-      licenseNote: "Public domain customs import entry declaration",
+      licenseNote: RIGHTS_LEGAL_LINE,
       transformationPipeline: "Bronze raw manifest -> Currency Normalization (USD) -> Value Index",
       modelEngine: "Customs Valuation Pipeline",
       modelVersion: "19 C.F.R. § 103.31 Parser",
@@ -355,14 +358,14 @@ export default function VisionHome() {
   // Tour steps definition
   const TOUR_STEPS = [
     {
-      title: "1. Verified Denominators & Honesty",
+      title: "1. Audited Denominators & Honesty",
       content:
         "Every KPI card in Orchid displays both the numerator and the denominator, paired with a timestamp classification. Clicking any card opens the Evidence & Provenance Drawer.",
     },
     {
       title: "2. Interactive Trade-Lane Horizon",
       content:
-        "Track maritime routes across global hubs. Switch between Trans-Pacific South, North, East Asia Mainline, and Trans-Atlantic corridors with live terminal congestion alerts.",
+        "Track maritime routes across global hubs. Switch between Trans-Pacific South, North, East Asia Mainline, and Trans-Atlantic corridors with terminal congestion indicators.",
     },
     {
       title: "3. Probabilistic Review Queue",
@@ -375,6 +378,8 @@ export default function VisionHome() {
         "Every screen and widget clearly displays whether the underlying engine is 'Built today' in our working repo or 'Planned' for full investor preview demonstration.",
     },
   ];
+
+  const globalMetrics = getGlobalMetrics();
 
   return (
     <VisionLayout pageTitle="Command Center">
@@ -399,7 +404,7 @@ export default function VisionHome() {
               Global Trade Command Center
             </h1>
             <p className="text-xs sm:text-sm text-slate-300 font-sans mt-1 max-w-3xl">
-              Verifiable intelligence across trans-pacific maritime corridors, probabilistic entity
+              Audited intelligence across trans-pacific maritime corridors, probabilistic entity
               clusters, and provenance-anchored trade flows.
             </p>
           </div>
@@ -407,7 +412,7 @@ export default function VisionHome() {
           <div className="flex items-center gap-2 shrink-0">
             <StatusChip
               type="built_simplified"
-              tooltipText="Live app at localhost:3000 runs data contract validation, bronze provenance, and basic review queue on synthetic records. Vision adds real-time corridor telemetry, interactive 3D globe, and deep multi-metric drilldown."
+              tooltipText="Core application runs data contract validation, bronze provenance, and review queue on synthetic records. Vision adds corridor telemetry and multi-metric drilldown."
             />
             <span className="text-xs font-mono text-slate-400 px-3 py-1 rounded-full bg-black/40 border border-white/10 hidden sm:inline-block">
               Jul 1 – Sep 30, 2024
@@ -440,8 +445,8 @@ export default function VisionHome() {
 
             <DenominatorMetric
               label="Customs Manifests Screened"
-              numerator={542}
-              denominator={600}
+              numerator={globalMetrics.matchedShipments}
+              denominator={globalMetrics.totalShipments}
               unit="bills of lading"
               timestampType="Ingest Source"
               timestampValue="Q3 2024 CBP Feed"
@@ -469,8 +474,8 @@ export default function VisionHome() {
             />
 
             <DenominatorMetric
-              label="Verified Customs Value"
-              numerator="$14.8M"
+              label="Audited Customs Value"
+              numerator={`$${(globalMetrics.totalDeclaredValueUsd / 1_000_000).toFixed(1)}M`}
               denominator="$16.2M"
               unit="unmasked USD"
               timestampType="Statutory Exemption"
@@ -489,7 +494,7 @@ export default function VisionHome() {
                   Global Maritime Trade Corridors
                 </h3>
                 <p className="text-xs text-slate-400 font-mono mt-0.5">
-                  Real-time routing across Asia-Pacific export hubs & North American unlading ports.
+                  Observed routing across Asia-Pacific export hubs & North American unlading ports.
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -520,7 +525,7 @@ export default function VisionHome() {
               <div className="flex items-center gap-2">
                 <StatusChip
                   type="backend_planned"
-                  tooltipText="ClickHouse silver and gold materialized views defined in repo (clickhouse/schema/03_gold.sql); live API querying planned for Day 20."
+                  tooltipText="ClickHouse silver and gold materialized views defined in repo (clickhouse/schema/03_gold.sql); API querying planned for Day 20."
                 />
                 <span className="text-[10px] font-mono text-slate-400 px-2 py-0.5 rounded bg-white/[0.04]">
                   Unit: TEU
@@ -594,69 +599,75 @@ export default function VisionHome() {
 
         {/* TWO-COLUMN INTELLIGENCE SPLIT */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* COLUMN A: LIVE CUSTOMS MANIFEST INGESTION STREAM (7 COLS) */}
+          {/* COLUMN A: CUSTOMS MANIFEST INGESTION STREAM (REPLAY) (7 COLS) */}
           <section aria-label="Recent Ingested Manifest Stream" className="lg:col-span-7">
             <GlassPanel padding="md" className="h-full flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
                   <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-teal-400 animate-ping" />
+                    <span className="w-2 h-2 rounded-full bg-teal-400" />
                     <h3 className="text-sm font-bold text-white font-serif">
-                      Live Manifest Ingestion Stream
+                      Customs Manifest Ingestion Stream (Replay)
                     </h3>
                   </div>
                   <div className="flex items-center gap-2">
                     <StatusChip
-                      type="built_simplified"
-                      tooltipText="Live app has working Bronze MinIO landing and PostgreSQL storage; streaming ticker UI is modeled for demonstration."
+                      type="backend_planned"
+                      tooltipText="Replay of illustrative manifests from Q3 2024 ingestion pipeline. Production streaming ingest is planned."
                     />
                     <MockLabel size="xs" />
                   </div>
                 </div>
 
                 <div className="space-y-2.5">
-                  {MOCK_SHIPMENTS.slice(0, 5).map((shipment, idx) => (
+                  {DETERMINISTIC_REPLAY_TICKER.map((item) => (
                     <div
-                      key={shipment.id}
-                      onClick={() => handleOpenShipmentEvidence(shipment)}
+                      key={item.id}
+                      onClick={() => {
+                        const matchingShipment =
+                          MOCK_SHIPMENTS.find((s) => s.bolNumber === item.bolNumber) || MOCK_SHIPMENTS[0];
+                        handleOpenShipmentEvidence(matchingShipment);
+                      }}
                       className="group p-3 rounded-xl bg-black/40 border border-white/5 hover:border-amber-400/30 hover:bg-black/70 transition-all cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-2"
                       role="button"
                       tabIndex={0}
                       onKeyDown={(e) => {
                         if (e.key === "Enter" || e.key === " ") {
                           e.preventDefault();
-                          handleOpenShipmentEvidence(shipment);
+                          const matchingShipment =
+                            MOCK_SHIPMENTS.find((s) => s.bolNumber === item.bolNumber) || MOCK_SHIPMENTS[0];
+                          handleOpenShipmentEvidence(matchingShipment);
                         }
                       }}
                     >
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
                           <span className="font-mono text-xs font-semibold text-white group-hover:text-amber-300 transition-colors">
-                            {shipment.bolNumber}
+                            {item.bolNumber}
                           </span>
-                          <span className="text-[10px] font-mono text-slate-500">
-                            {idx === 0 ? "2m ago" : idx === 1 ? "18m ago" : `${idx * 2}h ago`}
+                          <span className="text-[10px] font-mono text-slate-400">
+                            {item.replayTimestampLabel}
                           </span>
-                          <ConfidenceBadge tier={shipment.confidenceTier} showScore={false} />
+                          <ConfidenceBadge tier={item.confidenceTier} showScore={false} />
                         </div>
                         <div className="text-xs text-slate-300 font-sans truncate max-w-md">
-                          <span className="text-white font-medium">{shipment.consigneeName}</span>
+                          <span className="text-white font-medium">{item.consignee}</span>
                           <span className="text-slate-500 mx-1.5">←</span>
-                          <span className="text-slate-400">{shipment.shipperName}</span>
+                          <span className="text-slate-400">{item.shipper}</span>
                         </div>
                         <div className="text-[10px] font-mono text-slate-400 flex items-center gap-2">
                           <span>
-                            {shipment.originPortCode} → {shipment.destPortCode}
+                            {item.originPort} → {item.destPort}
                           </span>
                           <span>•</span>
-                          <span>{shipment.hsCode} ({shipment.hsDescription.slice(0, 24)}…)</span>
+                          <span>{item.hsCode} ({item.hsDescription.slice(0, 24)}…)</span>
                         </div>
                       </div>
 
                       <div className="text-right shrink-0 flex sm:flex-col items-center sm:items-end justify-between sm:justify-center">
                         <span className="text-xs font-mono font-bold text-amber-300">
-                          {shipment.declaredValueUsd
-                            ? `$${shipment.declaredValueUsd.toLocaleString("en-US")}`
+                          {item.declaredValueUsd
+                            ? `$${item.declaredValueUsd.toLocaleString("en-US")}`
                             : "MASKED"}
                         </span>
                         <span className="text-[10px] font-mono text-teal-400 flex items-center gap-0.5 group-hover:underline">
@@ -668,8 +679,8 @@ export default function VisionHome() {
                 </div>
               </div>
 
-                <div className="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between text-xs font-mono text-slate-400">
-                <span>Showing 5 of 600 Q3-2024 Illustrative Ingests</span>
+              <div className="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between text-xs font-mono text-slate-400">
+                <span>Showing 5 of 600 Replay Manifests</span>
                 <Link
                   href="/vision/search"
                   className="text-amber-400 hover:text-amber-300 flex items-center gap-1 group font-semibold"
@@ -694,7 +705,7 @@ export default function VisionHome() {
                   </div>
                   <StatusChip
                     type="built_simplified"
-                    tooltipText="Live app at localhost:3000/review presents human resolution queue for 2 ambiguous pairs; vision models full workbench integration."
+                    tooltipText="Human resolution queue for ambiguous entity pairs; vision models full workbench integration."
                   />
                 </div>
 

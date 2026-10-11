@@ -16,6 +16,7 @@ import { DenominatorMetric } from "../../vision/ui/DenominatorMetric";
 import { StatusChip } from "../../vision/ui/StatusChip";
 import { useVisionStore } from "../../vision/store/visionStore";
 import { mulberry32 } from "../../vision/mock/seed";
+import { RIGHTS_LEGAL_LINE } from "../../vision/mock/selectors";
 import type { ProvenanceDrawerPayload, MockFieldValue } from "../../vision/mock/types";
 import {
   BarChart,
@@ -410,7 +411,7 @@ export default function DataQualityPage() {
               <MockLabel />
             </div>
             <p className="text-sm text-slate-400 max-w-2xl">
-              Live data contract health across the ingestion medallion (Bronze → Silver → Gold).
+              Observed data contract health across the ingestion medallion (Bronze → Silver → Gold).
               All violation counts are illustrative. Click any metric to inspect provenance.
             </p>
           </div>

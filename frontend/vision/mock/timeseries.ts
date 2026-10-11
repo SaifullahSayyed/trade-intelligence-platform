@@ -1,16 +1,9 @@
 import { MockTimeSeriesPoint } from "./types";
 import { MOCK_COMPANIES } from "./companies";
+import { MOCK_SHIPMENTS } from "./shipments";
 
-const MONTHS = [
-  { label: "Oct 2023", iso: "2023-10" },
-  { label: "Nov 2023", iso: "2023-11" },
-  { label: "Dec 2023", iso: "2023-12" },
-  { label: "Jan 2024", iso: "2024-01" },
-  { label: "Feb 2024", iso: "2024-02" },
-  { label: "Mar 2024", iso: "2024-03" },
-  { label: "Apr 2024", iso: "2024-04" },
-  { label: "May 2024", iso: "2024-05" },
-  { label: "Jun 2024", iso: "2024-06" },
+// Strictly Q3 2024: Jul 1 - Sep 30, 2024
+const Q3_MONTHS = [
   { label: "Jul 2024", iso: "2024-07" },
   { label: "Aug 2024", iso: "2024-08" },
   { label: "Sep 2024", iso: "2024-09" },
@@ -18,23 +11,39 @@ const MONTHS = [
 
 export function getCompanyTimeSeries(companyId: string): MockTimeSeriesPoint[] {
   const company = MOCK_COMPANIES.find((c) => c.id === companyId) || MOCK_COMPANIES[0];
-  const monthlyBase = Math.round(company.totalShipments / 3); // Q3 volume basis
+  const companyShipments = MOCK_SHIPMENTS.filter((s) => s.companyId === company.id);
+  const total = companyShipments.length;
 
-  return MONTHS.map((m, idx) => {
-    // Seasonal wave: peak in Aug/Sep for holiday inventory import
-    const seasonality = 1 + Math.sin((idx / 12) * Math.PI * 2 - Math.PI / 2) * 0.28;
-    const count = Math.max(8, Math.round(monthlyBase * seasonality * (0.85 + (idx % 4) * 0.08)));
-    const meanConf = Math.min(0.96, company.confidenceScore * (0.96 + (idx % 3) * 0.02));
-    const ciWidth = 0.045 - (idx * 0.001); // Confidence narrows as data accumulates
-    const value = count * 185000;
+  const monthlyCounts: Record<string, { count: number; value: number; confSum: number }> = {
+    "Jul 2024": { count: 0, value: 0, confSum: 0 },
+    "Aug 2024": { count: 0, value: 0, confSum: 0 },
+    "Sep 2024": { count: 0, value: 0, confSum: 0 },
+  };
+
+  for (const s of companyShipments) {
+    const key = s.filingDate.startsWith("2024-07")
+      ? "Jul 2024"
+      : s.filingDate.startsWith("2024-08")
+      ? "Aug 2024"
+      : "Sep 2024";
+
+    monthlyCounts[key].count += 1;
+    if (s.declaredValueUsd) monthlyCounts[key].value += s.declaredValueUsd;
+    monthlyCounts[key].confSum += s.confidenceScore;
+  }
+
+  return Q3_MONTHS.map((m) => {
+    const data = monthlyCounts[m.label];
+    const meanConf = data.count > 0 ? Math.round((data.confSum / data.count) * 1000) / 1000 : company.confidenceScore;
+    const ciWidth = 0.035;
 
     return {
       month: m.label,
       monthIso: m.iso,
-      shipmentCount: count,
-      shipmentCountDenominator: count,
-      tradeValueUsd: value,
-      confidenceMean: Math.round(meanConf * 1000) / 1000,
+      shipmentCount: data.count,
+      shipmentCountDenominator: total,
+      tradeValueUsd: data.value,
+      confidenceMean: meanConf,
       confidenceLow: Math.round((meanConf - ciWidth) * 1000) / 1000,
       confidenceHigh: Math.min(1.0, Math.round((meanConf + ciWidth) * 1000) / 1000),
       isMock: true,

@@ -19,6 +19,7 @@ import {
 } from "../../vision/mock/aiChat";
 import { MOCK_COMPANIES } from "../../vision/mock/companies";
 import { MOCK_SHIPMENTS } from "../../vision/mock/shipments";
+import { RIGHTS_LEGAL_LINE } from "../../vision/mock/selectors";
 import type {
   MockAiExchange,
   MockAiCitation,
@@ -252,7 +253,7 @@ export default function AiAnalystPage() {
       modelEngine: "Orchid Trade Analyst (Illustrative) — Probabilistic Grounding Layer",
       modelVersion: "orchid_ai_v0.1_preview",
       uncertaintyRationale:
-        "AI responses are grounded in available manifest filings only. Declared values may be masked. Entity resolution confidence bands apply. This is a product vision illustrative preview — not a live AI system.",
+        "AI responses are grounded in available manifest filings only. Declared values may be masked. Entity resolution confidence bands apply. This is a product vision illustrative preview — not a production AI system.",
       underlyingRecords: shipment
         ? [
             {
@@ -313,7 +314,7 @@ export default function AiAnalystPage() {
             <strong>AI Guardrails Active:</strong> This illustrative AI system will refuse compliance,
             sanctions status, or fraud determinations. Orchid does NOT issue compliance certifications,
             legal clearance, or fraud verdicts. All responses are grounded in{" "}
-            <strong>[MOCK]</strong> manifest data only. Not a live production AI.
+            <strong>[MOCK]</strong> manifest data only. Not a production AI system.
           </span>
         </div>
 

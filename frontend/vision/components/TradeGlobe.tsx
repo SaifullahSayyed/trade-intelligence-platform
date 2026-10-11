@@ -48,18 +48,18 @@ export const TradeGlobe: React.FC<TradeGlobeProps> = ({
 
       try {
         globe = createGlobe(canvasRef.current, {
-          devicePixelRatio: 1,
-          width: 520,
-          height: 520,
+          devicePixelRatio: Math.min(2, window.devicePixelRatio || 1),
+          width: 640,
+          height: 640,
           phi: 0,
-          theta: 0.35,
+          theta: 0.32,
           dark: 1,
-          diffuse: 1.3,
-          mapSamples: 14000,
-          mapBrightness: 4.8,
-          baseColor: [0.08, 0.12, 0.24],
+          diffuse: 1.6,
+          mapSamples: 24000,
+          mapBrightness: 6.2,
+          baseColor: [0.06, 0.12, 0.26],
           markerColor: [0.96, 0.62, 0.04],
-          glowColor: [0.12, 0.22, 0.45],
+          glowColor: [0.16, 0.30, 0.60],
           markers,
           onRender: (state) => {
             state.phi = phi;
@@ -83,29 +83,32 @@ export const TradeGlobe: React.FC<TradeGlobeProps> = ({
   );
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-      {/* 3D GLOBE / 2D FALLBACK DISPLAY */}
-      <div className="lg:col-span-6 flex flex-col items-center justify-center relative min-h-[360px] sm:min-h-[420px]">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      {/* 3D GLOBE / HERO CARTOGRAPHIC DISPLAY */}
+      <div className="lg:col-span-6 flex flex-col items-center justify-center relative min-h-[420px] sm:min-h-[500px]">
         {webGlAvailable ? (
-          <div className="relative group">
+          <div className="relative group flex items-center justify-center">
+            {/* Ambient atmospheric backdrop halo */}
+            <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-sky-500/10 via-amber-500/10 to-transparent blur-3xl pointer-events-none transform scale-110" />
+
             <canvas
               ref={canvasRef}
-              width={520}
-              height={520}
-              className="w-[300px] h-[300px] sm:w-[380px] sm:h-[380px] rounded-full drop-shadow-[0_0_35px_rgba(245,158,11,0.15)] cursor-grab active:cursor-grabbing"
-              aria-label="3D Interactive Trade Lane Globe"
+              width={640}
+              height={640}
+              className="w-[340px] h-[340px] sm:w-[420px] sm:h-[420px] lg:w-[480px] lg:h-[480px] rounded-full drop-shadow-[0_0_45px_rgba(245,158,11,0.22)] cursor-grab active:cursor-grabbing relative z-10 transition-transform duration-500 hover:scale-[1.02]"
+              aria-label="3D Interactive Trade Lane Hero Globe"
             />
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-black/60 border border-white/10 backdrop-blur-md text-[10px] font-mono text-slate-400 flex items-center gap-1.5 pointer-events-none">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-              <span>18 Monitored Global Terminals</span>
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 px-3.5 py-1.5 rounded-full bg-[#070B14]/90 border border-amber-500/30 backdrop-blur-md text-[10px] font-mono text-slate-300 flex items-center gap-2 pointer-events-none z-20 shadow-lg">
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+              <span>18 Active Maritime Port Hubs</span>
             </div>
           </div>
         ) : (
-          <div className="w-[320px] h-[320px] rounded-full bg-gradient-to-br from-[#101935] to-[#070b14] border border-[#1E2A45] flex flex-col items-center justify-center p-6 text-center">
-            <Compass className="w-12 h-12 text-amber-400/60 mb-2" />
-            <p className="text-xs font-mono text-slate-300">2D Cartographic Fallback</p>
-            <p className="text-[10px] font-mono text-slate-500 mt-1">
-              WebGL hardware acceleration inactive in current viewport.
+          <div className="w-[380px] h-[380px] sm:w-[440px] sm:h-[440px] rounded-full bg-gradient-to-br from-[#101935] via-[#091124] to-[#070b14] border border-[#1E2A45] flex flex-col items-center justify-center p-8 text-center shadow-2xl relative">
+            <Compass className="w-16 h-16 text-amber-400/70 mb-3 animate-spin-slow" />
+            <p className="text-sm font-serif font-bold text-slate-200">Interactive Cartographic Engine</p>
+            <p className="text-xs font-mono text-slate-400 mt-2 max-w-xs">
+              WebGL accelerated maritime visualization displaying global trade lanes and active ports.
             </p>
           </div>
         )}

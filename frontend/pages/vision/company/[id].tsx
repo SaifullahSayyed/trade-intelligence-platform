@@ -37,6 +37,7 @@ import {
   getCompanyTimeSeries,
   MockShipment,
   MockCompany,
+  RIGHTS_LEGAL_LINE,
 } from "@/vision/mock";
 import {
   ResponsiveContainer,
@@ -92,7 +93,7 @@ export default function Company360Profile() {
       contributingRecordsDenominator: company.totalShipments,
       sourceDataset: "US Ocean Bill of Lading Manifest Illustrative Sample",
       sourceJurisdiction: company.jurisdiction,
-      licenseNote: "Public domain customs declaration under 19 C.F.R. § 103.31",
+      licenseNote: RIGHTS_LEGAL_LINE,
       transformationPipeline:
         "Bronze Manifest Landing -> Silver Canonical Cleaning -> Gold Fellegi-Sunter Matcher",
       modelEngine: "Probabilistic Matcher (Fellegi-Sunter)",
@@ -135,7 +136,7 @@ export default function Company360Profile() {
       contributingRecordsDenominator: company.aliasCount,
       sourceDataset: "Consolidated Party Master Index (US & Asia-Pacific)",
       sourceJurisdiction: company.jurisdiction,
-      licenseNote: "Algorithmic deduplication record",
+      licenseNote: RIGHTS_LEGAL_LINE,
       transformationPipeline: "Token Sort -> Jaro-Winkler String Distance -> Phonetic Soundex",
       modelEngine: "Probabilistic Matcher (Fellegi-Sunter)",
       modelVersion: "orchid_fs_matcher_v1",
@@ -285,7 +286,7 @@ export default function Company360Profile() {
                 className="px-4 py-2 rounded-xl bg-black/50 border border-white/15 hover:border-amber-400/40 text-slate-200 hover:text-white text-xs font-mono flex items-center justify-center gap-2 transition-all shadow-sm"
               >
                 <ShieldCheck className="w-3.5 h-3.5 text-teal-400" />
-                <span>Verify Deduplication Proof</span>
+                <span>Inspect Deduplication Proof</span>
               </button>
               <Link
                 href="/vision/search"
@@ -397,10 +398,10 @@ export default function Company360Profile() {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3 mb-4">
                   <div>
                     <h3 className="text-sm sm:text-base font-bold text-white font-serif">
-                      12-Month Trade Volume & Match Confidence Band
+                      Q3 2024 Trade Volume & Match Confidence Band
                     </h3>
                     <p className="text-xs text-slate-400 font-mono mt-0.5">
-                      Monthly container volume with algorithmic confidence boundary [Low CI, High CI].
+                      Q3 2024 container volume (Jul 1 – Sep 30, 2024) with algorithmic confidence boundary [Low CI, High CI].
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
@@ -478,7 +479,7 @@ export default function Company360Profile() {
 
               <div className="pt-3 border-t border-white/[0.06] flex items-center justify-between text-[11px] font-mono text-slate-400">
                 <span>Confidence Mean: {(company.confidenceScore * 100).toFixed(1)}%</span>
-                <span className="text-teal-400">Seasonal Peak: August – September 2024</span>
+                <span className="text-teal-400">Evaluation Window: Jul 1 – Sep 30, 2024</span>
               </div>
             </GlassPanel>
           </section>
@@ -493,7 +494,7 @@ export default function Company360Profile() {
                       Supply Network Topology
                     </h3>
                     <p className="text-xs text-slate-400 font-mono mt-0.5">
-                      Tier-1 verified exporters & unlading entry terminals.
+                      Inferred Tier-1 exporters & unlading entry terminals.
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
@@ -512,14 +513,14 @@ export default function Company360Profile() {
                       {company.canonicalName}
                     </div>
                     <span className="text-[10px] font-mono text-slate-400 block">
-                      {company.country} • {company.matchedShipments} of {company.totalShipments} Verified
+                      {company.country} • {company.matchedShipments} of {company.totalShipments} Inferred
                     </span>
                   </div>
 
                   {/* Connected Exporters */}
                   <div className="space-y-2">
                     <span className="text-[10px] font-mono uppercase text-slate-500 block">
-                      Top Verified Exporters (Origin)
+                      Top Inferred Exporters (Origin)
                     </span>
                     {company.topShippers.map((shipper, idx) => (
                       <div
@@ -540,7 +541,7 @@ export default function Company360Profile() {
               </div>
 
               <div className="pt-3 border-t border-white/[0.06] flex items-center justify-between text-xs font-mono">
-                <span className="text-slate-500">3 Verified Suppliers</span>
+                <span className="text-slate-500">3 Inferred Suppliers</span>
                 <Link
                   href="/vision/network"
                   className="text-amber-400 hover:text-amber-300 font-semibold flex items-center gap-1"
@@ -672,19 +673,19 @@ export default function Company360Profile() {
 
               <div className="pt-3 border-t border-white/[0.06] text-[10px] font-mono text-slate-500 flex items-center justify-between">
                 <span>Statutory Exemption: 19 C.F.R. § 103.31(d)</span>
-                <span>Hash: 8f2b…a41c (Verified)</span>
+                <span>Hash: 8f2b…a41c (Sha256)</span>
               </div>
             </GlassPanel>
           </section>
         </div>
 
         {/* SHIPMENT HISTORY TABLE WITH PAGINATION & CLICKABLE EVIDENCE */}
-        <section aria-label="Verified Shipment Manifest Records">
+        <section aria-label="Shipment Manifest Records">
           <GlassPanel padding="md">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4 mb-4">
               <div>
                 <h3 className="text-base font-bold text-white font-serif">
-                  Verified Shipment History ({companyShipments.length} Records)
+                  Manifest Shipment History ({companyShipments.length} Records)
                 </h3>
                 <p className="text-xs text-slate-400 font-mono mt-0.5">
                   Click any bill of lading row to open full raw-to-normalized provenance proof.

@@ -34,7 +34,7 @@ export interface MockCompany {
   topShippers: string[];
   riskIndicators: {
     label: string;
-    level: "LOW" | "ELEVATED" | "MONITOR";
+    level: "OBSERVE" | "ELEVATED" | "MONITOR";
     detail: string;
   }[];
   isMock: true;
@@ -44,6 +44,7 @@ export interface MockShipment {
   id: string;
   bolNumber: string;
   companyId: string;
+  corridorId: string;
   consigneeName: string;
   shipperName: string;
   originCountry: string;

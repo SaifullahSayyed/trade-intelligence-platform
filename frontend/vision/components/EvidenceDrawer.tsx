@@ -242,7 +242,7 @@ export const EvidenceDrawer: React.FC = () => {
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500">License:</span>
-                <span className="text-slate-200">{drawerPayload.licenseNote}</span>
+                <span className="text-slate-200">{drawerPayload.licenseNote || "Illustrative rights note — pending counsel review"}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500">Resolution Engine:</span>

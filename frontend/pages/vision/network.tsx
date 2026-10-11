@@ -16,6 +16,7 @@ import { DenominatorMetric } from "../../vision/ui/DenominatorMetric";
 import { useVisionStore } from "../../vision/store/visionStore";
 import { MOCK_COMPANIES } from "../../vision/mock/companies";
 import { MOCK_SHIPMENTS } from "../../vision/mock/shipments";
+import { RIGHTS_LEGAL_LINE } from "../../vision/mock/selectors";
 import type { ProvenanceDrawerPayload, MockFieldValue, MockCompany } from "../../vision/mock/types";
 import {
   Share2,
@@ -48,7 +49,7 @@ interface GraphNode {
   shipmentCount: number;
   teuVolume: number;
   confidenceScore: number;
-  riskLevel: "LOW" | "ELEVATED" | "MONITOR";
+  riskLevel: "OBSERVE" | "ELEVATED" | "MONITOR";
   x: number;
   y: number;
   details: string;
@@ -77,7 +78,7 @@ const GRAPH_NODES: GraphNode[] = [
     shipmentCount: 124,
     teuVolume: 3420,
     confidenceScore: 0.942,
-    riskLevel: "LOW",
+    riskLevel: "OBSERVE",
     x: 480,
     y: 260,
     details: "Primary US Consignee. Consolidated cluster of 14 alias variants.",
@@ -93,7 +94,7 @@ const GRAPH_NODES: GraphNode[] = [
     shipmentCount: 68,
     teuVolume: 1840,
     confidenceScore: 0.915,
-    riskLevel: "LOW",
+    riskLevel: "OBSERVE",
     x: 220,
     y: 140,
     details: "Key supplier of HS 852852 display panels. Origin Saigon Port (VNSGN).",
@@ -123,7 +124,7 @@ const GRAPH_NODES: GraphNode[] = [
     shipmentCount: 20,
     teuVolume: 660,
     confidenceScore: 0.884,
-    riskLevel: "LOW",
+    riskLevel: "OBSERVE",
     x: 220,
     y: 380,
     details: "Consolidator & forwarder for South China feeder manufacturing.",
@@ -154,7 +155,7 @@ const GRAPH_NODES: GraphNode[] = [
     shipmentCount: 26,
     teuVolume: 720,
     confidenceScore: 0.892,
-    riskLevel: "LOW",
+    riskLevel: "OBSERVE",
     x: 60,
     y: 190,
     details: "Structural brackets & housing hardware for display units.",
@@ -169,7 +170,7 @@ const GRAPH_NODES: GraphNode[] = [
     shipmentCount: 18,
     teuVolume: 410,
     confidenceScore: 0.908,
-    riskLevel: "LOW",
+    riskLevel: "OBSERVE",
     x: 60,
     y: 320,
     details: "Driver IC substrate supplier to Pacific Rim Trading.",
@@ -184,7 +185,7 @@ const GRAPH_NODES: GraphNode[] = [
     shipmentCount: 94,
     teuVolume: 2560,
     confidenceScore: 0.99,
-    riskLevel: "LOW",
+    riskLevel: "OBSERVE",
     x: 350,
     y: 80,
     details: "Primary loading terminal for Southeast Asian inbound volume.",
@@ -198,24 +199,24 @@ const GRAPH_NODES: GraphNode[] = [
     shipmentCount: 124,
     teuVolume: 3420,
     confidenceScore: 0.99,
-    riskLevel: "LOW",
+    riskLevel: "OBSERVE",
     x: 680,
     y: 260,
     details: "Discharge terminal for Trans-Pacific South corridor.",
   },
   {
-    id: "carr-evergreen",
-    name: "Evergreen Marine",
+    id: "carr-pcl",
+    name: "Pacific Crest Lines",
     type: "CARRIER",
     tier: 1,
     country: "Taiwan",
     shipmentCount: 78,
     teuVolume: 2150,
     confidenceScore: 0.95,
-    riskLevel: "LOW",
+    riskLevel: "OBSERVE",
     x: 580,
     y: 140,
-    details: "Carries 63% of verified container volume on Trans-Pacific South.",
+    details: "Carries 63% of inferred container volume on Trans-Pacific South corridor.",
   },
 ];
 
@@ -229,8 +230,8 @@ const GRAPH_EDGES: GraphEdge[] = [
   { id: "e4", source: "hlx-002", target: "port-vnsgn", label: "Barge / Drayage", volumeTeu: 1840, shipmentCount: 68, corridor: "VNSGN Drayage" },
 
   // Origin Port -> Importer (via ocean carrier)
-  { id: "e5", source: "port-vnsgn", target: "carr-evergreen", label: "Ocean Booking", volumeTeu: 1840, shipmentCount: 68, corridor: "Trans-Pacific South" },
-  { id: "e6", source: "carr-evergreen", target: "port-uslax", label: "Ocean Transit (18.4d)", volumeTeu: 2150, shipmentCount: 78, corridor: "Trans-Pacific South" },
+  { id: "e5", source: "port-vnsgn", target: "carr-pcl", label: "Ocean Booking", volumeTeu: 1840, shipmentCount: 68, corridor: "Trans-Pacific South" },
+  { id: "e6", source: "carr-pcl", target: "port-uslax", label: "Ocean Transit (18.4d)", volumeTeu: 2150, shipmentCount: 78, corridor: "Trans-Pacific South" },
   { id: "e7", source: "port-uslax", target: "nrg-001", label: "Customs Discharge", volumeTeu: 3420, shipmentCount: 124, corridor: "LA Basin Drayage" },
 
   // Direct Tier 1 to Importer Links
@@ -271,7 +272,7 @@ export default function SupplyChainNexusPage() {
       contributingRecordsDenominator: 124,
       sourceDataset: "cbp_am_manifests",
       sourceJurisdiction: "US Customs and Border Protection",
-      licenseNote: "CBP AMS public manifest data — 15-day delay per 19 CFR 103.31",
+      licenseNote: RIGHTS_LEGAL_LINE,
       transformationPipeline: "Bronze ingest → Fellegi-Sunter resolution → Multi-tier supply network topology graph",
       modelEngine: "Orchid Nexus Graph Engine v1.0",
       modelVersion: "orchid_nexus_v1.0",
@@ -305,7 +306,7 @@ export default function SupplyChainNexusPage() {
           </div>
           <div className="flex items-center gap-3 flex-wrap">
             <span className="text-[10px] font-mono text-teal-400 border border-teal-500/30 rounded px-2.5 py-1 flex items-center gap-1.5">
-              <Activity className="w-3.5 h-3.5" /> 10 Nodes · 10 Verified Links
+              <Activity className="w-3.5 h-3.5" /> 10 Nodes · 10 Inferred Links
             </span>
             <span className="text-[10px] font-mono text-slate-500 border border-[#1E2A45] rounded px-2.5 py-1">
               Topology: Fellegi-Sunter Cluster Gold
@@ -325,7 +326,7 @@ export default function SupplyChainNexusPage() {
         {/* ── KPI strip ── */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <DenominatorMetric
-            label="Verified Tier-1 Shippers"
+            label="Inferred Tier-1 Shippers"
             numerator={3}
             denominator={3}
             unit="suppliers"
@@ -382,8 +383,8 @@ export default function SupplyChainNexusPage() {
                   onChange={(e) => setFilterRisk(e.target.value)}
                   className="bg-[#0B1020] border border-[#1E2A45] rounded px-2 py-1 text-xs text-slate-300 font-mono focus:outline-none"
                 >
-                  <option value="ALL">All Risk Ratings</option>
-                  <option value="LOW">Low Risk</option>
+                  <option value="ALL">All Indicators</option>
+                  <option value="OBSERVE">No Anomalies Observed</option>
                   <option value="ELEVATED">Elevated</option>
                   <option value="MONITOR">Monitor</option>
                 </select>
@@ -521,11 +522,11 @@ export default function SupplyChainNexusPage() {
                   </span>
                 </div>
                 <span className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
-                  selectedNode.riskLevel === "LOW" ? "bg-teal-500/10 text-teal-400 border-teal-500/20" :
+                  selectedNode.riskLevel === "OBSERVE" ? "bg-teal-500/10 text-teal-400 border-teal-500/20" :
                   selectedNode.riskLevel === "ELEVATED" ? "bg-amber-500/10 text-amber-400 border-amber-500/20" :
                   "bg-red-500/10 text-red-400 border-red-500/20"
                 }`}>
-                  {selectedNode.riskLevel} RISK
+                  {selectedNode.riskLevel}
                 </span>
               </div>
 
