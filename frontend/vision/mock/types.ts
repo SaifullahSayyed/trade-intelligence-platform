@@ -76,7 +76,7 @@ export interface MockProvenance {
   sourceTimestamp: string;
   ingestionTimestamp: string;
   normalizationTimestamp: string;
-  modelEngine: string; // "Probabilistic Matcher (Fellegi-Sunter)"
+  modelEngine: string; // "Weighted-Feature Matcher"
   modelVersion: string;
   uncertaintyRationale: string;
   fields: MockFieldValue[];
@@ -199,6 +199,10 @@ export interface ProvenanceDrawerPayload {
   modelEngine: string;
   modelVersion: string;
   uncertaintyRationale: string;
+  sourceTimestamp?: string;
+  ingestionTimestamp?: string;
+  normalizationTimestamp?: string;
+  isValueClaim?: boolean;
   underlyingRecords: {
     id: string;
     bol: string;

@@ -462,7 +462,7 @@ export default function VisionSearch() {
                       <span className="text-sm font-mono font-bold text-white">
                         {shipment.declaredValueUsd
                           ? `$${shipment.declaredValueUsd.toLocaleString("en-US")} USD`
-                          : "MASKED (19 C.F.R. § 103.31)"}
+                          : "MASKED (Masked at source (illustrative))"}
                       </span>
                     </div>
 

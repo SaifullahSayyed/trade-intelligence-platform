@@ -56,7 +56,7 @@ const TradeGlobe = dynamic(() => import("@/vision/components/TradeGlobe"), {
   ssr: false,
   loading: () => (
     <div className="h-[380px] w-full flex items-center justify-center bg-black/20 rounded-2xl border border-white/5 font-mono text-xs text-slate-500">
-      Loading 3D Trade Horizon Canvas…
+      Loading Trade Horizon Canvas…
     </div>
   ),
 });
@@ -134,11 +134,11 @@ export default function VisionHome() {
       contributingRecordsCount: 34,
       contributingRecordsDenominator: 40,
       sourceDataset: "US Ocean Bill of Lading Manifest Illustrative Sample",
-      sourceJurisdiction: "US (19 C.F.R. § 103.31 Public Record)",
+      sourceJurisdiction: "US (Masked at source (illustrative) Public Record)",
       licenseNote: RIGHTS_LEGAL_LINE,
       transformationPipeline:
         "Bronze raw manifests -> Silver party cleaning -> Gold probabilistic matching (orchid_fs_matcher_v1)",
-      modelEngine: "Probabilistic Matcher (Fellegi-Sunter)",
+      modelEngine: "Weighted-Feature Matcher",
       modelVersion: "orchid_fs_matcher_v1",
       uncertaintyRationale:
         "6 corporate groups placed in [0.65, 0.85) human verification band due to shared logistics subsidiary addresses or subtle legal entity branch differences.",
@@ -174,7 +174,7 @@ export default function VisionHome() {
       contributingRecordsCount: 542,
       contributingRecordsDenominator: 600,
       sourceDataset: "US Ocean Bill of Lading Manifest Illustrative Sample",
-      sourceJurisdiction: "US (19 C.F.R. § 103.31 Public Record)",
+      sourceJurisdiction: "US (Masked at source (illustrative) Public Record)",
       licenseNote: RIGHTS_LEGAL_LINE,
       transformationPipeline: "Bronze raw manifest -> Data Contract Validation -> SHA-256 Stamp",
       modelEngine: "Data Contract Validator (YAML v1.0)",
@@ -248,14 +248,14 @@ export default function VisionHome() {
       claimLabel: "Probabilistic Matcher Uncertainty Queue",
       claimValue: "8 of 42 Candidate Pairs Flagged (19.0%)",
       calculationFormula:
-        "COUNT(candidate_pair WHERE score >= 0.6500 AND score < 0.8500) under Fellegi-Sunter scoring model",
+        "COUNT(candidate_pair WHERE score >= 0.6500 AND score < 0.8500) under Weighted-Feature scoring model",
       contributingRecordsCount: 8,
       contributingRecordsDenominator: 42,
       sourceDataset: "Candidate Pair Blocking & Scoring Matrix",
       sourceJurisdiction: "US & Asia-Pacific Manifest Entity Index",
       licenseNote: RIGHTS_LEGAL_LINE,
       transformationPipeline: "Blocking (First-Char + Soundex) -> Jaro-Winkler Scoring -> Review Queue",
-      modelEngine: "Probabilistic Matcher (Fellegi-Sunter)",
+      modelEngine: "Weighted-Feature Matcher",
       modelVersion: "orchid_fs_matcher_v1",
       uncertaintyRationale:
         "False-merge rate guardrail (< 5.0%) strictly enforced. Pairs exhibiting high token overlap but differing legal entity suffixes are deferred to human review.",
@@ -291,13 +291,14 @@ export default function VisionHome() {
       contributingRecordsCount: 542,
       contributingRecordsDenominator: 600,
       sourceDataset: "US Ocean Bill of Lading Manifest Illustrative Sample",
-      sourceJurisdiction: "US (19 C.F.R. § 103.31 Public Record)",
+      sourceJurisdiction: "US (Masked at source (illustrative) Public Record)",
       licenseNote: RIGHTS_LEGAL_LINE,
       transformationPipeline: "Bronze raw manifest -> Currency Normalization (USD) -> Value Index",
       modelEngine: "Customs Valuation Pipeline",
-      modelVersion: "19 C.F.R. § 103.31 Parser",
+      modelVersion: "Masked at source (illustrative) Parser",
       uncertaintyRationale:
-        "$1.4M (58 records) masked under statutory confidentiality requests (19 C.F.R. § 103.31(d)). Declared values reflect commercial invoice totals, not cleared duty payments.",
+        "$1.4M (58 records) masked under confidentiality requests (Masked at source (illustrative)). Declared values reflect commercial invoice totals, not cleared duty payments.",
+      isValueClaim: true,
       underlyingRecords: MOCK_SHIPMENTS.slice(0, 3).map((s) => ({
         id: s.id,
         bol: s.bolNumber,
@@ -337,6 +338,10 @@ export default function VisionHome() {
       modelEngine: shipment.provenance.modelEngine,
       modelVersion: shipment.provenance.modelVersion,
       uncertaintyRationale: shipment.provenance.uncertaintyRationale,
+      sourceTimestamp: `${shipment.filingDate} 12:00 UTC`,
+      ingestionTimestamp: shipment.provenance.ingestionTimestamp.replace("T", " ").replace("Z", " UTC"),
+      normalizationTimestamp: shipment.provenance.normalizationTimestamp.replace("T", " ").replace("Z", " UTC"),
+      isValueClaim: !!shipment.declaredValueUsd,
       underlyingRecords: [
         {
           id: shipment.id,
@@ -370,7 +375,7 @@ export default function VisionHome() {
     {
       title: "3. Probabilistic Review Queue",
       content:
-        "When our custom Fellegi-Sunter matcher detects company name variants in the [0.65, 0.85) band, it routes them to human review to safeguard our <5% false-merge guardrail.",
+        "When our custom Weighted-Feature Matcher detects company name variants in the [0.65, 0.85) band, it routes them to human review to safeguard our <5% false-merge guardrail.",
     },
     {
       title: "4. Built vs Planned Transparency",
@@ -478,14 +483,14 @@ export default function VisionHome() {
               numerator={`$${(globalMetrics.totalDeclaredValueUsd / 1_000_000).toFixed(1)}M`}
               denominator="$16.2M"
               unit="unmasked USD"
-              timestampType="Statutory Exemption"
-              timestampValue="19 C.F.R. § 103.31"
+              timestampType="Masked at source (illustrative)"
+              timestampValue="Masked at source (illustrative)"
               onClickEvidence={handleOpenValueEvidence}
             />
           </div>
         </section>
 
-        {/* CENTERPIECE: 3D TRADE-LANE GLOBE & MARITIME HORIZON */}
+        {/* CENTERPIECE: TRADE-LANE GLOBE & MARITIME HORIZON */}
         <section aria-label="Trade-Lane Horizon Globe">
           <GlassPanel hairlineAccent="amber" padding="md">
             <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">

@@ -49,17 +49,17 @@ export const TradeGlobe: React.FC<TradeGlobeProps> = ({
       try {
         globe = createGlobe(canvasRef.current, {
           devicePixelRatio: Math.min(2, window.devicePixelRatio || 1),
-          width: 640,
-          height: 640,
+          width: 640 * 2,
+          height: 640 * 2,
           phi: 0,
           theta: 0.32,
           dark: 1,
-          diffuse: 1.6,
-          mapSamples: 24000,
-          mapBrightness: 6.2,
-          baseColor: [0.06, 0.12, 0.26],
+          diffuse: 2.2,
+          mapSamples: 32000,
+          mapBrightness: 8.5,
+          baseColor: [0.08, 0.16, 0.34],
           markerColor: [0.96, 0.62, 0.04],
-          glowColor: [0.16, 0.30, 0.60],
+          glowColor: [0.20, 0.40, 0.85],
           markers,
           onRender: (state) => {
             state.phi = phi;
@@ -84,7 +84,7 @@ export const TradeGlobe: React.FC<TradeGlobeProps> = ({
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-      {/* 3D GLOBE / HERO CARTOGRAPHIC DISPLAY */}
+      {/* GLOBE / HERO CARTOGRAPHIC DISPLAY */}
       <div className="lg:col-span-6 flex flex-col items-center justify-center relative min-h-[420px] sm:min-h-[500px]">
         {webGlAvailable ? (
           <div className="relative group flex items-center justify-center">
@@ -96,7 +96,7 @@ export const TradeGlobe: React.FC<TradeGlobeProps> = ({
               width={640}
               height={640}
               className="w-[340px] h-[340px] sm:w-[420px] sm:h-[420px] lg:w-[480px] lg:h-[480px] rounded-full drop-shadow-[0_0_45px_rgba(245,158,11,0.22)] cursor-grab active:cursor-grabbing relative z-10 transition-transform duration-500 hover:scale-[1.02]"
-              aria-label="3D Interactive Trade Lane Hero Globe"
+              aria-label="Interactive Trade Lane Hero Globe"
             />
             <div className="absolute bottom-2 left-1/2 -translate-x-1/2 px-3.5 py-1.5 rounded-full bg-[#070B14]/90 border border-amber-500/30 backdrop-blur-md text-[10px] font-mono text-slate-300 flex items-center gap-2 pointer-events-none z-20 shadow-lg">
               <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />

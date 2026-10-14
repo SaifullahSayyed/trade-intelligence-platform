@@ -248,7 +248,7 @@ export default function AiAnalystPage() {
       contributingRecordsDenominator: shipment ? 1 : company ? company.totalShipments : 1,
       sourceDataset: "cbp_am_manifests",
       sourceJurisdiction: "US Customs and Border Protection",
-      licenseNote: "CBP AMS public manifest data — 15-day delay per 19 CFR 103.31",
+      licenseNote: "CBP AMS public manifest data — manifest processing window per Masked at source (illustrative)",
       transformationPipeline: "Bronze ingest → Silver normalise → Gold entity resolution → AI citation grounding",
       modelEngine: "Orchid Trade Analyst (Illustrative) — Probabilistic Grounding Layer",
       modelVersion: "orchid_ai_v0.1_preview",
@@ -307,7 +307,7 @@ export default function AiAnalystPage() {
           </div>
         </div>
 
-        {/* ── Statutory disclaimer ── */}
+        {/* ── Regulatory disclaimer ── */}
         <div className="border border-amber-500/25 bg-amber-500/5 rounded-lg px-4 py-3 text-xs text-amber-300/80 flex items-start gap-2">
           <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-400" />
           <span>

@@ -56,9 +56,9 @@ export const DenominatorMetric: React.FC<DenominatorMetricProps> = ({
         )}
       </div>
 
-      <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5 font-mono min-w-0">
+      <div className="flex items-baseline gap-x-1.5 gap-y-0.5 font-mono min-w-0 overflow-hidden">
         <span
-          className={`font-bold text-white tracking-tight ${
+          className={`font-bold text-white tracking-tight shrink-0 ${
             size === "lg" ? "text-xl sm:text-2xl lg:text-3xl" : size === "md" ? "text-lg sm:text-xl lg:text-2xl" : "text-base"
           }`}
         >
@@ -67,7 +67,7 @@ export const DenominatorMetric: React.FC<DenominatorMetricProps> = ({
         <span className="text-slate-400 text-xs sm:text-sm font-medium shrink-0">
           of {typeof denominator === "number" ? denominator.toLocaleString("en-US") : denominator}
         </span>
-        {unit && <span className="text-slate-400 text-xs shrink-0">{unit}</span>}
+        {unit && <span className="text-slate-400 text-xs truncate">{unit}</span>}
       </div>
 
       <div className="mt-2 pt-2 border-t border-white/[0.05] flex items-center justify-between text-[10px] font-mono text-slate-500 gap-2">

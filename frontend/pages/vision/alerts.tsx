@@ -382,7 +382,7 @@ export default function AlertsPage() {
           </div>
         </div>
 
-        {/* ── Statutory disclaimer ── */}
+        {/* ── Regulatory disclaimer ── */}
         <div className="border border-amber-500/25 bg-amber-500/5 rounded-lg px-4 py-3 text-xs text-amber-300/80 flex items-start gap-2">
           <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-400" />
           <span>

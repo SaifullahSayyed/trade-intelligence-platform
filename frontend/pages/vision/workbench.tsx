@@ -121,19 +121,19 @@ export default function EntityResolutionWorkbench() {
   // Evidence Drawer trigger
   const handleOpenAlgorithmEvidence = () => {
     openDrawer({
-      claimLabel: `Probabilistic Match: ${currentPair.reviewId}`,
-      claimValue: `Score ${currentPair.probabilisticScore.toFixed(3)} (Fellegi-Sunter-style)`,
+      claimLabel: `Entity Match Scoring: ${currentPair.reviewId}`,
+      claimValue: `Composite Score ${currentPair.probabilisticScore.toFixed(3)} (Weighted-Feature Matcher)`,
       calculationFormula:
-        "Score = 0.40 * JaroWinkler + 0.20 * Soundex + 0.20 * TokenOverlap + 0.10 * AddressMatch + 0.10 * TariffMatch",
+        "Score = 0.40 * JaroWinkler + 0.20 * Soundex + 0.20 * TokenOverlap + 0.10 * AddressMatch + 0.10 * TariffMatch (Weighted-Feature Linear Composite)",
       contributingRecordsCount: currentPair.downstreamEntitiesAffected,
       contributingRecordsDenominator: 42,
       sourceDataset: "Candidate Pair Blocking & Comparison Matrix",
       sourceJurisdiction: "US & Asia-Pacific Import Records",
       licenseNote: RIGHTS_LEGAL_LINE,
       transformationPipeline:
-        "Candidate Blocking -> Jaro-Winkler Scorer -> Threshold Gate [0.65, 0.85) -> Human Review Queue",
-      modelEngine: "Probabilistic Matcher (Fellegi-Sunter)",
-      modelVersion: "orchid_fs_matcher_v1",
+        "Candidate Blocking -> Jaro-Winkler Scorer -> Weighted-Feature Gate [0.65, 0.85) -> Human Review Queue",
+      modelEngine: "Weighted-Feature Matcher",
+      modelVersion: "orchid_feature_matcher_v1",
       uncertaintyRationale: currentPair.notes,
       underlyingRecords: [
         {
@@ -390,7 +390,7 @@ export default function EntityResolutionWorkbench() {
                   </div>
                   <div className="text-xs font-mono text-slate-400">
                     <span className="text-slate-500 block text-[10px] uppercase">
-                      Registered Statutory Address
+                      Registered Corporate Address
                     </span>
                     {currentPair.addressA}
                   </div>
@@ -420,7 +420,7 @@ export default function EntityResolutionWorkbench() {
               <div className="p-4 rounded-xl bg-[#070b14]/80 border border-white/5 space-y-3 mb-4">
                 <div className="flex items-center justify-between text-xs font-mono">
                   <span className="font-semibold text-white uppercase text-[11px] tracking-wider">
-                    Feature Vector Decomposition (Fellegi-Sunter)
+                    Feature Vector Decomposition (Weighted-Feature Matcher)
                   </span>
                   <span className="text-amber-400 font-bold">
                     Composite: {(currentPair.probabilisticScore * 100).toFixed(1)}%
@@ -458,7 +458,7 @@ export default function EntityResolutionWorkbench() {
                   </div>
 
                   <div className="p-2 rounded bg-white/[0.02] border border-white/5 flex items-center justify-between">
-                    <span className="text-slate-400">Statutory Address:</span>
+                    <span className="text-slate-400">Corporate Address:</span>
                     <span
                       className={`font-bold ${
                         currentPair.signals.addressMatch ? "text-teal-400" : "text-amber-400"
@@ -506,7 +506,7 @@ export default function EntityResolutionWorkbench() {
                     </span>
                   </div>
                   <p className="text-xs text-slate-400 font-sans">
-                    Merges affecting downstream records are evaluated against our statutory &lt;5% error ceiling.
+                    Merges affecting downstream records are evaluated against our internal &lt;5% error ceiling.
                   </p>
                 </div>
                 <div className="text-right font-mono text-xs shrink-0">
@@ -534,7 +534,7 @@ export default function EntityResolutionWorkbench() {
                     Investigator Verification Decision
                   </span>
                   <span className="text-[10px] font-mono text-slate-400">
-                    Audit Action Recorded Immaturely in Log
+                    Audit Action Recorded Immediately in Log
                   </span>
                 </div>
 

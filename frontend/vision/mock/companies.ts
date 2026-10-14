@@ -41,7 +41,7 @@ export const MOCK_COMPANIES: MockCompany[] = [
     riskIndicators: [
       { label: "Corridor Concentration", level: "MONITOR", detail: "68% of volume routed through single port (USLAX)" },
       { label: "Entity Disambiguation", level: "OBSERVE", detail: "14 aliases clustered with 0.942 probabilistic match confidence" },
-      { label: "Customs Valuation Masking", level: "MONITOR", detail: "Declared value masked on 24 of 124 bills of lading under statutory exemption" },
+      { label: "Customs Valuation Masking", level: "MONITOR", detail: "Declared value masked on 24 of 124 bills of lading under confidentiality exemption" },
     ],
     isMock: true,
   },

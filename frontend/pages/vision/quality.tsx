@@ -371,7 +371,7 @@ export default function DataQualityPage() {
       contributingRecordsDenominator: denom,
       sourceDataset: source,
       sourceJurisdiction: "US Customs and Border Protection",
-      licenseNote: "CBP AMS public manifest data — 15-day delay per 19 CFR 103.31",
+      licenseNote: "CBP AMS public manifest data — manifest processing window per Masked at source (illustrative)",
       transformationPipeline: "Bronze ingest → Silver normalise → Gold contract-check → Violation registry",
       modelEngine: "Great Expectations v0.18 + custom Orchid rule adapters",
       modelVersion: "orchid_dq_v1.3",
@@ -416,8 +416,12 @@ export default function DataQualityPage() {
             </p>
           </div>
           <div className="flex items-center gap-3 flex-wrap">
-            <span className="text-[10px] font-mono text-slate-500 border border-[#1E2A45] rounded px-2 py-1">
-              Rule Engine: Great Expectations v0.18
+            <StatusChip
+              type="planned"
+              tooltipText="Great Expectations / dbt test automated assertion pipeline planned for production deployment"
+            />
+            <span className="text-[10px] font-mono text-slate-400 border border-[#1E2A45] rounded px-2 py-1">
+              Engine: Illustrative Rule Engine (Planned: Great Expectations)
             </span>
             <span className="text-[10px] font-mono text-teal-400 border border-teal-500/30 rounded px-2 py-1 flex items-center gap-1">
               <CheckCircle2 className="w-3 h-3" /> Last scan: 2024-09-30 06:05 UTC
@@ -425,14 +429,19 @@ export default function DataQualityPage() {
           </div>
         </div>
 
-        {/* ── Statutory disclaimer ── */}
-        <div className="border border-amber-500/25 bg-amber-500/5 rounded-lg px-4 py-3 text-xs text-amber-300/80 flex items-start gap-2">
-          <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-400" />
-          <span>
-            <strong>Disclaimer:</strong> Orchid does NOT issue compliance certifications, legal clearance,
-            or fraud verdicts. Data quality scores are internal operational signals only, derived from{" "}
-            <strong>[MOCK]</strong> illustrative data. They must not be used for regulatory or legal purposes.
-          </span>
+        {/* ── Regulatory disclaimer & scope note ── */}
+        <div className="border border-amber-500/25 bg-amber-500/5 rounded-lg px-4 py-3 text-xs text-amber-300/80 space-y-1.5">
+          <div className="flex items-start gap-2">
+            <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-400" />
+            <span>
+              <strong>Disclaimer:</strong> Orchid does NOT issue compliance certifications, legal clearance,
+              or fraud verdicts. Data quality scores are internal operational signals only, derived from{" "}
+              <strong>[MOCK]</strong> illustrative data.
+            </span>
+          </div>
+          <div className="text-[11px] font-mono text-slate-400 pl-6 border-t border-amber-500/10 pt-1">
+            <strong>Universe Scope:</strong> Contract rule validation totals reflect an illustrative production-scale batch, not part of any real dataset evaluating parser contract rules, distinct from the canonical 600-shipment evaluation sample.
+          </div>
         </div>
 
         {/* ── KPI strip ── */}
@@ -733,7 +742,7 @@ export default function DataQualityPage() {
                               contributingRecordsDenominator: vio.totalRecords,
                               sourceDataset: vio.dataset,
                               sourceJurisdiction: "US Customs and Border Protection",
-                              licenseNote: "CBP AMS public manifest data — 15-day delay per 19 CFR 103.31",
+                              licenseNote: "CBP AMS public manifest data — manifest processing window per Masked at source (illustrative)",
                               transformationPipeline: "Bronze ingest → Silver normalise → Gold contract-check → Violation registry",
                               modelEngine: "Great Expectations v0.18 + custom Orchid rule adapters",
                               modelVersion: "orchid_dq_v1.3",

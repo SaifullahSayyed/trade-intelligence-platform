@@ -126,7 +126,7 @@ export function generateMockShipments(): MockShipment[] {
       { fieldName: "hs_code", label: "HS Tariff Classification", rawValue: "8528.52", normalizedValue: "852852", derivedValue: nrg.hsDescription, missingness: null },
       { fieldName: "origin_port", label: "Port of Loading (POL)", rawValue: route.origName.toUpperCase(), normalizedValue: route.origCode, derivedValue: `${route.origName}, ${route.country}`, missingness: null },
       { fieldName: "destination_port", label: "Port of Discharge (POD)", rawValue: route.destName.toUpperCase(), normalizedValue: route.destCode, derivedValue: `${route.destName}, United States`, missingness: null },
-      { fieldName: "declared_value_usd", label: "Customs Declared Value", rawValue: isMaskedValue ? null : `$${value?.toLocaleString("en-US")}`, normalizedValue: isMaskedValue ? null : String(value), derivedValue: isMaskedValue ? null : `$${value?.toLocaleString("en-US")} USD`, missingness: isMaskedValue ? { reason: "MASKED", description: "Carrier or importer requested statutory confidentiality" } : null },
+      { fieldName: "declared_value_usd", label: "Customs Declared Value", rawValue: isMaskedValue ? null : `$${value?.toLocaleString("en-US")}`, normalizedValue: isMaskedValue ? null : String(value), derivedValue: isMaskedValue ? null : `$${value?.toLocaleString("en-US")} USD`, missingness: isMaskedValue ? { reason: "MASKED", description: "Carrier or importer requested confidentiality" } : null },
       { fieldName: "notify_party", label: "Notify Party", rawValue: idx % 4 === 0 ? null : `${nrg.canonicalName} LOGISTICS DEPT`, normalizedValue: idx % 4 === 0 ? null : nrg.canonicalName, derivedValue: null, missingness: idx % 4 === 0 ? { reason: "UNAVAILABLE_AT_SOURCE", description: "Optional manifest field omitted by filing carrier" } : null },
     ];
 
@@ -162,7 +162,7 @@ export function generateMockShipments(): MockShipment[] {
         sourceTimestamp: `${dateStr}T14:32:00Z`,
         ingestionTimestamp: "2024-09-30T04:12:08Z",
         normalizationTimestamp: "2024-09-30T04:13:42Z",
-        modelEngine: "Probabilistic Matcher (Fellegi-Sunter)",
+        modelEngine: "Weighted-Feature Matcher",
         modelVersion: "probabilistic_matcher_v1.2_fs",
         uncertaintyRationale: tier === "HIGH" ? "High token alignment across normalized consignee name cluster." : tier === "MEDIUM" ? "Partial token match in review band [0.65, 0.85]." : "Ambiguous entity resolution with multiple candidate clusters.",
         fields,
@@ -223,7 +223,7 @@ export function generateMockShipments(): MockShipment[] {
       { fieldName: "hs_code", label: "HS Tariff Classification", rawValue: `${company.primaryHsCode.substring(0, 4)}.${company.primaryHsCode.substring(4)}`, normalizedValue: company.primaryHsCode, derivedValue: company.hsDescription, missingness: null },
       { fieldName: "origin_port", label: "Port of Loading (POL)", rawValue: route.origName.toUpperCase(), normalizedValue: route.origCode, derivedValue: `${route.origName}, ${route.country}`, missingness: null },
       { fieldName: "destination_port", label: "Port of Discharge (POD)", rawValue: route.destName.toUpperCase(), normalizedValue: route.destCode, derivedValue: `${route.destName}, United States`, missingness: null },
-      { fieldName: "declared_value_usd", label: "Customs Declared Value", rawValue: isMaskedValue ? null : `$${value?.toLocaleString("en-US")}`, normalizedValue: isMaskedValue ? null : String(value), derivedValue: isMaskedValue ? null : `$${value?.toLocaleString("en-US")} USD`, missingness: isMaskedValue ? { reason: "MASKED", description: "Carrier or importer requested statutory confidentiality" } : null },
+      { fieldName: "declared_value_usd", label: "Customs Declared Value", rawValue: isMaskedValue ? null : `$${value?.toLocaleString("en-US")}`, normalizedValue: isMaskedValue ? null : String(value), derivedValue: isMaskedValue ? null : `$${value?.toLocaleString("en-US")} USD`, missingness: isMaskedValue ? { reason: "MASKED", description: "Carrier or importer requested confidentiality" } : null },
       { fieldName: "notify_party", label: "Notify Party", rawValue: idx % 4 === 0 ? null : `${company.canonicalName} LOGISTICS DEPT`, normalizedValue: idx % 4 === 0 ? null : company.canonicalName, derivedValue: null, missingness: idx % 4 === 0 ? { reason: "UNAVAILABLE_AT_SOURCE", description: "Optional manifest field omitted by filing carrier" } : null },
     ];
 
@@ -259,7 +259,7 @@ export function generateMockShipments(): MockShipment[] {
         sourceTimestamp: `${dateStr}T14:32:00Z`,
         ingestionTimestamp: "2024-09-30T04:12:08Z",
         normalizationTimestamp: "2024-09-30T04:13:42Z",
-        modelEngine: "Probabilistic Matcher (Fellegi-Sunter)",
+        modelEngine: "Weighted-Feature Matcher",
         modelVersion: "probabilistic_matcher_v1.2_fs",
         uncertaintyRationale: tier === "HIGH" ? "High token alignment across normalized consignee name cluster." : tier === "MEDIUM" ? "Partial token match in review band [0.65, 0.85]." : "Ambiguous entity resolution with multiple candidate clusters.",
         fields,

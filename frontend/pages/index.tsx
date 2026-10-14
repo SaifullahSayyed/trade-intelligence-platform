@@ -804,7 +804,7 @@ export default function Home() {
                     <div className="space-y-2 mb-4">
                       <div className="p-2.5 rounded-xl bg-black/40 border border-white/[0.06] text-xs font-mono">
                         <span className="text-emerald-400 font-semibold">canonical_entities</span>
-                        <div className="text-[10px] text-slate-400 mt-0.5">Probabilistic matcher (Fellegi-Sunter-style) resolved golden records</div>
+                        <div className="text-[10px] text-slate-400 mt-0.5">Probabilistic matcher (Weighted-Feature) resolved golden records</div>
                       </div>
                       <div className="p-2.5 rounded-xl bg-black/40 border border-white/[0.06] text-xs font-mono">
                         <span className="text-emerald-400 font-semibold">mv_gold_importer_metrics</span>

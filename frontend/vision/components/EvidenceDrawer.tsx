@@ -98,9 +98,12 @@ export const EvidenceDrawer: React.FC = () => {
               <p className="text-[11px] text-amber-200/90 leading-relaxed font-sans">
                 {drawerPayload.uncertaintyRationale}
               </p>
-              <div className="pt-2 border-t border-amber-500/20 text-[10px] font-mono text-amber-300/80">
-                Manifest figures reflect commercial carrier filings, not audited corporate balance sheets.
-              </div>
+              {/* Show balance sheet disclaimer strictly for shipment/monetary value claims */}
+              {drawerPayload.isValueClaim && (
+                <div className="pt-2 border-t border-amber-500/20 text-[10px] font-mono text-amber-300/80">
+                  Manifest figures reflect commercial carrier filings, not audited corporate balance sheets.
+                </div>
+              )}
             </div>
 
             {/* Section 3: 3-Stage Chronological Lineage */}
@@ -113,17 +116,23 @@ export const EvidenceDrawer: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                 <div className="p-3 rounded-xl bg-black/40 border border-[#1E2A45]">
                   <div className="text-[10px] font-mono text-sky-400 uppercase">Stage 1: Source</div>
-                  <div className="font-mono text-xs font-semibold text-white mt-1">2024-09-04 14:32Z</div>
+                  <div className="font-mono text-xs font-semibold text-white mt-1">
+                    {drawerPayload.sourceTimestamp || "2024-09-04 14:32 UTC"}
+                  </div>
                   <div className="text-[10px] text-slate-400 mt-0.5">Customs ACE Filing</div>
                 </div>
                 <div className="p-3 rounded-xl bg-black/40 border border-[#1E2A45]">
                   <div className="text-[10px] font-mono text-amber-400 uppercase">Stage 2: Ingested</div>
-                  <div className="font-mono text-xs font-semibold text-white mt-1">2024-10-01 04:12Z</div>
+                  <div className="font-mono text-xs font-semibold text-white mt-1">
+                    {drawerPayload.ingestionTimestamp || "2024-09-30 04:12 UTC"}
+                  </div>
                   <div className="text-[10px] text-slate-400 mt-0.5">ClickHouse Bronze Tier</div>
                 </div>
                 <div className="p-3 rounded-xl bg-black/40 border border-[#1E2A45]">
                   <div className="text-[10px] font-mono text-teal-400 uppercase">Stage 3: Normalized</div>
-                  <div className="font-mono text-xs font-semibold text-white mt-1">2024-10-01 04:13Z</div>
+                  <div className="font-mono text-xs font-semibold text-white mt-1">
+                    {drawerPayload.normalizationTimestamp || "2024-09-30 04:13 UTC"}
+                  </div>
                   <div className="text-[10px] text-slate-400 mt-0.5">Silver Schema Canonical</div>
                 </div>
               </div>

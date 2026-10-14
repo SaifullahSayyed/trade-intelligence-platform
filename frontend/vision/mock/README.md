@@ -9,5 +9,5 @@
 3. **Uniform Illustrative Period**: All shipment filings, corridor metrics, and audit timestamps are anchored to:
    **`Q3 2024 Illustrative Sample (July 1 – September 30, 2024)`**.
 4. **Deterministic Generation**: Generated via a seeded PRNG (`seed.ts`, mulberry32 algorithm). All figures render deterministically without hydration shifts or `Math.random()`.
-5. **Probabilistic Matcher Attribution**: The backend entity resolution engine is a custom Fellegi-Sunter-style probabilistic matcher (not the external Splink library). All UI chips and explanations accurately describe it as a "probabilistic matcher".
+5. **Probabilistic Matcher Attribution**: The backend entity resolution engine is a custom Weighted-Feature probabilistic matcher (custom internal probabilistic matcher). All UI chips and explanations accurately describe it as a "probabilistic matcher".
 6. **Provenance & Trust Layer**: Every mock shipment record carries `isMock: true`, preserving raw, normalized, and derived values with explicit missingness reasons (`MASKED`, `UNAVAILABLE_AT_SOURCE`).

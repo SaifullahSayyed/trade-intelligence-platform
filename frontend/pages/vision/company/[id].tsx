@@ -95,8 +95,8 @@ export default function Company360Profile() {
       sourceJurisdiction: company.jurisdiction,
       licenseNote: RIGHTS_LEGAL_LINE,
       transformationPipeline:
-        "Bronze Manifest Landing -> Silver Canonical Cleaning -> Gold Fellegi-Sunter Matcher",
-      modelEngine: "Probabilistic Matcher (Fellegi-Sunter)",
+        "Bronze Manifest Landing -> Silver Canonical Cleaning -> Gold Weighted-Feature Matcher",
+      modelEngine: "Weighted-Feature Matcher",
       modelVersion: "orchid_fs_matcher_v1",
       uncertaintyRationale: `${
         company.totalShipments - company.matchedShipments
@@ -131,17 +131,17 @@ export default function Company360Profile() {
       claimLabel: `Alias Cluster Deduplication Proof: ${company.canonicalName}`,
       claimValue: `${company.aliasCount} Jurisdictional & Spelling Variants Merged`,
       calculationFormula:
-        "Union-Find BFS clustering over candidate pairs with Fellegi-Sunter match score >= 0.8500",
+        "Union-Find BFS clustering over candidate pairs with Weighted-Feature match score >= 0.8500",
       contributingRecordsCount: company.aliasCount,
       contributingRecordsDenominator: company.aliasCount,
       sourceDataset: "Consolidated Party Master Index (US & Asia-Pacific)",
       sourceJurisdiction: company.jurisdiction,
       licenseNote: RIGHTS_LEGAL_LINE,
       transformationPipeline: "Token Sort -> Jaro-Winkler String Distance -> Phonetic Soundex",
-      modelEngine: "Probabilistic Matcher (Fellegi-Sunter)",
+      modelEngine: "Weighted-Feature Matcher",
       modelVersion: "orchid_fs_matcher_v1",
       uncertaintyRationale:
-        "False-merge guardrail (< 5.0%) verified: all merged variants share identical statutory address or registered corporate employer identification.",
+        "False-merge guardrail (< 5.0%) verified: all merged variants share identical registered address or registered corporate employer identification.",
       underlyingRecords: companyShipments.slice(0, 3).map((s) => ({
         id: s.id,
         bol: s.bolNumber,
@@ -182,6 +182,10 @@ export default function Company360Profile() {
       modelEngine: shipment.provenance.modelEngine,
       modelVersion: shipment.provenance.modelVersion,
       uncertaintyRationale: shipment.provenance.uncertaintyRationale,
+      sourceTimestamp: `${shipment.filingDate} 12:00 UTC`,
+      ingestionTimestamp: shipment.provenance.ingestionTimestamp.replace("T", " ").replace("Z", " UTC"),
+      normalizationTimestamp: shipment.provenance.normalizationTimestamp.replace("T", " ").replace("Z", " UTC"),
+      isValueClaim: !!shipment.declaredValueUsd,
       underlyingRecords: [
         {
           id: shipment.id,
@@ -253,7 +257,7 @@ export default function Company360Profile() {
               <p className="text-xs sm:text-sm text-slate-300 font-sans max-w-2xl leading-relaxed">
                 Primary ocean manifest importer of containerized electronics and consumer retail
                 freight across Trans-Pacific corridors. Clustered via probabilistic matching
-                (Fellegi-Sunter-style) across multiple customs filer variations.
+                (Weighted-Feature) across multiple customs filer variations.
               </p>
 
               {/* ALIAS CLUSTER ACCORDION TRIGGER */}
@@ -546,7 +550,7 @@ export default function Company360Profile() {
                   href="/vision/network"
                   className="text-amber-400 hover:text-amber-300 font-semibold flex items-center gap-1"
                 >
-                  <span>Explore 3D Network</span>
+                  <span>Explore Network</span>
                   <ChevronRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
@@ -573,7 +577,7 @@ export default function Company360Profile() {
                 {/* Important Honesty Notice */}
                 <div className="p-2.5 rounded-lg bg-slate-900/80 border border-white/10 text-[11px] font-mono text-slate-400 mb-3 space-y-1">
                   <span className="text-amber-300 font-semibold block">
-                    Statutory Disclaimer (Brief §0 Rule 7)
+                    Regulatory & Legal Disclaimer (Brief §0 Rule 7)
                   </span>
                   <p className="leading-relaxed">
                     Signals reflect statistical pattern anomalies and data missingness rates. Orchid
@@ -672,7 +676,7 @@ export default function Company360Profile() {
               </div>
 
               <div className="pt-3 border-t border-white/[0.06] text-[10px] font-mono text-slate-500 flex items-center justify-between">
-                <span>Statutory Exemption: 19 C.F.R. § 103.31(d)</span>
+                <span>Masked at source (illustrative): Masked at source (illustrative)</span>
                 <span>Hash: 8f2b…a41c (Sha256)</span>
               </div>
             </GlassPanel>

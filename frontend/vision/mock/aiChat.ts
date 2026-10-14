@@ -39,7 +39,7 @@ export const MOCK_AI_EXCHANGES: MockAiExchange[] = [
       { id: "cit-4", type: "FIELD", label: "HS Tariff 852852", targetId: "hs-852852" },
     ],
     whatCouldNotVerify:
-      "Declared customs valuation is masked on 24 of 124 bills of lading under 19 C.F.R. § 103.31 confidentiality exemptions. Additionally, 26 candidate pairs remain in human review and are excluded from these totals.",
+      "Declared customs valuation is masked on 24 of 124 bills of lading under Masked at source (illustrative) confidentiality exemptions. Additionally, 26 candidate pairs remain in human review and are excluded from these totals.",
     isMock: true,
   },
   {
@@ -61,7 +61,7 @@ export const MOCK_AI_EXCHANGES: MockAiExchange[] = [
     id: "ai-003",
     userPrompt: "What driving signals led the probabilistic matcher to link Northwind Retail Group LLC to Northwind Direct US?",
     aiResponse:
-      "The probabilistic matcher evaluated candidate pair REV-2024-001 against Fellegi-Sunter weight parameters. The primary driving signals were: (1) Jaro-Winkler token similarity of 0.892 on normalized base name tokens, (2) exact Soundex phonetic equality on the primary token 'NORTHWIND' (N635), and (3) identical commercial delivery address at 1400 Pacific Avenue, Long Beach, CA. The composite score of 0.784 places the pair in the human review band [0.65, 0.85] due to differing legal corporate suffixes.",
+      "The probabilistic matcher evaluated candidate pair REV-2024-001 against Weighted-Feature scoring parameters. The primary driving signals were: (1) Jaro-Winkler token similarity of 0.892 on normalized base name tokens, (2) exact Soundex phonetic equality on the primary token 'NORTHWIND' (N635), and (3) identical commercial delivery address at 1400 Pacific Avenue, Long Beach, CA. The composite score of 0.784 places the pair in the human review band [0.65, 0.85] due to differing legal corporate suffixes.",
     citations: [
       { id: "cit-6", type: "RECORD", label: "Review Pair REV-2024-001", targetId: "REV-2024-001" },
       { id: "cit-7", type: "FIELD", label: "Address Line: 1400 Pacific Ave", targetId: "addr-longbeach" },

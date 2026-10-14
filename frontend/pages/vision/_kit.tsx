@@ -26,13 +26,13 @@ export default function VisionKit() {
     contributingRecordsCount: 124,
     contributingRecordsDenominator: 150,
     sourceDataset: "US Ocean Bill of Lading Manifest Illustrative Sample",
-    sourceJurisdiction: "US (19 C.F.R. § 103.31 Public Record)",
-    licenseNote: "Public domain government record under 19 C.F.R. § 103.31",
+    sourceJurisdiction: "US (Masked at source (illustrative) Public Record)",
+    licenseNote: "Public domain government record under Masked at source (illustrative)",
     transformationPipeline: "Bronze raw manifest -> Silver canonical normalization",
-    modelEngine: "Probabilistic Matcher (Fellegi-Sunter)",
+    modelEngine: "Weighted-Feature Matcher",
     modelVersion: "probabilistic_matcher_v1.2_fs",
     uncertaintyRationale:
-      "24 of 124 bills of lading have declared customs value masked under statutory confidentiality exemptions. Values reflect declared invoice totals, not cleared duty payments.",
+      "24 of 124 bills of lading have declared customs value masked under confidentiality exemptions. Values reflect declared invoice totals, not cleared duty payments.",
     underlyingRecords: [
       {
         id: "shp-001",
@@ -70,7 +70,7 @@ export default function VisionKit() {
         derivedValue: null,
         missingness: {
           reason: "MASKED" as const,
-          description: "Carrier requested confidentiality under 19 C.F.R. § 103.31(d)",
+          description: "Carrier requested confidentiality under Masked at source (illustrative)",
         },
       },
     ],

@@ -133,7 +133,7 @@ export default function TradeLanePage() {
       contributingRecordsDenominator: denom,
       sourceDataset: "cbp_am_manifests",
       sourceJurisdiction: "US Customs and Border Protection",
-      licenseNote: "CBP AMS public manifest data — 15-day delay per 19 CFR 103.31",
+      licenseNote: "CBP AMS public manifest data — manifest processing window per Masked at source (illustrative)",
       transformationPipeline: "Bronze ingest → Silver normalise → Gold corridor aggregation",
       modelEngine: "Orchid Corridor Analytics v1.0",
       modelVersion: "orchid_corridors_v1.0",
@@ -339,27 +339,25 @@ export default function TradeLanePage() {
               <Package className="w-3.5 h-3.5 text-amber-400" /> HS Code Composition <MockLabel />
             </h2>
             <div className="flex items-center gap-6">
-              <ResponsiveContainer width={160} height={160}>
-                <PieChart>
-                  <Pie
-                    data={corridor.topHsCodes}
-                    dataKey="pct"
-                    nameKey="code"
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={45}
-                    outerRadius={70}
-                    paddingAngle={2}
-                  >
-                    {corridor.topHsCodes.map((entry, index) => (
-                      <Cell key={entry.code} fill={HS_PIE_COLORS[index % HS_PIE_COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <RechartsTooltip
-                    contentStyle={{ background: "#0B1020", border: "1px solid #1E2A45", borderRadius: 8, fontSize: 11 }}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
+              <PieChart width={160} height={160}>
+                <Pie
+                  data={corridor.topHsCodes}
+                  dataKey="pct"
+                  nameKey="code"
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={45}
+                  outerRadius={70}
+                  paddingAngle={2}
+                >
+                  {corridor.topHsCodes.map((entry, index) => (
+                    <Cell key={entry.code} fill={HS_PIE_COLORS[index % HS_PIE_COLORS.length]} />
+                  ))}
+                </Pie>
+                <RechartsTooltip
+                  contentStyle={{ background: "#0B1020", border: "1px solid #1E2A45", borderRadius: 8, fontSize: 11 }}
+                />
+              </PieChart>
               <div className="flex-1 space-y-2">
                 {corridor.topHsCodes.map((hs, i) => (
                   <div key={hs.code} className="flex items-center gap-2">
@@ -402,7 +400,7 @@ export default function TradeLanePage() {
                       contributingRecordsDenominator: MOCK_SHIPMENTS.length,
                       sourceDataset: "cbp_am_manifests",
                       sourceJurisdiction: "US Customs and Border Protection",
-                      licenseNote: "CBP AMS public manifest data — 15-day delay per 19 CFR 103.31",
+                      licenseNote: "CBP AMS public manifest data — manifest processing window per Masked at source (illustrative)",
                       transformationPipeline: "Bronze ingest → Silver normalise → Gold port aggregation",
                       modelEngine: "Orchid Port Analytics v1.0",
                       modelVersion: "orchid_ports_v1.0",

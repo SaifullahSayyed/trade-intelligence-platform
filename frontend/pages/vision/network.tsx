@@ -79,8 +79,8 @@ const GRAPH_NODES: GraphNode[] = [
     teuVolume: 3420,
     confidenceScore: 0.942,
     riskLevel: "OBSERVE",
-    x: 480,
-    y: 260,
+    x: 520,
+    y: 230,
     details: "Primary US Consignee. Consolidated cluster of 14 alias variants.",
   },
   // Tier 1 Direct Suppliers
@@ -95,8 +95,8 @@ const GRAPH_NODES: GraphNode[] = [
     teuVolume: 1840,
     confidenceScore: 0.915,
     riskLevel: "OBSERVE",
-    x: 220,
-    y: 140,
+    x: 260,
+    y: 120,
     details: "Key supplier of HS 852852 display panels. Origin Saigon Port (VNSGN).",
   },
   {
@@ -110,8 +110,8 @@ const GRAPH_NODES: GraphNode[] = [
     teuVolume: 920,
     confidenceScore: 0.812,
     riskLevel: "ELEVATED",
-    x: 220,
-    y: 260,
+    x: 260,
+    y: 230,
     details: "Electronics & mechanical assemblies. Confidence dropped due to unresolved alias.",
   },
   {
@@ -125,8 +125,8 @@ const GRAPH_NODES: GraphNode[] = [
     teuVolume: 660,
     confidenceScore: 0.884,
     riskLevel: "OBSERVE",
-    x: 220,
-    y: 380,
+    x: 260,
+    y: 340,
     details: "Consolidator & forwarder for South China feeder manufacturing.",
   },
   // Tier 2 Sub-Suppliers
@@ -141,8 +141,8 @@ const GRAPH_NODES: GraphNode[] = [
     teuVolume: 1120,
     confidenceScore: 0.865,
     riskLevel: "MONITOR",
-    x: 60,
-    y: 90,
+    x: 90,
+    y: 80,
     details: "Sub-assembly module supplier to Helix Components Ltd.",
   },
   {
@@ -156,8 +156,8 @@ const GRAPH_NODES: GraphNode[] = [
     teuVolume: 720,
     confidenceScore: 0.892,
     riskLevel: "OBSERVE",
-    x: 60,
-    y: 190,
+    x: 90,
+    y: 170,
     details: "Structural brackets & housing hardware for display units.",
   },
   {
@@ -171,8 +171,8 @@ const GRAPH_NODES: GraphNode[] = [
     teuVolume: 410,
     confidenceScore: 0.908,
     riskLevel: "OBSERVE",
-    x: 60,
-    y: 320,
+    x: 90,
+    y: 290,
     details: "Driver IC substrate supplier to Pacific Rim Trading.",
   },
   // Key Logistics Nodes
@@ -186,8 +186,8 @@ const GRAPH_NODES: GraphNode[] = [
     teuVolume: 2560,
     confidenceScore: 0.99,
     riskLevel: "OBSERVE",
-    x: 350,
-    y: 80,
+    x: 390,
+    y: 70,
     details: "Primary loading terminal for Southeast Asian inbound volume.",
   },
   {
@@ -200,8 +200,8 @@ const GRAPH_NODES: GraphNode[] = [
     teuVolume: 3420,
     confidenceScore: 0.99,
     riskLevel: "OBSERVE",
-    x: 680,
-    y: 260,
+    x: 710,
+    y: 230,
     details: "Discharge terminal for Trans-Pacific South corridor.",
   },
   {
@@ -214,8 +214,8 @@ const GRAPH_NODES: GraphNode[] = [
     teuVolume: 2150,
     confidenceScore: 0.95,
     riskLevel: "OBSERVE",
-    x: 580,
-    y: 140,
+    x: 620,
+    y: 120,
     details: "Carries 63% of inferred container volume on Trans-Pacific South corridor.",
   },
 ];
@@ -273,7 +273,7 @@ export default function SupplyChainNexusPage() {
       sourceDataset: "cbp_am_manifests",
       sourceJurisdiction: "US Customs and Border Protection",
       licenseNote: RIGHTS_LEGAL_LINE,
-      transformationPipeline: "Bronze ingest → Fellegi-Sunter resolution → Multi-tier supply network topology graph",
+      transformationPipeline: "Bronze ingest → Weighted-Feature resolution → Multi-tier supply network topology graph",
       modelEngine: "Orchid Nexus Graph Engine v1.0",
       modelVersion: "orchid_nexus_v1.0",
       uncertaintyRationale:
@@ -286,7 +286,7 @@ export default function SupplyChainNexusPage() {
   }
 
   return (
-    <VisionLayout pageTitle="Supply-Chain Network 3D — Orchid Vision">
+    <VisionLayout pageTitle="Supply-Chain Network Explorer — Orchid Vision">
       <div className="p-6 max-w-screen-2xl mx-auto space-y-8">
 
         {/* ── Page header ── */}
@@ -309,12 +309,12 @@ export default function SupplyChainNexusPage() {
               <Activity className="w-3.5 h-3.5" /> 10 Nodes · 10 Inferred Links
             </span>
             <span className="text-[10px] font-mono text-slate-500 border border-[#1E2A45] rounded px-2.5 py-1">
-              Topology: Fellegi-Sunter Cluster Gold
+              Topology: Weighted-Feature Cluster Gold
             </span>
           </div>
         </div>
 
-        {/* ── Statutory disclaimer ── */}
+        {/* ── Regulatory disclaimer ── */}
         <div className="border border-amber-500/25 bg-amber-500/5 rounded-lg px-4 py-3 text-xs text-amber-300/80 flex items-start gap-2">
           <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-400" />
           <span>
@@ -495,13 +495,18 @@ export default function SupplyChainNexusPage() {
                   );
                 })}
               </svg>
+            </div>
 
-              {/* Canvas Overlay Controls */}
-              <div className="absolute bottom-3 left-3 flex items-center gap-3 text-[10px] font-mono text-slate-500 bg-[#0B1020]/90 px-3 py-1.5 rounded-lg border border-[#1E2A45]">
+            {/* Canvas Bottom Legend & Controls */}
+            <div className="mt-2.5 flex items-center justify-between flex-wrap gap-2 px-1">
+              <div className="flex items-center gap-3 text-[10px] font-mono text-slate-400 bg-[#070B14] px-3 py-1.5 rounded-lg border border-[#1E2A45]">
                 <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-400" /> Importer</span>
                 <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-teal-400" /> Tier 1/2</span>
                 <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-indigo-500" /> Port Terminal</span>
                 <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-500" /> Ocean Carrier</span>
+              </div>
+              <div className="text-[10px] font-mono text-slate-500">
+                Coordinates calibrated for Q3 2024 manifest sample
               </div>
             </div>
 

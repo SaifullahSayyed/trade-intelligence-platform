@@ -46,7 +46,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/vision/workbench", label: "Resolution Workbench", icon: GitMerge, chipType: "built_simplified" },
   { href: "/vision/ai", label: "AI Analyst Workspace", icon: Bot, chipType: "built_simplified" },
   { href: "/vision/quality", label: "Data Quality Monitor", icon: ShieldAlert, chipType: "built_simplified" },
-  { href: "/vision/network", label: "Supply-Chain Network 3D", icon: Share2, chipType: "built_simplified" },
+  { href: "/vision/network", label: "Supply-Chain Network Explorer", icon: Share2, chipType: "built_simplified" },
   { href: "/vision/lanes", label: "Trade-Lane Explorer", icon: Globe2, chipType: "built_simplified" },
   { href: "/vision/alerts", label: "Alerts & Watchlists", icon: Bell, chipType: "built_simplified" },
   { href: "/vision/reports", label: "Reports & Exports", icon: FileSpreadsheet, chipType: "planned", disabled: true },
@@ -163,21 +163,23 @@ export const VisionLayout: React.FC<{
               const Icon = item.icon;
               const isActive = router.pathname === item.href;
               const dotColor =
-                item.chipType === "built"
+                item.disabled
+                  ? "bg-slate-700"
+                  : item.chipType === "built"
                   ? "bg-teal-400 shadow-[0_0_6px_rgba(20,184,166,0.6)]"
-                  : item.chipType === "built_simplified"
+                  : item.chipType === "built_simplified" || item.chipType === "backend_planned"
                   ? "bg-amber-400 shadow-[0_0_6px_rgba(245,158,11,0.6)]"
-                  : item.chipType === "backend_planned"
-                  ? "bg-indigo-400 shadow-[0_0_6px_rgba(99,102,241,0.6)]"
-                  : "bg-slate-600";
+                  : "bg-indigo-400 shadow-[0_0_6px_rgba(99,102,241,0.6)]";
 
               const tooltip =
                 item.disabled
-                  ? "Planned — not yet implemented"
+                  ? "Disabled — planned roadmap route"
                   : item.chipType === "built"
-                  ? "Built Today"
+                  ? "Built"
+                  : item.chipType === "backend_planned"
+                  ? "Backend built"
                   : item.chipType === "built_simplified"
-                  ? "Interactive Preview (Q3 2024 Dataset)"
+                  ? "Built (Preview)"
                   : "Planned";
 
               if (item.disabled) {
@@ -232,18 +234,22 @@ export const VisionLayout: React.FC<{
             <div className="uppercase tracking-wider text-slate-500 font-semibold text-[9px]">
               Status Legend
             </div>
-            <div className="flex items-center gap-3">
+            <div className="grid grid-cols-2 gap-y-1.5 gap-x-2">
               <span className="flex items-center gap-1.5" title="Production ready">
                 <span className="w-2 h-2 rounded-full bg-teal-400 shadow-[0_0_6px_rgba(20,184,166,0.5)]" />
                 <span>Built</span>
               </span>
-              <span className="flex items-center gap-1.5" title="Interactive Q3 2024 preview">
+              <span className="flex items-center gap-1.5" title="Backend pipeline / model active">
                 <span className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(245,158,11,0.5)]" />
-                <span>Preview</span>
+                <span>Backend built</span>
               </span>
               <span className="flex items-center gap-1.5" title="Planned roadmap capability">
-                <span className="w-2 h-2 rounded-full bg-slate-600" />
+                <span className="w-2 h-2 rounded-full bg-indigo-400 shadow-[0_0_6px_rgba(99,102,241,0.5)]" />
                 <span>Planned</span>
+              </span>
+              <span className="flex items-center gap-1.5" title="Disabled link">
+                <span className="w-2 h-2 rounded-full bg-slate-700" />
+                <span>Disabled</span>
               </span>
             </div>
           </div>
@@ -310,7 +316,7 @@ export const VisionLayout: React.FC<{
                   <span>BACKEND BUILT / UI PLANNED</span>
                 </div>
                 <ul className="text-xs text-slate-300 space-y-1.5 pl-6 list-disc marker:text-indigo-400">
-                  <li>Probabilistic Matcher (backend/entity_resolution/ fellegi-sunter scorer)</li>
+                  <li>Probabilistic Matcher (backend/entity_resolution/ weighted-feature matcher)</li>
                   <li>OpenSearch manifest text indexer</li>
                   <li>AI Safety Validator (backend regex banned-word filter)</li>
                   <li>ClickHouse Materialized Views (schema defined)</li>
@@ -325,8 +331,8 @@ export const VisionLayout: React.FC<{
                   <span>PLANNED (Vision Preview Concepts)</span>
                 </div>
                 <ul className="text-xs text-slate-400 space-y-1.5 pl-6 list-disc marker:text-slate-500">
-                  <li>3D Force-Directed Supply Chain Network</li>
-                  <li>3D Trade-Lane Globe with live arc traffic</li>
+                  <li>Force-Directed Supply Chain Network</li>
+                  <li>Trade-Lane Globe with live arc traffic</li>
                   <li>Recharts Trade-Lane Sankey flow</li>
                   <li>Interactive Alert Rule Builder</li>
                   <li>Async Signed-URL Export System</li>
